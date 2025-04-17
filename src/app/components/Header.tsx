@@ -4,17 +4,26 @@ function Header() {
   return (
     <header className="pt-9 border-b-1">
       <div className="flex gap-6 justify-end items-center">
-        <Link href="/">Login</Link>
+        <Link href="/" className="hover:text-black">
+          Login
+        </Link>
         <Link
           href="/"
-          className="border-1 rounded-xl w-24 h-9 flex justify-center items-center"
+          className="border-1 rounded-xl w-24 h-9 flex justify-center items-center active:scale-95 hover:scale-105 transition-all ease-in-out"
         >
           Sign Up
         </Link>
       </div>
-      <div className="h-80"></div>
+      <div className="h-80 grid place-items-center">
+        <h1 className="text-7xl text-black font-[family-name:var(--font-playfair-display)] italic">
+          Golden Memories
+        </h1>
+      </div>
       <nav className="flex justify-between">
-        <Link href="/" className="italic text-3xl text-black">
+        <Link
+          href="/"
+          className="font-[family-name:var(--font-playfair-display)] italic text-3xl text-black"
+        >
           Nguyen Family
         </Link>
         <ul className="flex gap-6 items-end">

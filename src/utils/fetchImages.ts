@@ -12,7 +12,7 @@ export default async function fetchImages(
     });
     if (!result.ok) throw new Error("Fetch Images Error!");
     const ImagesResults: ImagesResults = await result.json();
-    console.log(ImagesResults);
+    // console.log(ImagesResults);
     const data = PhotosSchemaWithPagination.parse(ImagesResults);
     if (data.total_results == 0) return undefined;
     return data;

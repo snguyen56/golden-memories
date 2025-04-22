@@ -2,31 +2,31 @@ import Link from "next/link";
 
 function Header() {
   return (
-    <header className="pt-9 border-b-1">
-      <div className="flex gap-6 justify-end items-center">
+    <header className="border-b-1 pt-9">
+      <div className="flex items-center justify-end gap-6">
         <Link href="/" className="hover:text-black">
           Login
         </Link>
         <Link
           href="/"
-          className="border-1 rounded-xl w-24 h-9 flex justify-center items-center active:scale-95 hover:scale-105 transition-all ease-in-out"
+          className="flex h-9 w-24 items-center justify-center rounded-xl border-1 transition-all ease-in-out hover:scale-105 active:scale-95"
         >
           Sign Up
         </Link>
       </div>
-      <div className="h-80 grid place-items-center">
-        <h1 className="text-7xl text-black font-[family-name:var(--font-playfair-display)] italic">
+      <div className="grid h-80 place-items-center">
+        <h1 className="font-[family-name:var(--font-playfair-display)] text-7xl text-black italic">
           Golden Memories
         </h1>
       </div>
       <nav className="flex justify-between">
         <Link
           href="/"
-          className="font-[family-name:var(--font-playfair-display)] italic text-3xl text-black"
+          className="font-[family-name:var(--font-playfair-display)] text-3xl text-black italic"
         >
           Nguyen Family
         </Link>
-        <ul className="flex gap-6 items-end">
+        <ul className="flex items-end gap-6">
           <li className="hover:text-black">
             <Link href="/">Home</Link>
           </li>

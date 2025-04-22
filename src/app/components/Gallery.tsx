@@ -8,11 +8,11 @@ async function Gallery() {
 
   if (!images) return <p>No Images Found</p>;
   return (
-    <section className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] mt-5">
+    <section className="mt-5 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-2">
       {images.photos.map((photo) => (
         <div
           key={photo.id}
-          className="w-[300px] h-[400px] bg-gray-500 rounded-xl"
+          className="h-[400px] w-[300px] rounded-xl bg-gray-500"
         ></div>
       ))}
     </section>

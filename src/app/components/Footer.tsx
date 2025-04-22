@@ -2,10 +2,10 @@ import Link from "next/link";
 
 function Footer() {
   return (
-    <footer className="text-center flex flex-col gap-6 border-t-1 py-12">
-      <p className="font-bold text-4xl">Golden Memories</p>
+    <footer className="flex flex-col gap-6 border-t-1 py-12 text-center">
+      <p className="text-4xl font-bold">Golden Memories</p>
       <nav>
-        <ul className="flex justify-center gap-6 flex-wrap">
+        <ul className="flex flex-wrap justify-center gap-6">
           <li>
             <Link href="/" className="hover:text-black">
               Home

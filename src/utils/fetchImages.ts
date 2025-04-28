@@ -2,7 +2,7 @@ import type { ImagesResults } from "@/models/Images";
 import { PhotosSchemaWithPagination } from "@/models/Images";
 
 export default async function fetchImages(
-  url: string
+  url: string,
 ): Promise<ImagesResults | undefined> {
   try {
     const result = await fetch(url, {

@@ -9,7 +9,7 @@ function Header() {
         </Link>
         <Link
           href="/"
-          className="flex h-9 w-24 items-center justify-center rounded-xl border-1 transition-all ease-in-out hover:scale-105 active:scale-95"
+          className="flex h-9 w-24 items-center justify-center rounded-lg border-1 transition-all ease-in-out hover:scale-105 active:scale-95"
         >
           Sign Up
         </Link>

@@ -24,7 +24,7 @@ function Header() {
   return (
     <header className="border-b-1 pt-9">
       <div className="flex items-center justify-end gap-6">
-        <Link href="/" className="hover:text-black">
+        <Link href="/login" className="hover:text-black">
           Login
         </Link>
         <Link
@@ -48,12 +48,18 @@ function Header() {
         </Link> */}
         <span className="flex items-end gap-3 text-2xl font-bold text-black">
           Photos provided by
-          <a href="https://www.pexels.com">
+          <a
+            href="https://www.pexels.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div className="h-8">
-              <img
+              <Image
                 className="size-full"
                 src="https://images.pexels.com/lib/api/pexels.png"
                 alt="pexels logo"
+                width={566}
+                height={200}
               />
             </div>
           </a>

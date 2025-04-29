@@ -1,6 +1,5 @@
 import { Photo } from "@/models/Images";
 import Image from "next/image";
-import Link from "next/link";
 
 type Props = { photo: Photo };
 
@@ -11,7 +10,7 @@ function ImageContainer({ photo }: Props) {
 
   return (
     <div className="w-[360px]" style={{ gridRow: `span ${rowSpan}` }}>
-      <Link href={photo.url}>
+      <a href={photo.url} target="_blank" rel="noopener noreferrer">
         <div className="overflow-hidden rounded-xl">
           <Image
             src={photo.src.large}
@@ -22,7 +21,7 @@ function ImageContainer({ photo }: Props) {
             sizes="360px"
           />
         </div>
-      </Link>
+      </a>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { navigation } from "./Header";
 
 function Footer() {
   return (
@@ -6,26 +7,11 @@ function Footer() {
       <p className="text-4xl font-bold">Golden Memories</p>
       <nav>
         <ul className="flex flex-wrap justify-center gap-6">
-          <li>
-            <Link href="/" className="hover:text-black">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/" className="hover:text-black">
-              Collections
-            </Link>
-          </li>
-          <li>
-            <Link href="/" className="hover:text-black">
-              Slideshow
-            </Link>
-          </li>
-          <li>
-            <Link href="/" className="hover:text-black">
-              Upload
-            </Link>
-          </li>
+          {navigation.map(({ title, link }, index) => (
+            <li key={index} className="hover:text-black">
+              <Link href={link}>{title}</Link>
+            </li>
+          ))}
         </ul>
       </nav>
       <p>© 2025 Golden Memories. All rights reserved.</p>

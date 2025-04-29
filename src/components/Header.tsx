@@ -1,4 +1,24 @@
+import Image from "next/image";
 import Link from "next/link";
+
+export const navigation = [
+  {
+    title: "Home",
+    link: "/",
+  },
+  {
+    title: "Collections",
+    link: "/",
+  },
+  {
+    title: "Slideshow",
+    link: "/",
+  },
+  {
+    title: "Upload",
+    link: "/",
+  },
+];
 
 function Header() {
   return (
@@ -9,7 +29,7 @@ function Header() {
         </Link>
         <Link
           href="/"
-          className="flex h-9 w-24 items-center justify-center rounded-lg border-1 transition-all ease-in-out hover:scale-105 active:scale-95"
+          className="flex h-9 w-24 items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-700 active:scale-95"
         >
           Sign Up
         </Link>
@@ -20,25 +40,30 @@ function Header() {
         </h1>
       </div>
       <nav className="flex justify-between">
-        <Link
+        {/* <Link
           href="/"
           className="font-[family-name:var(--font-playfair-display)] text-3xl text-black italic"
         >
           Nguyen Family
-        </Link>
+        </Link> */}
+        <span className="flex items-end gap-3 text-2xl font-bold text-black">
+          Photos provided by
+          <a href="https://www.pexels.com">
+            <div className="h-8">
+              <img
+                className="size-full"
+                src="https://images.pexels.com/lib/api/pexels.png"
+                alt="pexels logo"
+              />
+            </div>
+          </a>
+        </span>
         <ul className="flex items-end gap-6">
-          <li className="hover:text-black">
-            <Link href="/">Home</Link>
-          </li>
-          <li className="hover:text-black">
-            <Link href="/">Collections</Link>
-          </li>
-          <li className="hover:text-black">
-            <Link href="/">Slideshow</Link>
-          </li>
-          <li className="hover:text-black">
-            <Link href="/">Upload</Link>
-          </li>
+          {navigation.map(({ title, link }, index) => (
+            <li key={index} className="hover:text-black">
+              <Link href={link}>{title}</Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </header>

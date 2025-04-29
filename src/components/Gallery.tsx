@@ -9,7 +9,7 @@ async function Gallery() {
 
   if (!images) return <p>No Images Found</p>;
   return (
-    <section className="mt-5 grid grid-cols-[repeat(auto-fit,minmax(360px,1fr))] justify-items-center gap-6">
+    <div className="mt-5 grid auto-rows-[10px] grid-cols-[repeat(auto-fit,minmax(360px,1fr))] justify-items-center">
       {images.photos.map((photo) => (
         // <div
         //   key={photo.id}
@@ -17,7 +17,7 @@ async function Gallery() {
         // ></div>
         <ImageContainer photo={photo} key={photo.id} />
       ))}
-    </section>
+    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Search from "./Search";
 
 export const navigation = [
   {
@@ -24,11 +25,12 @@ function Header() {
   return (
     <header className="border-b-1 pt-9">
       <div className="flex items-center justify-end gap-6">
+        <Search />
         <Link href="/login" className="hover:text-black">
           Login
         </Link>
         <Link
-          href="/"
+          href="/signup"
           className="flex h-9 w-24 items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-700 active:scale-95"
         >
           Sign Up

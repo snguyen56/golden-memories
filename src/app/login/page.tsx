@@ -3,12 +3,21 @@ import TextInput from "@/components/TextInput";
 import Link from "next/link";
 
 function page() {
+  const handleSubmit = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+
+    console.log("Form submitted");
+  };
+
   return (
     <div className="grid place-items-center">
-      <form className="flex min-w-sm flex-col gap-8 rounded-xl border p-8">
+      <form
+        onSubmit={handleSubmit}
+        className="flex min-w-sm flex-col gap-8 rounded-xl border p-8"
+      >
         <div>
           <h2 className="text-center text-2xl font-bold text-black">Login</h2>
-          <p className="text-sm">
+          <p className="mt-1 text-sm">
             Enter your email below to login to your account
           </p>
         </div>
@@ -50,8 +59,7 @@ function page() {
         </button> */}
         <button
           type="submit"
-          onSubmit={(e) => e.preventDefault}
-          className="h-9 rounded-lg border bg-black text-white transition-all ease-in-out hover:bg-zinc-800"
+          className="h-9 cursor-pointer rounded-lg border bg-black text-white transition-all ease-in-out hover:bg-zinc-800"
         >
           Login
         </button>
@@ -127,7 +135,7 @@ function page() {
       </form>
       <p className="mt-4">
         Don&apos;t have an account?{" "}
-        <Link href="/" className="text-black hover:text-zinc-700">
+        <Link href="/signup" className="text-black hover:text-zinc-700">
           Sign Up
         </Link>
       </p>

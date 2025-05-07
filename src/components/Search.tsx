@@ -2,13 +2,13 @@
 import TextInput from "./TextInput";
 
 function Search() {
-  const handleSubmit = (event: React.SyntheticEvent) => {
-    event.preventDefault();
+  const handleSubmit = () => {
+    // event.preventDefault();
 
     console.log("Search submitted");
   };
   return (
-    <form className="relative" onSubmit={handleSubmit}>
+    <form className="relative" onSubmit={handleSubmit} action="/results">
       <TextInput
         type="search"
         id="search"

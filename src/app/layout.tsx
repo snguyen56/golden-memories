@@ -4,6 +4,8 @@ import "./globals.css";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
+export const revalidate = 3600;
+
 const openSans = Open_Sans({
   variable: "--font-open-sans",
   subsets: ["latin"],
@@ -21,8 +23,6 @@ export const metadata: Metadata = {
   title: "Golden Memories",
   description: "A photo gallery website by Steven Nguyen",
 };
-
-export const revalidate = 3600;
 
 export default function RootLayout({
   children,

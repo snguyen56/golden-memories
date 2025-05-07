@@ -2,8 +2,14 @@ import fetchImages from "@/utils/fetchImages";
 import type { ImagesResults } from "@/models/Images";
 import ImageContainer from "./ImageContainer";
 
-async function Gallery() {
-  const url = "https://api.pexels.com/v1/curated?per_page=16";
+type Props = {
+  search?: string;
+};
+
+async function Gallery({ search }: Props) {
+  const url = search
+    ? `https://api.pexels.com/v1/search?query=${search}`
+    : "https://api.pexels.com/v1/curated";
 
   const images: ImagesResults | undefined = await fetchImages(url);
 

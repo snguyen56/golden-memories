@@ -1,6 +1,11 @@
 import CollectionContainer from "@/components/CollectionContainer";
 import { CollectionsResults } from "@/models/Images";
 import fetchCollections from "@/utils/fetchCollections";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Collections | Golden Memories",
+};
 
 async function page() {
   const albums: CollectionsResults | undefined = await fetchCollections();

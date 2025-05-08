@@ -11,6 +11,9 @@ function ImageContainer({ photo }: Props) {
   const imageHeight = Math.ceil(360 * widthHeightRatio);
   const rowSpan = Math.ceil(imageHeight / 10) + 2;
 
+  const overlayStyle =
+    "relative flex w-full justify-between from-black/30 to-black/0 p-2 pl-4 transition-all ease-in-out";
+
   return (
     <div className="w-[360px]" style={{ gridRow: `span ${rowSpan}` }}>
       <div className="relative overflow-hidden rounded-xl">
@@ -23,23 +26,11 @@ function ImageContainer({ photo }: Props) {
           sizes="360px"
         />
         <div className="group absolute top-0 flex h-full w-full flex-col justify-between text-white">
-          <div className="ease relative -top-full flex w-full justify-between bg-black/15 p-2 pl-4 transition-all duration-400 group-hover:top-0">
+          <div
+            className={`${overlayStyle} -top-full bg-linear-to-b group-hover:top-0`}
+          >
             <p className="max-w-1/2 truncate">{photo.photographer}</p>
             <div className="flex gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-                />
-              </svg>
               <button
                 type="button"
                 className="cursor-pointer"
@@ -92,7 +83,9 @@ function ImageContainer({ photo }: Props) {
               </a>
             </div>
           </div>
-          <div className="relative top-full bg-black/15 p-2 pl-4 transition-all duration-400 group-hover:top-0">
+          <div
+            className={`${overlayStyle} top-full bg-linear-to-t group-hover:top-0`}
+          >
             <p className="max-w-1/2 truncate">{photo.alt}</p>
           </div>
         </div>

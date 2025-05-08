@@ -23,20 +23,20 @@ function page() {
             type="fullName"
             name="fullName"
             id="fullName"
-            label="full name"
+            label="Full Name"
           />
-          <TextInput type="email" name="email" id="email" label="email" />
+          <TextInput type="email" name="email" id="email" label="Email" />
           <TextInput
             type="password"
             name="password"
             id="password"
-            label="password"
+            label="Password"
           />
           <TextInput
             type="confirmPassword"
             name="confirmPassword"
             id="confirmPassword"
-            label="confirm password"
+            label="Confirm Password"
           />
         </div>
         <button

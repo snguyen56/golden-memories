@@ -21,12 +21,12 @@ function page() {
             Enter your email below to login to your account
           </p>
         </div>
-        <TextInput type="email" name="email" id="email" label="email" />
+        <TextInput type="email" name="email" id="email" label="Email" />
         <TextInput
           type="password"
           name="password"
           id="password"
-          label="password"
+          label="Password"
         />
         <div className="flex items-center gap-2">
           <input

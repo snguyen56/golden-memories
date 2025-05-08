@@ -21,10 +21,26 @@ const PhotoSchema = z.object({
   alt: z.string(),
 });
 
+const CollectionSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string(),
+});
+
 export const PhotosSchemaWithPagination = PaginationSchema.extend({
   photos: z.array(PhotoSchema),
 });
 
+export const CollectionsSchemaWithPagination = PaginationSchema.extend({
+  collections: z.array(CollectionSchema),
+});
+
 export type Photo = z.infer<typeof PhotoSchema>;
 
+export type Collection = z.infer<typeof CollectionSchema>;
+
 export type ImagesResults = z.infer<typeof PhotosSchemaWithPagination>;
+
+export type CollectionsResults = z.infer<
+  typeof CollectionsSchemaWithPagination
+>;

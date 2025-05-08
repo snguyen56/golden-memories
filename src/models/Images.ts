@@ -47,9 +47,16 @@ export const CollectionsSchemaWithPagination = PaginationSchema.extend({
   collections: z.array(CollectionSchema),
 });
 
+const MediaPhotoSchema = PhotoSchema.extend({
+  type: z.literal("Photo"),
+});
+const MediaVideoSchema = VideoSchema.extend({
+  type: z.literal("Video"),
+});
+
 export const MediaSchemaWithPagination = PaginationSchema.extend({
   id: z.string(),
-  media: z.union([PhotoSchema, VideoSchema]),
+  media: z.array(z.union([MediaPhotoSchema, MediaVideoSchema])),
 });
 
 export type Photo = z.infer<typeof PhotoSchema>;

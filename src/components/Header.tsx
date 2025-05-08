@@ -9,15 +9,15 @@ export const navigation = [
   },
   {
     title: "Collections",
-    link: "/",
+    link: "/collections",
   },
   {
     title: "Slideshow",
-    link: "/",
+    link: "/slideshow",
   },
   {
     title: "Upload",
-    link: "/",
+    link: "/upload",
   },
 ];
 

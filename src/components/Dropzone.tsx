@@ -64,7 +64,7 @@ function Dropzone() {
           event.preventDefault();
         }}
       >
-        <div className="grid h-full w-4xl grid-cols-2 gap-6 rounded-xl border p-8 md:grid-cols-[1fr_2fr]">
+        <div className="grid h-full gap-6 rounded-xl border p-8 md:grid-cols-[1fr_2fr] lg:w-4xl">
           <div>
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-semibold text-black">Photos</h3>
@@ -131,7 +131,7 @@ function Dropzone() {
           </div>
           <div className="space-y-8">
             <h3 className="text-xl font-semibold text-black">Photo Details</h3>
-            <div className="h-100 w-135 overflow-hidden rounded-xl border bg-zinc-200">
+            <div className="max-h-100 max-w-135 overflow-hidden rounded-xl border bg-zinc-200">
               <img
                 src={files[0].preview}
                 alt={files[0].name}

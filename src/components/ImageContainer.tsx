@@ -22,7 +22,7 @@ function ImageContainer({ photo }: Props) {
           alt={photo.alt}
           width={photo.width}
           height={photo.height}
-          className="object-cover"
+          className="h-full w-full object-cover"
           sizes="360px"
         />
         <div className="group absolute top-0 flex h-full w-full flex-col justify-between text-white">
@@ -31,6 +31,7 @@ function ImageContainer({ photo }: Props) {
           >
             <a
               href={photo.photographer_url}
+              title="Photographer URL"
               target="_blank"
               rel="noopener noreferrer"
               className="flex max-w-1/2 gap-2 truncate hover:underline"
@@ -56,6 +57,7 @@ function ImageContainer({ photo }: Props) {
               <button
                 type="button"
                 className="cursor-pointer"
+                title="Like"
                 onClick={() => {
                   setLiked((prev) => !prev);
                 }}

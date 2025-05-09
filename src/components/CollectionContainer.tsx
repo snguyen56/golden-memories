@@ -17,7 +17,7 @@ async function collectionContainer({ collection }: Props) {
             alt={cover.alt}
             width={cover.width}
             height={cover.height}
-            className="object-contain"
+            className="h-full w-full object-cover"
             sizes="320px"
           ></Image>
         </div>

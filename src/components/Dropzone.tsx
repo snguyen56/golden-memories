@@ -13,6 +13,7 @@ type fileData = {
 
 function Dropzone() {
   const [files, setFiles] = useState<fileData[]>([]);
+  const [selectedFile, setSelectedFile] = useState<fileData | null>();
 
   useEffect(() => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
@@ -31,11 +32,24 @@ function Dropzone() {
         collection: "",
       }));
       setFiles((prev) => [...prev, ...newFiles]);
+      if (!selectedFile) {
+        setSelectedFile(files[0]);
+      }
     },
   });
 
+  const handleSelectFile = (file: fileData) => {
+    setSelectedFile(file);
+  };
+
   const handleDelete = (id: string) => {
-    setFiles((prev) => prev.filter((file) => file.id !== id));
+    setFiles((prev) => {
+      const updatedFiles = prev.filter((file) => file.id !== id);
+      if (updatedFiles.length > 0 && selectedFile?.id == id) {
+        setSelectedFile(files[0]);
+      }
+      return updatedFiles;
+    });
   };
   if (files.length == 0)
     return (
@@ -91,11 +105,12 @@ function Dropzone() {
               </button>
               <input {...getInputProps()} />
             </div>
-            <div className="mt-4 max-h-150 space-y-2 overflow-hidden overflow-y-auto rounded border bg-zinc-200 p-2">
+            <div className="mt-4 max-h-150 space-y-2 overflow-hidden overflow-y-auto rounded border bg-zinc-100 p-2">
               {files.map((file, index) => (
                 <div
                   key={index}
-                  className="relative overflow-hidden rounded bg-white"
+                  className={`group relative overflow-hidden rounded bg-white ${file.id === selectedFile?.id ? "ring-2" : ""}`}
+                  onClick={() => handleSelectFile(file)}
                 >
                   <div className="aspect-video">
                     <img
@@ -107,7 +122,7 @@ function Dropzone() {
                   <p>{file.name}</p>
                   <button
                     type="button"
-                    className="absolute top-1 right-1 cursor-pointer rounded-full bg-zinc-400/75 hover:bg-zinc-400"
+                    className="absolute top-1 right-1 hidden cursor-pointer rounded-full bg-black/50 group-hover:block"
                     onClick={() => handleDelete(file.id)}
                   >
                     <svg
@@ -115,7 +130,7 @@ function Dropzone() {
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
-                      stroke="currentColor"
+                      stroke="white"
                       className="size-6"
                     >
                       <path
@@ -133,8 +148,8 @@ function Dropzone() {
             <h3 className="text-xl font-semibold text-black">Photo Details</h3>
             <div className="max-h-100 max-w-135 overflow-hidden rounded-xl border bg-zinc-200">
               <img
-                src={files[0].preview}
-                alt={files[0].name}
+                src={selectedFile?.preview}
+                alt={selectedFile?.name}
                 className="h-full w-full object-contain"
               />
             </div>

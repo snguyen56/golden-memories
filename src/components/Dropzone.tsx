@@ -31,9 +31,11 @@ function Dropzone() {
         name: file.name.split(".")[0],
         collection: "",
       }));
-      setFiles((prev) => [...prev, ...newFiles]);
-      if (!selectedFile) {
-        setSelectedFile(files[0]);
+      setFiles((prev) => {
+        return [...prev, ...newFiles];
+      });
+      if (!selectedFile && newFiles.length > 0) {
+        setSelectedFile(newFiles[0]);
       }
     },
   });
@@ -47,6 +49,9 @@ function Dropzone() {
       const updatedFiles = prev.filter((file) => file.id !== id);
       if (updatedFiles.length > 0 && selectedFile?.id == id) {
         setSelectedFile(files[0]);
+      }
+      if (updatedFiles.length === 0) {
+        setSelectedFile(null);
       }
       return updatedFiles;
     });
@@ -105,7 +110,7 @@ function Dropzone() {
               </button>
               <input {...getInputProps()} />
             </div>
-            <div className="mt-4 max-h-150 space-y-2 overflow-hidden overflow-y-auto rounded border bg-zinc-100 p-2">
+            <div className="mt-4 max-h-68 space-y-2 overflow-auto rounded border bg-zinc-100 p-2 md:max-h-150 md:max-w-68">
               {files.map((file, index) => (
                 <div
                   key={index}
@@ -123,7 +128,10 @@ function Dropzone() {
                   <button
                     type="button"
                     className="absolute top-1 right-1 hidden cursor-pointer rounded-full bg-black/50 group-hover:block"
-                    onClick={() => handleDelete(file.id)}
+                    onClick={(event: React.SyntheticEvent) => {
+                      event.stopPropagation();
+                      handleDelete(file.id);
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

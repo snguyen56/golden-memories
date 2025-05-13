@@ -142,9 +142,11 @@ export default function Carousel({ slides }: Props) {
         </motion.div>
       </div>
 
+      <div className="absolute top-0 left-0 h-full w-1/10 bg-linear-to-l to-white"></div>
+      <div className="absolute top-0 right-0 h-full w-1/10 bg-linear-to-r to-white"></div>
       <button
         onClick={handlePrevious}
-        className={`absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full bg-white/30 p-2 backdrop-blur-sm transition-all hover:bg-white/50 ${currentIndex === 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}`}
+        className={`absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full bg-white/50 p-2 transition-all hover:bg-white ${currentIndex === 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}`}
         aria-label="Previous slide"
         disabled={currentIndex === 0}
       >
@@ -165,7 +167,7 @@ export default function Carousel({ slides }: Props) {
       </button>
       <button
         onClick={handleNext}
-        className={`absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white/30 p-2 backdrop-blur-sm transition-all hover:bg-white/50 ${
+        className={`absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white/50 p-2 transition-all hover:bg-white ${
           currentIndex === slides.length - 1
             ? "cursor-not-allowed opacity-50"
             : "cursor-pointer opacity-100"

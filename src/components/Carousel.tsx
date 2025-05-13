@@ -20,19 +20,12 @@ export default function Carousel({ slides }: Props) {
   const slideGap = 20;
   const totalSlideWidth = slideWidth + slideGap;
 
-  const calculatePosition = useCallback(
-    (index: number) => {
-      return -index * totalSlideWidth;
-    },
-    [totalSlideWidth],
-  );
-
   const updatePosition = useCallback(() => {
     controls.start({
-      x: calculatePosition(currentIndex),
+      x: -currentIndex * totalSlideWidth,
       transition: { type: "spring", stiffness: 300, damping: 30 },
     });
-  }, [controls, calculatePosition, currentIndex]);
+  }, [controls, currentIndex, totalSlideWidth]);
 
   useEffect(() => {
     if (carouselRef.current) {
@@ -42,9 +35,7 @@ export default function Carousel({ slides }: Props) {
     const handleResize = () => {
       if (carouselRef.current) {
         setWidth(carouselRef.current.offsetWidth);
-        requestAnimationFrame(() => {
-          updatePosition();
-        });
+        updatePosition();
       }
     };
 

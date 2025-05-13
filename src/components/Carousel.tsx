@@ -18,6 +18,21 @@ export default function Carousel({ slides }: Props) {
 
   const slideWidth = width * (2 / 3);
   const slideGap = 20;
+  const totalSlideWidth = slideWidth + slideGap;
+
+  const calculatePosition = useCallback(
+    (index: number) => {
+      return -index * totalSlideWidth;
+    },
+    [totalSlideWidth],
+  );
+
+  const updatePosition = useCallback(() => {
+    controls.start({
+      x: calculatePosition(currentIndex),
+      transition: { type: "spring", stiffness: 300, damping: 30 },
+    });
+  }, [controls, calculatePosition, currentIndex]);
 
   useEffect(() => {
     if (carouselRef.current) {
@@ -27,18 +42,18 @@ export default function Carousel({ slides }: Props) {
     const handleResize = () => {
       if (carouselRef.current) {
         setWidth(carouselRef.current.offsetWidth);
-        controls.start({
-          x: -currentIndex * (width + slideGap),
+        requestAnimationFrame(() => {
+          updatePosition();
         });
       }
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [currentIndex, controls, width]);
+  }, [updatePosition]);
 
   const dragConstraints = {
-    left: -((slides.length - 1) * (slideWidth + slideGap)),
+    left: -((slides.length - 1) * totalSlideWidth),
     right: 0,
   };
 
@@ -62,13 +77,13 @@ export default function Carousel({ slides }: Props) {
 
   const handleNext = useCallback(() => {
     if (currentIndex < slides.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
+      setCurrentIndex((prevSlide) => prevSlide + 1);
     }
   }, [currentIndex, slides.length]);
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
+      setCurrentIndex((prevSlide) => prevSlide - 1);
     }
   }, [currentIndex]);
 
@@ -87,9 +102,9 @@ export default function Carousel({ slides }: Props) {
 
   useEffect(() => {
     controls.start({
-      x: -currentIndex * (slideWidth + slideGap),
+      x: -currentIndex * totalSlideWidth,
     });
-  }, [controls, currentIndex, slideWidth]);
+  }, [controls, currentIndex, totalSlideWidth]);
 
   return (
     <div

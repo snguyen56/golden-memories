@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useAnimation, type PanInfo } from "framer-motion";
 
-interface CarouselProps {
+type Props = {
   slides: {
     id: number;
     color: string;
   }[];
-}
+};
 
-export default function Carousel({ slides }: CarouselProps) {
+export default function Carousel({ slides }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [width, setWidth] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -60,19 +60,19 @@ export default function Carousel({ slides }: CarouselProps) {
     setCurrentIndex(newIndex);
   };
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentIndex < slides.length - 1) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
     }
-  };
+  }, [currentIndex, slides.length]);
 
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
       const newIndex = currentIndex - 1;
       setCurrentIndex(newIndex);
     }
-  };
+  }, [currentIndex]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -85,7 +85,7 @@ export default function Carousel({ slides }: CarouselProps) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentIndex]);
+  }, [currentIndex, handleNext, handlePrevious]);
 
   useEffect(() => {
     controls.start({
@@ -99,7 +99,7 @@ export default function Carousel({ slides }: CarouselProps) {
       aria-label="Image carousel"
       ref={carouselRef}
     >
-      <div className="relative h-[300px] w-full overflow-hidden md:h-[400px] lg:h-[500px]">
+      <div className="relative h-75 w-full overflow-hidden md:h-100 lg:h-125">
         <motion.div
           className="absolute flex h-full items-center"
           style={{
@@ -115,7 +115,7 @@ export default function Carousel({ slides }: CarouselProps) {
           {slides.map((slide, index) => (
             <motion.div
               key={slide.id}
-              className="flex h-[90%] flex-shrink-0 items-center justify-center"
+              className="flex h-9/10 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg shadow-lg"
               style={{ width: slideWidth }}
               whileHover={{ cursor: "grab" }}
               whileTap={{ cursor: "grabbing" }}
@@ -126,7 +126,7 @@ export default function Carousel({ slides }: CarouselProps) {
               }}
             >
               <div
-                className="flex h-full w-full items-center justify-center rounded-lg text-2xl font-bold text-white shadow-lg"
+                className="flex h-full w-full items-center justify-center text-2xl font-bold text-white"
                 style={{ backgroundColor: slide.color }}
                 aria-label={`Slide ${index + 1} of ${slides.length}`}
               >
@@ -139,7 +139,7 @@ export default function Carousel({ slides }: CarouselProps) {
 
       <button
         onClick={handlePrevious}
-        className={`absolute top-1/2 left-4 z-10 -translate-y-1/2 cursor-pointer rounded-full bg-white/30 p-2 backdrop-blur-sm transition-all hover:bg-white/50 ${currentIndex === 0 ? "cursor-not-allowed opacity-50" : "opacity-100"}`}
+        className={`absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full bg-white/30 p-2 backdrop-blur-sm transition-all hover:bg-white/50 ${currentIndex === 0 ? "cursor-not-allowed opacity-50" : "cursor-pointer opacity-100"}`}
         aria-label="Previous slide"
         disabled={currentIndex === 0}
       >
@@ -160,10 +160,10 @@ export default function Carousel({ slides }: CarouselProps) {
       </button>
       <button
         onClick={handleNext}
-        className={`absolute top-1/2 right-4 z-10 -translate-y-1/2 cursor-pointer rounded-full bg-white/30 p-2 backdrop-blur-sm transition-all hover:bg-white/50 ${
+        className={`absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white/30 p-2 backdrop-blur-sm transition-all hover:bg-white/50 ${
           currentIndex === slides.length - 1
             ? "cursor-not-allowed opacity-50"
-            : "opacity-100"
+            : "cursor-pointer opacity-100"
         }`}
         aria-label="Next slide"
         disabled={currentIndex === slides.length - 1}

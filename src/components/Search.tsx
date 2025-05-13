@@ -15,7 +15,11 @@ function Search() {
         name="query"
         placeholder="Search..."
       ></TextInput>
-      <button type="submit" className="absolute top-0 right-0 cursor-pointer">
+      <button
+        type="submit"
+        className="absolute top-0 right-0 cursor-pointer"
+        title="Search"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

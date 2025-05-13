@@ -110,11 +110,11 @@ function Dropzone() {
               </button>
               <input {...getInputProps()} />
             </div>
-            <div className="mt-4 flex max-h-68 space-y-2 overflow-auto rounded border bg-zinc-100 p-2 md:max-h-150 md:max-w-68 md:flex-col">
+            <div className="mt-4 flex max-h-68 space-y-2 gap-x-2 overflow-auto rounded border bg-zinc-100 p-2 md:max-h-150 md:max-w-68 md:flex-col md:gap-x-0">
               {files.map((file, index) => (
                 <div
                   key={index}
-                  className={`group relative w-50 shrink-0 overflow-hidden rounded bg-white md:w-auto md:min-w-0 ${file.id === selectedFile?.id ? "ring-2" : ""}`}
+                  className={`group relative h-35 w-50 shrink-0 overflow-hidden rounded bg-white md:h-auto md:w-auto md:min-w-0 ${file.id === selectedFile?.id ? "ring-2" : ""}`}
                   onClick={() => handleSelectFile(file)}
                 >
                   <div className="aspect-video">

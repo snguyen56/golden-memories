@@ -31,7 +31,7 @@ function ImageContainer({ photo }: Props) {
           >
             <a
               href={photo.photographer_url}
-              title="Photographer URL"
+              title={photo.photographer}
               target="_blank"
               rel="noopener noreferrer"
               className="flex max-w-1/2 gap-2 truncate hover:underline"
@@ -89,7 +89,12 @@ function ImageContainer({ photo }: Props) {
                 )}
               </button>
 
-              <a href={photo.url} target="_blank" rel="noopener noreferrer">
+              <a
+                href={photo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Download Link"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

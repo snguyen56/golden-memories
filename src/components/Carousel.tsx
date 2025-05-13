@@ -62,15 +62,13 @@ export default function Carousel({ slides }: Props) {
 
   const handleNext = useCallback(() => {
     if (currentIndex < slides.length - 1) {
-      const newIndex = currentIndex + 1;
-      setCurrentIndex(newIndex);
+      setCurrentIndex((prev) => prev + 1);
     }
   }, [currentIndex, slides.length]);
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
-      const newIndex = currentIndex - 1;
-      setCurrentIndex(newIndex);
+      setCurrentIndex((prev) => prev - 1);
     }
   }, [currentIndex]);
 
@@ -111,6 +109,7 @@ export default function Carousel({ slides }: Props) {
           dragConstraints={dragConstraints}
           onDragEnd={handleDragEnd}
           animate={controls}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
           {slides.map((slide, index) => (
             <motion.div

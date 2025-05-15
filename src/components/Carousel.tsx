@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useAnimation, type PanInfo } from "framer-motion";
 import { ImagesResults } from "@/models/Images";
+import Image from "next/image";
 
 type Props = {
   images: ImagesResults;
@@ -118,7 +119,7 @@ export default function Carousel({ images }: Props) {
           {images.photos.map((photo, index) => (
             <motion.div
               key={photo.id}
-              className="flex h-9/10 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg shadow-lg"
+              className="flex h-9/10 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-zinc-100 shadow-lg"
               style={{ width: slideWidth }}
               whileHover={{ cursor: "grab" }}
               whileTap={{ cursor: "grabbing" }}
@@ -128,11 +129,13 @@ export default function Carousel({ images }: Props) {
                 transition: { duration: 0.3 },
               }}
             >
-              <img
+              <Image
                 src={photo.src.large}
                 alt={photo.alt}
+                width={photo.width}
+                height={photo.height}
                 draggable={false}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
                 aria-label={`Slide ${index + 1} of ${images.photos.length}`}
               />
             </motion.div>

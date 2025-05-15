@@ -22,6 +22,11 @@ const playfairDisplay = Playfair_Display({
 export const metadata: Metadata = {
   title: "Golden Memories",
   description: "A photo gallery website by Steven Nguyen",
+  twitter: {
+    card: "summary_large_image",
+    title: "Golden Memories",
+    description: "A photo gallery website by Steven Nguyen",
+  },
 };
 
 export default function RootLayout({

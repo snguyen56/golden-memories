@@ -2,15 +2,13 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useAnimation, type PanInfo } from "framer-motion";
+import { ImagesResults } from "@/models/Images";
 
 type Props = {
-  slides: {
-    id: number;
-    color: string;
-  }[];
+  images: ImagesResults;
 };
 
-export default function Carousel({ slides }: Props) {
+export default function Carousel({ images }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [width, setWidth] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -44,7 +42,7 @@ export default function Carousel({ slides }: Props) {
   }, [updatePosition]);
 
   const dragConstraints = {
-    left: -((slides.length - 1) * totalSlideWidth),
+    left: -((images.photos.length - 1) * totalSlideWidth),
     right: 0,
   };
 
@@ -59,7 +57,7 @@ export default function Carousel({ slides }: Props) {
       if (offset > 0) {
         newIndex = Math.max(0, currentIndex - 1);
       } else {
-        newIndex = Math.min(slides.length - 1, currentIndex + 1);
+        newIndex = Math.min(images.photos.length - 1, currentIndex + 1);
       }
     }
 
@@ -67,10 +65,10 @@ export default function Carousel({ slides }: Props) {
   };
 
   const handleNext = useCallback(() => {
-    if (currentIndex < slides.length - 1) {
+    if (currentIndex < images.photos.length - 1) {
       setCurrentIndex((prevSlide) => prevSlide + 1);
     }
-  }, [currentIndex, slides.length]);
+  }, [currentIndex, images.photos.length]);
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
@@ -117,9 +115,9 @@ export default function Carousel({ slides }: Props) {
           animate={controls}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
-          {slides.map((slide, index) => (
+          {images.photos.map((photo, index) => (
             <motion.div
-              key={slide.id}
+              key={photo.id}
               className="flex h-9/10 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg shadow-lg"
               style={{ width: slideWidth }}
               whileHover={{ cursor: "grab" }}
@@ -130,13 +128,13 @@ export default function Carousel({ slides }: Props) {
                 transition: { duration: 0.3 },
               }}
             >
-              <div
-                className="flex h-full w-full items-center justify-center text-2xl font-bold text-white"
-                style={{ backgroundColor: slide.color }}
-                aria-label={`Slide ${index + 1} of ${slides.length}`}
-              >
-                Slide {index + 1}
-              </div>
+              <img
+                src={photo.src.large}
+                alt={photo.alt}
+                draggable={false}
+                className="h-full w-full object-cover"
+                aria-label={`Slide ${index + 1} of ${images.photos.length}`}
+              />
             </motion.div>
           ))}
         </motion.div>
@@ -168,12 +166,12 @@ export default function Carousel({ slides }: Props) {
       <button
         onClick={handleNext}
         className={`absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white/50 p-2 transition-all hover:bg-white ${
-          currentIndex === slides.length - 1
+          currentIndex === images.photos.length - 1
             ? "cursor-not-allowed opacity-50"
             : "cursor-pointer opacity-100"
         }`}
         aria-label="Next slide"
-        disabled={currentIndex === slides.length - 1}
+        disabled={currentIndex === images.photos.length - 1}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

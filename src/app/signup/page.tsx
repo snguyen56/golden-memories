@@ -10,7 +10,7 @@ function page() {
     console.log("Form submitted");
   };
   return (
-    <main className="grid place-items-center">
+    <div className="grid place-items-center">
       <AuthForm handleSubmit={handleSubmit}>
         <div>
           <h2 className="text-center text-2xl font-bold text-black">Sign Up</h2>
@@ -52,7 +52,7 @@ function page() {
           Login
         </Link>
       </p>
-    </main>
+    </div>
   );
 }
 

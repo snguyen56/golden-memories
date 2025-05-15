@@ -10,7 +10,7 @@ function page() {
   };
 
   return (
-    <main className="grid place-items-center">
+    <div className="grid place-items-center">
       <form
         onSubmit={handleSubmit}
         className="flex min-w-sm flex-col gap-8 rounded-xl border p-8"
@@ -139,7 +139,7 @@ function page() {
           Sign Up
         </Link>
       </p>
-    </main>
+    </div>
   );
 }
 

@@ -8,12 +8,12 @@ async function page() {
   );
 
   return (
-    <main className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <h2 className="text-3xl font-bold text-black">Slide Show</h2>
       <div className="w-full max-w-4xl">
         {images ? <Carousel images={images} /> : <p>No Images Found</p>}
       </div>
-    </main>
+    </div>
   );
 }
 

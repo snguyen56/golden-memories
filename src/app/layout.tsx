@@ -3,6 +3,7 @@ import { Open_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import MobileNavbar from "@/components/MobileNavbar";
 
 export const revalidate = 3600;
 
@@ -40,7 +41,10 @@ export default function RootLayout({
         className={`${openSans.variable} ${playfairDisplay.variable} container mx-auto font-[family-name:var(--font-open-sans)] text-zinc-600 antialiased`}
       >
         <Header />
-        <div className="mt-24 mb-16">{children}</div>
+        <main className="mb-24 lg:mt-24">
+          <MobileNavbar></MobileNavbar>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

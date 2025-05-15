@@ -7,9 +7,10 @@ import Image from "next/image";
 
 type Props = {
   images: ImagesResults;
+  loading?: boolean;
 };
 
-export default function Carousel({ images }: Props) {
+export default function Carousel({ images, loading = false }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [width, setWidth] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -125,7 +126,6 @@ export default function Carousel({ images }: Props) {
               whileTap={{ cursor: "grabbing" }}
               animate={{
                 scale: currentIndex === index ? 1 : 0.8,
-                opacity: currentIndex === index ? 1 : 0.7,
                 transition: { duration: 0.3 },
               }}
             >
@@ -140,6 +140,12 @@ export default function Carousel({ images }: Props) {
               />
             </motion.div>
           ))}
+          {loading && (
+            <div
+              className="flex h-9/10 flex-shrink-0 scale-80 animate-pulse items-center justify-center overflow-hidden rounded-lg bg-zinc-300 shadow-lg"
+              style={{ width: slideWidth }}
+            ></div>
+          )}
         </motion.div>
       </div>
 

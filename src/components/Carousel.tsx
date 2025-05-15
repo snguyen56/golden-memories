@@ -10,7 +10,7 @@ type Props = {
   loading?: boolean;
 };
 
-export default function Carousel({ images, loading = false }: Props) {
+export default function Carousel({ images, loading = true }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [width, setWidth] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -125,7 +125,7 @@ export default function Carousel({ images, loading = false }: Props) {
               whileHover={{ cursor: "grab" }}
               whileTap={{ cursor: "grabbing" }}
               animate={{
-                scale: currentIndex === index ? 1 : 0.8,
+                scale: currentIndex === index ? 1 : 0.9,
                 transition: { duration: 0.3 },
               }}
             >
@@ -135,7 +135,7 @@ export default function Carousel({ images, loading = false }: Props) {
                 width={photo.width}
                 height={photo.height}
                 draggable={false}
-                className="h-full w-full object-contain"
+                className="h-full w-full object-cover"
                 aria-label={`Slide ${index + 1} of ${images.photos.length}`}
               />
             </motion.div>

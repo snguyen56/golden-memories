@@ -23,6 +23,14 @@ const playfairDisplay = Playfair_Display({
 export const metadata: Metadata = {
   title: "Golden Memories",
   description: "A photo gallery website by Steven Nguyen",
+  // metadataBase: new URL(),
+  openGraph: {
+    title: "Golden Memories",
+    siteName: "Golden Memories",
+    description: "A photo gallery website by Steven Nguyen",
+    locale: "en_US",
+    type: "website",
+  },
   twitter: {
     card: "summary_large_image",
     title: "Golden Memories",

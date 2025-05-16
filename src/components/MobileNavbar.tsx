@@ -21,6 +21,7 @@ function MobileNavbar() {
           type="button"
           className="cursor-pointer"
           onClick={() => setOpen((prev) => !prev)}
+          aria-label={`${open ? "Close Navigation Menu" : "Open Navigation Menu"}`}
         >
           {open ? (
             <svg

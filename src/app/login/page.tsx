@@ -51,12 +51,6 @@ function page() {
             />
           </svg>
         </div>
-        {/* <button
-          type="submit"
-          className="h-9 w-24 place-self-end rounded-lg border bg-black text-white transition-all ease-in-out hover:bg-zinc-700"
-        >
-          Login
-        </button> */}
         <button
           type="submit"
           className="h-9 cursor-pointer rounded-lg border bg-black text-white transition-all ease-in-out hover:bg-zinc-800"

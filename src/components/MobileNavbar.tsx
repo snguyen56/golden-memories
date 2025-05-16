@@ -8,7 +8,7 @@ import { useState } from "react";
 function MobileNavbar() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="fixed top-0 left-0 z-10 mb-4 w-screen bg-white lg:hidden">
+    <aside className="fixed top-0 left-0 z-10 mb-4 w-screen bg-white lg:hidden">
       {open && (
         <div
           onClick={() => setOpen(false)}
@@ -57,23 +57,22 @@ function MobileNavbar() {
         </button>
       </div>
 
-      <div
+      <nav
+        aria-label="Sidebar Navigation"
         className={`fixed top-15 right-0 bottom-0 z-20 flex h-[calc(100vh-60px)] w-full flex-col justify-between bg-white transition-all md:w-75 ${open ? "translate-x-0" : "translate-x-full"}`}
       >
-        <nav>
-          <ul className="flex flex-col items-end justify-items-end text-end">
-            {navigation.map(({ title, link }, index) => (
-              <li
-                key={index}
-                onClick={() => setOpen(false)}
-                className="w-full border-b-1 p-4 hover:text-black"
-              >
-                <Link href={link}>{title}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <nav className="mb-4 flex flex-col items-end justify-end gap-4 px-4">
+        <ul className="flex flex-col items-end justify-items-end text-end">
+          {navigation.map(({ title, link }, index) => (
+            <li
+              key={index}
+              onClick={() => setOpen(false)}
+              className="w-full border-b-1 p-4 hover:text-black"
+            >
+              <Link href={link}>{title}</Link>
+            </li>
+          ))}
+        </ul>
+        <div className="mb-4 flex flex-col items-end justify-end gap-4 px-4">
           <Link
             href="/login"
             onClick={() => setOpen(false)}
@@ -88,9 +87,9 @@ function MobileNavbar() {
           >
             Sign Up
           </Link>
-        </nav>
-      </div>
-    </div>
+        </div>
+      </nav>
+    </aside>
   );
 }
 

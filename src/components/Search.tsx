@@ -8,7 +8,12 @@ function Search() {
     console.log("Search submitted");
   };
   return (
-    <form className="relative" onSubmit={handleSubmit} action="/results">
+    <form
+      role="search"
+      className="relative"
+      onSubmit={handleSubmit}
+      action="/results"
+    >
       <TextInput
         type="search"
         id="search"

@@ -210,14 +210,14 @@ function ImageContainer({ photo }: Props) {
               </button>
             </div>
           </div>
-          <div className="w-100">
+          <div>
             <Image
               src={photo.src.large}
               alt={photo.alt}
               width={photo.width}
               height={photo.height}
-              className="h-full w-full object-cover"
-              sizes="360px"
+              className="h-full w-full object-contain"
+              sizes="100vw"
             />
           </div>
           <div className="mt-8 w-full">
@@ -231,6 +231,7 @@ function ImageContainer({ photo }: Props) {
           </div>
           <button
             type="button"
+            aria-label="Close Modal"
             className="absolute top-2 right-2 cursor-pointer rounded-full bg-zinc-100 hover:bg-zinc-200"
             onClick={() => {
               closeDialog(dialogRef);

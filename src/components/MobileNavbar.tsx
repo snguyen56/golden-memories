@@ -8,33 +8,56 @@ import { useState } from "react";
 function MobileNavbar() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="sticky top-0 z-50 mb-4 bg-white">
-      <div className="flex h-15 w-full items-center justify-end gap-8 p-3 lg:hidden">
+    <div className="fixed top-0 left-0 z-10 mb-4 w-screen bg-white lg:hidden">
+      {open && (
+        <div
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 z-10 h-screen w-screen bg-black/50"
+        ></div>
+      )}
+      <div className="relative z-50 flex h-15 items-center justify-end gap-8 border-b-1 border-zinc-300 bg-white p-3 shadow lg:hidden">
         <Search></Search>
         <button
           type="button"
           className="cursor-pointer"
           onClick={() => setOpen((prev) => !prev)}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            />
-          </svg>
+          {open ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          )}
         </button>
       </div>
 
       <div
-        className={`fixed inset-0 top-15 flex w-full flex-col justify-between border-t-1 bg-white transition-all ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed top-15 right-0 bottom-0 z-20 flex h-[calc(100vh-60px)] w-full flex-col justify-between bg-white transition-all md:w-75 ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         <nav>
           <ul className="flex flex-col items-end justify-items-end text-end">

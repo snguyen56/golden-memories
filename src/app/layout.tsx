@@ -41,7 +41,7 @@ export default function RootLayout({
         className={`${openSans.variable} ${playfairDisplay.variable} container mx-auto font-[family-name:var(--font-open-sans)] text-zinc-600 antialiased`}
       >
         <Header />
-        <main className="mb-24 lg:mt-24">
+        <main className="mt-16 mb-24 lg:mt-24">
           <MobileNavbar></MobileNavbar>
           {children}
         </main>

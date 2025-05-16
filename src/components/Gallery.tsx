@@ -17,10 +17,6 @@ async function Gallery({ search }: Props) {
   return (
     <div className="mt-5 grid auto-rows-[10px] grid-cols-[repeat(auto-fit,minmax(360px,1fr))] justify-items-center">
       {images.photos.map((photo) => (
-        // <div
-        //   key={photo.id}
-        //   className="h-64 w-full animate-pulse rounded-xl bg-gray-300"
-        // ></div>
         <ImageContainer photo={photo} key={photo.id} />
       ))}
     </div>

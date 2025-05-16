@@ -132,28 +132,60 @@ function ImageContainer({ photo }: Props) {
         </div>
       </div>
       <Modal dialogRef={dialogRef}>
-        <div className="relative flex flex-col items-center p-10">
-          <div className="flex w-full justify-between">
-            <p className="font-semibold">{photo.photographer}</p>
+        <div className="relative flex h-full flex-col items-center p-10">
+          <div className="mb-8 flex w-full justify-between">
+            <div className="flex grow items-center gap-2 text-black">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+              </svg>
+              <p className="max-w-1/2 truncate text-lg font-semibold">
+                {photo.photographer}
+              </p>
+            </div>
             <div className="flex gap-2">
               <button
                 type="button"
                 className="flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100"
+                onClick={() => {
+                  setLiked((prev) => !prev);
+                }}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                  />
-                </svg>
+                {liked ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="#dc2626"
+                    className="size-6"
+                  >
+                    <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                    />
+                  </svg>
+                )}
                 Like
               </button>
               <button
@@ -187,6 +219,15 @@ function ImageContainer({ photo }: Props) {
               className="h-full w-full object-cover"
               sizes="360px"
             />
+          </div>
+          <div className="mt-8 w-full">
+            <h3 className="text-2xl font-bold text-black">Comments</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab
+              placeat cupiditate consequuntur sapiente deleniti, suscipit animi
+              distinctio illum explicabo odit eligendi aliquid necessitatibus
+              error qui quas voluptates quisquam laborum sit.
+            </p>
           </div>
           <button
             type="button"

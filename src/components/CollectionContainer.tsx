@@ -1,5 +1,5 @@
 import { Collection } from "@/models/Images";
-import fetchMedia from "@/utils/fetchMedia";
+import { fetchCover } from "@/utils/fetchMedia";
 import Image from "next/image";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 };
 
 async function collectionContainer({ collection }: Props) {
-  const cover = await fetchMedia(collection.id, 1);
+  const cover = await fetchCover(collection.id, 1);
   if (cover)
     return (
       <div className="group relative w-80">

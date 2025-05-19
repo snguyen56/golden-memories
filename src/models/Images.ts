@@ -9,6 +9,7 @@ const PaginationSchema = z.object({
 });
 
 const PhotoSchema = z.object({
+  type: z.literal("Photo").optional(),
   id: z.number(),
   width: z.number(),
   height: z.number(),
@@ -22,6 +23,7 @@ const PhotoSchema = z.object({
 });
 
 const VideoSchema = z.object({
+  type: z.literal("Video").optional(),
   id: z.number(),
   width: z.number(),
   height: z.number(),
@@ -32,6 +34,8 @@ const VideoSchema = z.object({
     url: z.string(),
   }),
 });
+
+const MediaSchema = z.union([PhotoSchema, VideoSchema]);
 
 const CollectionSchema = z.object({
   id: z.string(),
@@ -47,19 +51,14 @@ export const CollectionsSchemaWithPagination = PaginationSchema.extend({
   collections: z.array(CollectionSchema),
 });
 
-const MediaPhotoSchema = PhotoSchema.extend({
-  type: z.literal("Photo"),
-});
-const MediaVideoSchema = VideoSchema.extend({
-  type: z.literal("Video"),
-});
-
 export const MediaSchemaWithPagination = PaginationSchema.extend({
   id: z.string(),
-  media: z.array(z.union([MediaPhotoSchema, MediaVideoSchema])),
+  media: z.array(MediaSchema),
 });
 
 export type Photo = z.infer<typeof PhotoSchema>;
+
+export type Media = z.infer<typeof MediaSchema>;
 
 export type Collection = z.infer<typeof CollectionSchema>;
 

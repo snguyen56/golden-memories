@@ -17,7 +17,7 @@ async function Gallery({ search }: Props) {
 
   if (!images) return <p>No Images Found</p>;
   return (
-    <div className="mt-5 grid auto-rows-[10px] grid-cols-[repeat(auto-fit,minmax(360px,1fr))] justify-items-center">
+    <div className="mt-5 grid w-full auto-rows-[10px] grid-cols-[repeat(auto-fit,360px)] place-items-center justify-center gap-x-5">
       <Suspense fallback={<GalleryLoader />}>
         {images.photos.map((photo) => (
           <ImageContainer photo={photo} key={photo.id} />

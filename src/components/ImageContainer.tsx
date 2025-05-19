@@ -21,7 +21,7 @@ function ImageContainer({ photo }: Props) {
 
   return (
     <>
-      <div className="w-[360px]" style={{ gridRow: `span ${rowSpan}` }}>
+      <div className="w-90" style={{ gridRow: `span ${rowSpan}` }}>
         <div className="relative cursor-pointer overflow-hidden rounded-xl">
           <Image
             src={photo.src.large}

@@ -3,11 +3,13 @@ import { Photo } from "@/models/Images";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import Modal, { openDialog, closeDialog } from "./Modal";
+import ShareButton from "./ShareButton";
 
 type Props = { photo: Photo };
 
 function ImageContainer({ photo }: Props) {
   const [liked, setLiked] = useState<boolean>(false);
+  const [openShare, setOpenShare] = useState<boolean>(false);
   const widthHeightRatio = photo.height / photo.width;
   const imageHeight = Math.ceil(360 * widthHeightRatio);
   const rowSpan = Math.ceil(imageHeight / 10) + 2;
@@ -157,6 +159,27 @@ function ImageContainer({ photo }: Props) {
               <button
                 type="button"
                 className="flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100"
+                onClick={() => setOpenShare(true)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
+                  />
+                </svg>
+                Share
+              </button>
+              <button
+                type="button"
+                className="flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100"
                 onClick={() => {
                   setLiked((prev) => !prev);
                 }}
@@ -253,6 +276,7 @@ function ImageContainer({ photo }: Props) {
             </svg>
           </button>
         </div>
+        <ShareButton isOpen={openShare} setIsOpen={setOpenShare} />
       </Modal>
     </>
   );

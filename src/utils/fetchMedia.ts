@@ -3,7 +3,7 @@ import { MediaResults, MediaSchemaWithPagination } from "@/models/Images";
 export async function fetchCover(id: string, amount: number) {
   try {
     const result = await fetch(
-      `https://api.pexels.com/v1/collections/${id}?type=photo&per_page=${amount}`,
+      `https://api.pexels.com/v1/collections/${id}?per_page=${amount}`,
       {
         headers: {
           authorization: process.env.PEXELS_API_KEY!,

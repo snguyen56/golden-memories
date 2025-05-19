@@ -70,7 +70,7 @@ function ImageContainer({ photo }: Props) {
                 <button
                   type="button"
                   title="Like"
-                  className="cursor-pointer rounded-lg border p-1 hover:bg-black/10"
+                  className="cursor-pointer rounded-lg p-1 hover:bg-black/30"
                   onClick={() => {
                     setLiked((prev) => !prev);
                   }}
@@ -101,14 +101,13 @@ function ImageContainer({ photo }: Props) {
                     </svg>
                   )}
                 </button>
-
                 <a
                   href={photo.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   title="Download"
                   aria-label="Download Link"
-                  className="rounded-lg border p-1 hover:bg-black/10"
+                  className="rounded-lg p-1 hover:bg-black/30"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

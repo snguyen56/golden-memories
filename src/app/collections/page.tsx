@@ -18,7 +18,7 @@ async function page() {
             <CollectionContainer key={collection.id} collection={collection} />
           ))
         ) : (
-          <p>No Images Found</p>
+          <p>No Collections Found</p>
         )}
       </div>
     </>

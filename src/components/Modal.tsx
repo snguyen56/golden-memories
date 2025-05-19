@@ -32,16 +32,19 @@ function Modal({ children, dialogRef }: Props) {
   }, []);
 
   return (
-    <dialog
-      ref={dialogRef}
-      className="mx-auto mt-15 h-8/10 w-8/10 overflow-hidden overflow-y-auto rounded-xl text-zinc-600"
-      onClick={(event) => {
-        if (event.target === event.currentTarget) {
-          closeDialog(dialogRef);
-        }
-      }}
-    >
-      {children}
+    <dialog ref={dialogRef}>
+      <div
+        className="fixed inset-0 overflow-y-auto"
+        onClick={(event) => {
+          if (event.target === event.currentTarget) {
+            closeDialog(dialogRef);
+          }
+        }}
+      >
+        <div className="mx-auto my-15 w-8/10 rounded-xl bg-white text-zinc-600">
+          {children}
+        </div>
+      </div>
     </dialog>
   );
 }

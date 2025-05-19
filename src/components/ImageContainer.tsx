@@ -232,7 +232,7 @@ function ImageContainer({ photo }: Props) {
           <button
             type="button"
             aria-label="Close Modal"
-            className="absolute top-2 right-2 cursor-pointer rounded-full bg-zinc-100 hover:bg-zinc-200"
+            className="absolute top-2 right-2 cursor-pointer rounded-full hover:bg-zinc-100"
             onClick={() => {
               closeDialog(dialogRef);
             }}
@@ -243,7 +243,7 @@ function ImageContainer({ photo }: Props) {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6"
+              className="size-7"
             >
               <path
                 strokeLinecap="round"

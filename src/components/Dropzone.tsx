@@ -127,7 +127,7 @@ function Dropzone() {
                   <p>{file.name}</p>
                   <button
                     type="button"
-                    className="absolute top-1 right-1 hidden cursor-pointer rounded-full bg-black/50 group-hover:block"
+                    className="absolute top-1 right-1 cursor-pointer rounded-full bg-black/50 md:hidden md:group-hover:block"
                     onClick={(event: React.SyntheticEvent) => {
                       event.stopPropagation();
                       handleDelete(file.id);

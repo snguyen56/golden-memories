@@ -41,7 +41,7 @@ function Modal({ children, dialogRef }: Props) {
           }
         }}
       >
-        <div className="mx-auto my-15 w-8/10 rounded-xl bg-white text-zinc-600">
+        <div className="mx-auto my-15 rounded-xl bg-white text-zinc-600 md:w-8/10">
           {children}
         </div>
       </div>

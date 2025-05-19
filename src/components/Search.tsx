@@ -1,7 +1,11 @@
 "use client";
 import TextInput from "./TextInput";
 
-function Search() {
+type Props = {
+  id?: string;
+};
+
+function Search({ id = "search" }: Props) {
   const handleSubmit = () => {
     // event.preventDefault();
 
@@ -16,7 +20,7 @@ function Search() {
     >
       <TextInput
         type="search"
-        id="search"
+        id={id}
         name="query"
         placeholder="Search..."
       ></TextInput>

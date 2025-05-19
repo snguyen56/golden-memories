@@ -13,7 +13,7 @@ function page() {
     <div className="grid place-items-center">
       <form
         onSubmit={handleSubmit}
-        className="flex min-w-sm flex-col gap-8 rounded-xl border p-8"
+        className="flex min-w-sm flex-col gap-8 rounded-xl p-8 sm:border"
       >
         <div>
           <h2 className="text-center text-2xl font-bold text-black">Login</h2>

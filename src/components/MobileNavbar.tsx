@@ -16,7 +16,7 @@ function MobileNavbar() {
         ></div>
       )}
       <div className="relative z-50 flex h-15 items-center justify-end gap-8 border-b-1 border-zinc-300 bg-white p-3 shadow lg:hidden">
-        <Search></Search>
+        <Search id="mobile search"></Search>
         <button
           type="button"
           className="cursor-pointer"
@@ -59,7 +59,8 @@ function MobileNavbar() {
 
       <nav
         aria-label="Sidebar Navigation"
-        className={`fixed top-15 right-0 bottom-0 z-20 flex h-[calc(100vh-60px)] w-full flex-col justify-between bg-white transition-all md:w-75 ${open ? "translate-x-0" : "translate-x-full"}`}
+        role="navigation"
+        className={`fixed right-0 z-20 flex h-[calc(100vh-60px)] w-full flex-col justify-between bg-white transition-all md:w-75 ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         <ul className="flex flex-col items-end justify-items-end text-end">
           {navigation.map(({ title, link }, index) => (

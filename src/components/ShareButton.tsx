@@ -63,7 +63,7 @@ function ShareButton({ isOpen, setIsOpen, photo }: Props) {
           />
         </svg>
       ),
-      shareURL: `mailto:?subject=${text}&body=${URL}`,
+      shareURL: `mailto:?subject=${text}&body=${photo.url}`,
     },
   ];
 

@@ -22,7 +22,7 @@ function ImageContainer({ photo }: Props) {
   return (
     <>
       <div className="w-[360px]" style={{ gridRow: `span ${rowSpan}` }}>
-        <div className="relative overflow-hidden rounded-xl">
+        <div className="relative cursor-pointer overflow-hidden rounded-xl">
           <Image
             src={photo.src.large}
             alt={photo.alt}
@@ -69,8 +69,8 @@ function ImageContainer({ photo }: Props) {
               <div className="flex gap-2">
                 <button
                   type="button"
-                  className="cursor-pointer"
                   title="Like"
+                  className="cursor-pointer rounded-lg border p-1 hover:bg-black/10"
                   onClick={() => {
                     setLiked((prev) => !prev);
                   }}
@@ -106,7 +106,9 @@ function ImageContainer({ photo }: Props) {
                   href={photo.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  title="Download"
                   aria-label="Download Link"
+                  className="rounded-lg border p-1 hover:bg-black/10"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -233,7 +235,7 @@ function ImageContainer({ photo }: Props) {
               </button>
             </div>
           </div>
-          <div>
+          <div className="w-full md:w-auto">
             <Image
               src={photo.src.large}
               alt={photo.alt}

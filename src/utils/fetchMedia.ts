@@ -15,7 +15,7 @@ export async function fetchCover(id: string, amount: number) {
     // console.log(collectionResults);
     const data = MediaSchemaWithPagination.parse(collectionResults);
     if (data.total_results == 0) return undefined;
-    if (data.media[0].type == "Photo") return data.media[0];
+    return data.media[0];
   } catch (error) {
     console.error(error);
   }

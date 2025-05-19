@@ -122,7 +122,8 @@ function ShareButton({ isOpen, setIsOpen, photo }: Props) {
             />
             <button
               type="button"
-              className="cursor-pointer rounded-lg bg-black p-2 text-white hover:bg-zinc-800"
+              disabled={copying}
+              className={`${copying ? "cursor-not-allowed" : "cursor-pointer"} rounded-lg bg-black p-2 text-white hover:bg-zinc-800`}
               onClick={handleCopy}
             >
               {copying ? (

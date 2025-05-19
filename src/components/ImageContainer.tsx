@@ -276,7 +276,11 @@ function ImageContainer({ photo }: Props) {
             </svg>
           </button>
         </div>
-        <ShareButton isOpen={openShare} setIsOpen={setOpenShare} />
+        <ShareButton
+          isOpen={openShare}
+          setIsOpen={setOpenShare}
+          photo={photo}
+        />
       </Modal>
     </>
   );

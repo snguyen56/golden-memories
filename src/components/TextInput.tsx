@@ -18,7 +18,7 @@ function TextInput({ type, name, id, label = "", placeholder = "" }: Props) {
       />
       {label && (
         <label
-          htmlFor="id"
+          htmlFor={id}
           className="absolute left-0 -z-1 transition-all duration-200 not-peer-placeholder-shown:-translate-y-5 not-peer-placeholder-shown:text-sm peer-focus:-translate-y-5 peer-focus:text-sm peer-focus:text-black"
         >
           {label}

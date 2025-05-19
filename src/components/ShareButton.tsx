@@ -1,13 +1,16 @@
+import { Photo } from "@/models/Images";
+import { useState } from "react";
+
 type Props = {
   isOpen: boolean;
   setIsOpen: (state: boolean) => void;
+  photo: Photo;
 };
 
-function ShareButton({ isOpen, setIsOpen }: Props) {
-  const URL = encodeURIComponent(
-    "https://www.pexels.com/photo/traditional-japanese-pagoda-architecture-32118946/",
-  );
-  const text = encodeURIComponent("Share");
+function ShareButton({ isOpen, setIsOpen, photo }: Props) {
+  const [copying, setCopying] = useState(false);
+  const URL = encodeURIComponent(photo.url);
+  const text = encodeURIComponent(photo.alt);
   const socialLinks = [
     {
       name: "Twitter",
@@ -63,6 +66,18 @@ function ShareButton({ isOpen, setIsOpen }: Props) {
       shareURL: `mailto:?subject=${text}&body=${URL}`,
     },
   ];
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(photo.url);
+      setCopying(true);
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setCopying(false);
+    } catch (error) {
+      console.error("Failed to copy: ", error);
+    }
+  };
+
   if (isOpen)
     return (
       <div
@@ -92,9 +107,47 @@ function ShareButton({ isOpen, setIsOpen }: Props) {
               </a>
             ))}
           </div>
+
+          <div className="relative mt-5 flex rounded-lg border p-1">
+            <label htmlFor="copy_name" className="absolute -top-7">
+              Copy link to post
+            </label>
+            <input
+              type="text"
+              name="copy_name"
+              id="copy_name"
+              value={photo.url}
+              readOnly
+              className="grow p-1 outline-0"
+            />
+            <button
+              type="button"
+              className="cursor-pointer rounded-lg bg-black p-2 text-white hover:bg-zinc-800"
+              onClick={handleCopy}
+            >
+              {copying ? (
+                "Copied!"
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="white"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
           <button
             type="button"
-            aria-label="Close Modal"
+            aria-label="Close Share Modal"
             className="absolute top-2 right-2 cursor-pointer rounded-full hover:bg-zinc-100"
             onClick={() => {
               setIsOpen(false);

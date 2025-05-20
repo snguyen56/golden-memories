@@ -1,5 +1,5 @@
 "use client";
-import { Photo, Media } from "@/models/Images";
+import { Photo, Media } from "@/models/mediaSchema";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { openDialog } from "./Modal";

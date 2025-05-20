@@ -1,5 +1,5 @@
 import CollectionContainer from "@/components/CollectionContainer";
-import { CollectionsResults } from "@/models/Images";
+import { CollectionsResults } from "@/models/mediaSchema";
 import fetchCollections from "@/utils/fetchCollections";
 import { Metadata } from "next";
 

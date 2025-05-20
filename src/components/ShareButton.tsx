@@ -1,4 +1,4 @@
-import { Photo, Media } from "@/models/Images";
+import { Photo, Media } from "@/models/mediaSchema";
 import { Dispatch, SetStateAction, useState } from "react";
 
 type Props = {

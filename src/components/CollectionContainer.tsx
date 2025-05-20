@@ -1,4 +1,4 @@
-import { Collection } from "@/models/Images";
+import { Collection } from "@/models/mediaSchema";
 import { fetchCover } from "@/utils/fetchMedia";
 import Image from "next/image";
 

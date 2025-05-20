@@ -1,5 +1,5 @@
 import fetchImages from "@/utils/fetchImages";
-import type { Media, Photo } from "@/models/Images";
+import type { Media, Photo } from "@/models/mediaSchema";
 import ImageContainer from "./ImageContainer";
 
 type Props = {

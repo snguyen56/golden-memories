@@ -1,5 +1,5 @@
 import Carousel from "@/components/Carousel";
-import { ImagesResults } from "@/models/Images";
+import { ImagesResults } from "@/models/mediaSchema";
 import fetchImages from "@/utils/fetchImages";
 
 async function page() {

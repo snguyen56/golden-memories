@@ -1,4 +1,4 @@
-import { Photo, Media } from "@/models/Images";
+import { Photo, Media } from "@/models/mediaSchema";
 import Modal, { closeDialog } from "./Modal";
 import { Dispatch, RefObject, SetStateAction, useState } from "react";
 import Image from "next/image";

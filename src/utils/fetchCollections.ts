@@ -1,5 +1,5 @@
-import { CollectionsResults } from "@/models/Images";
-import { CollectionsSchemaWithPagination } from "@/models/Images";
+import { CollectionsResults } from "@/models/mediaSchema";
+import { CollectionsSchemaWithPagination } from "@/models/mediaSchema";
 
 export default async function fetchImages(): Promise<
   CollectionsResults | undefined

@@ -1,8 +1,8 @@
-import type { ImagesResults, MediaResults } from "@/models/Images";
+import type { ImagesResults, MediaResults } from "@/models/mediaSchema";
 import {
   MediaSchemaWithPagination,
   PhotosSchemaWithPagination,
-} from "@/models/Images";
+} from "@/models/mediaSchema";
 
 export default async function fetchImages(
   url: string,

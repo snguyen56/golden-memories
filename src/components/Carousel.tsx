@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useAnimation, type PanInfo } from "framer-motion";
-import { ImagesResults } from "@/models/Images";
+import { ImagesResults } from "@/models/mediaSchema";
 import Image from "next/image";
 
 type Props = {

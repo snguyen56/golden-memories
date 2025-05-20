@@ -1,4 +1,4 @@
-import { MediaResults, MediaSchemaWithPagination } from "@/models/Images";
+import { MediaResults, MediaSchemaWithPagination } from "@/models/mediaSchema";
 
 export async function fetchCover(id: string, amount: number) {
   try {

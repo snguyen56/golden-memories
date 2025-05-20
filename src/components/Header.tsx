@@ -32,7 +32,7 @@ function Header() {
           </Link>
           <Link
             href="/signup"
-            className="flex h-9 w-24 items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-700 active:scale-95"
+            className="flex h-9 w-24 items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
           >
             Sign Up
           </Link>

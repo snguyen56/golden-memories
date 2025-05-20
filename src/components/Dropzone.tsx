@@ -177,7 +177,7 @@ function Dropzone() {
         </div>
         <button
           type="submit"
-          className="mt-6 ml-auto flex w-24 cursor-pointer items-center justify-center gap-2 rounded-lg bg-black p-2 text-white transition-all ease-in-out hover:bg-zinc-700 active:scale-95"
+          className="mt-6 ml-auto flex w-24 cursor-pointer items-center justify-center gap-2 rounded-lg bg-black p-2 text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

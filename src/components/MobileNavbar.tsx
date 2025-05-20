@@ -84,7 +84,7 @@ function MobileNavbar() {
           <Link
             href="/signup"
             onClick={() => setOpen(false)}
-            className="flex h-10 w-full items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-700 active:scale-95"
+            className="flex h-10 w-full items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
           >
             Sign Up
           </Link>

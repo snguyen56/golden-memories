@@ -1,16 +1,21 @@
-import { Photo } from "@/models/Images";
+import { Photo, Media } from "@/models/Images";
 import { Dispatch, SetStateAction, useState } from "react";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  photo: Photo;
+  media: Photo | Media;
 };
 
-function ShareButton({ isOpen, setIsOpen, photo }: Props) {
+function ShareButton({ isOpen, setIsOpen, media }: Props) {
   const [copying, setCopying] = useState(false);
-  const URL = encodeURIComponent(photo.url);
-  const text = encodeURIComponent(photo.alt);
+
+  const isPhoto = (media: Photo | Media): media is Photo =>
+    "src" in media && "alt" in media;
+  const alt = isPhoto(media) ? media.alt : "Pexels Video";
+
+  const URL = encodeURIComponent(media.url);
+  const text = encodeURIComponent(alt);
   const socialLinks = [
     {
       name: "Twitter",
@@ -63,13 +68,13 @@ function ShareButton({ isOpen, setIsOpen, photo }: Props) {
           />
         </svg>
       ),
-      shareURL: `mailto:?subject=${text}&body=${photo.url}`,
+      shareURL: `mailto:?subject=${text}&body=${media.url}`,
     },
   ];
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(photo.url);
+      await navigator.clipboard.writeText(media.url);
       setCopying(true);
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setCopying(false);
@@ -116,7 +121,7 @@ function ShareButton({ isOpen, setIsOpen, photo }: Props) {
               type="text"
               name="copy_name"
               id="copy_name"
-              value={photo.url}
+              value={media.url}
               readOnly
               className="grow p-1 outline-0"
             />

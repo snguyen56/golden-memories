@@ -1,9 +1,12 @@
-import type { ImagesResults } from "@/models/Images";
-import { PhotosSchemaWithPagination } from "@/models/Images";
+import type { ImagesResults, MediaResults } from "@/models/Images";
+import {
+  MediaSchemaWithPagination,
+  PhotosSchemaWithPagination,
+} from "@/models/Images";
 
 export default async function fetchImages(
   url: string,
-): Promise<ImagesResults | undefined> {
+): Promise<MediaResults | ImagesResults | undefined> {
   try {
     const result = await fetch(url, {
       headers: {
@@ -11,10 +14,17 @@ export default async function fetchImages(
       },
     });
     if (!result.ok) throw new Error("Fetch Images Error!");
-    const ImagesResults: ImagesResults = await result.json();
-    const data = PhotosSchemaWithPagination.parse(ImagesResults);
-    if (data.total_results == 0) return undefined;
-    return data;
+    const json = await result.json();
+    if ("photos" in json) {
+      const data = PhotosSchemaWithPagination.parse(json);
+      if (data.total_results == 0) return undefined;
+      return data;
+    }
+    if ("media" in json) {
+      const data = MediaSchemaWithPagination.parse(json);
+      if (data.total_results == 0) return undefined;
+      return data;
+    }
   } catch (error) {
     console.error(error);
   }

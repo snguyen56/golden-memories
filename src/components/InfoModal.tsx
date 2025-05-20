@@ -1,4 +1,4 @@
-import { Photo } from "@/models/Images";
+import { Photo, Media } from "@/models/Images";
 import Modal, { closeDialog } from "./Modal";
 import { Dispatch, RefObject, SetStateAction, useState } from "react";
 import Image from "next/image";
@@ -6,13 +6,20 @@ import ShareButton from "./ShareButton";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
-  photo: Photo;
+  media: Photo | Media;
   liked: boolean;
   setLiked: Dispatch<SetStateAction<boolean>>;
 };
 
-function InfoModal({ dialogRef, photo, liked, setLiked }: Props) {
+function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
   const [openShare, setOpenShare] = useState<boolean>(false);
+
+  const isPhoto = (media: Photo | Media): media is Photo =>
+    "src" in media && "alt" in media;
+
+  const imageURL = isPhoto(media) ? media.src.large : media.image;
+  const alt = isPhoto(media) ? media.alt : "Video Thumbnail";
+  const photographer = isPhoto(media) ? media.photographer : media.user.name;
 
   return (
     <Modal dialogRef={dialogRef}>
@@ -35,7 +42,7 @@ function InfoModal({ dialogRef, photo, liked, setLiked }: Props) {
                 />
               </svg>
               <p className="max-w-1/2 truncate text-lg font-semibold">
-                {photo.photographer}
+                {photographer}
               </p>
             </div>
             <div className="flex gap-2">
@@ -118,10 +125,10 @@ function InfoModal({ dialogRef, photo, liked, setLiked }: Props) {
           </div>
           <div className="w-full md:w-auto">
             <Image
-              src={photo.src.large}
-              alt={photo.alt}
-              width={photo.width}
-              height={photo.height}
+              src={imageURL}
+              alt={alt}
+              width={media.width}
+              height={media.height}
               className="h-full w-full object-contain"
               sizes="100vw"
             />
@@ -160,7 +167,7 @@ function InfoModal({ dialogRef, photo, liked, setLiked }: Props) {
           </button>
         </div>
       </div>
-      <ShareButton isOpen={openShare} setIsOpen={setOpenShare} photo={photo} />
+      <ShareButton isOpen={openShare} setIsOpen={setOpenShare} media={media} />
     </Modal>
   );
 }

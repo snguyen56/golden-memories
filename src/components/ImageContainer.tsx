@@ -14,6 +14,7 @@ function ImageContainer({ media }: Props) {
   const rowSpan = Math.ceil(imageHeight / 10) + 2;
 
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const overlayStyle =
     "relative flex w-full justify-between from-black/30 to-black/0 p-2 pl-4 transition-all ease-in-out";
@@ -32,16 +33,37 @@ function ImageContainer({ media }: Props) {
   return (
     <div className="w-90" style={{ gridRow: `span ${rowSpan}` }}>
       <div className="relative cursor-pointer overflow-hidden rounded-xl">
-        <Image
-          src={imageURL}
-          alt={alt}
-          width={media.width}
-          height={media.height}
-          className="h-full w-full object-cover"
-          sizes="360px"
-        />
+        {media.type === "Video" ? (
+          <video
+            ref={videoRef}
+            width={media.width}
+            height={media.height}
+            poster={imageURL}
+            muted
+            onEnded={(event) => {
+              event.currentTarget.currentTime = 0;
+              event.currentTarget.play();
+            }}
+          >
+            <source
+              src={media.video_files[0].link}
+              type={media.video_files[0].file_type}
+            />
+          </video>
+        ) : (
+          <Image
+            src={imageURL}
+            alt={alt}
+            width={media.width}
+            height={media.height}
+            className="h-full w-full object-cover"
+            sizes="360px"
+          />
+        )}
         <div
           className="group absolute top-0 flex h-full w-full flex-col justify-between text-white"
+          onMouseOver={() => videoRef.current?.play()}
+          onMouseOut={() => videoRef.current?.pause()}
           onClick={(event) => {
             if (event.target === event.currentTarget) {
               openDialog(dialogRef);
@@ -141,6 +163,29 @@ function ImageContainer({ media }: Props) {
             <p className="max-w-1/2 truncate">{alt}</p>
           </div>
         </div>
+        {media.type === "Video" && (
+          <div className="absolute right-1 bottom-1 z-10">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="white"
+              className="size-8"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z"
+              />
+            </svg>
+          </div>
+        )}
       </div>
       <InfoModal
         dialogRef={dialogRef}

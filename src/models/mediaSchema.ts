@@ -33,9 +33,17 @@ const VideoSchema = z.object({
     name: z.string(),
     url: z.string(),
   }),
-  video_pictures: z.object({
-    picture: z.string(),
-  }),
+  video_files: z.array(
+    z.object({
+      file_type: z.string(),
+      link: z.string(),
+    }),
+  ),
+  video_pictures: z.array(
+    z.object({
+      picture: z.string(),
+    }),
+  ),
 });
 
 const MediaSchema = z.union([PhotoSchema, VideoSchema]);

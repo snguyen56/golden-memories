@@ -39,11 +39,6 @@ const VideoSchema = z.object({
       link: z.string(),
     }),
   ),
-  video_pictures: z.array(
-    z.object({
-      picture: z.string(),
-    }),
-  ),
 });
 
 const MediaSchema = z.union([PhotoSchema, VideoSchema]);
@@ -68,6 +63,8 @@ export const MediaSchemaWithPagination = PaginationSchema.extend({
 });
 
 export type Photo = z.infer<typeof PhotoSchema>;
+
+export type Video = z.infer<typeof VideoSchema>;
 
 export type Media = z.infer<typeof MediaSchema>;
 

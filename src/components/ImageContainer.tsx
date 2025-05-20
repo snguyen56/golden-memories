@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { openDialog } from "./Modal";
 import InfoModal from "./InfoModal";
+import Video, { playVideo, pauseVideo } from "./Video";
 
 type Props = { media: Photo | Media };
 
@@ -23,33 +24,18 @@ function ImageContainer({ media }: Props) {
     "src" in media && "alt" in media;
 
   const imageURL = isPhoto(media) ? media.src.large : media.image;
-  const alt = isPhoto(media) ? media.alt : "Video Thumbnail";
   const photographer = isPhoto(media) ? media.photographer : media.user.name;
   const photographer_url = isPhoto(media)
     ? media.photographer_url
     : media.user.url;
+  const alt = isPhoto(media) ? media.alt : `Video by ${photographer}`;
   const url = media.url;
 
   return (
     <div className="w-90" style={{ gridRow: `span ${rowSpan}` }}>
       <div className="relative cursor-pointer overflow-hidden rounded-xl">
         {media.type === "Video" ? (
-          <video
-            ref={videoRef}
-            width={media.width}
-            height={media.height}
-            poster={imageURL}
-            muted
-            onEnded={(event) => {
-              event.currentTarget.currentTime = 0;
-              event.currentTarget.play();
-            }}
-          >
-            <source
-              src={media.video_files[0].link}
-              type={media.video_files[0].file_type}
-            />
-          </video>
+          <Video videoRef={videoRef} video={media} />
         ) : (
           <Image
             src={imageURL}
@@ -62,8 +48,8 @@ function ImageContainer({ media }: Props) {
         )}
         <div
           className="group absolute top-0 flex h-full w-full flex-col justify-between text-white"
-          onMouseOver={() => videoRef.current?.play()}
-          onMouseOut={() => videoRef.current?.pause()}
+          onMouseOver={() => playVideo(videoRef)}
+          onMouseOut={() => pauseVideo(videoRef)}
           onClick={(event) => {
             if (event.target === event.currentTarget) {
               openDialog(dialogRef);
@@ -160,11 +146,11 @@ function ImageContainer({ media }: Props) {
           <div
             className={`${overlayStyle} top-full bg-linear-to-t group-hover:top-0`}
           >
-            <p className="max-w-1/2 truncate">{alt}</p>
+            <p className="max-w-3/4 truncate">{alt}</p>
           </div>
         </div>
         {media.type === "Video" && (
-          <div className="absolute right-1 bottom-1 z-10">
+          <div className="absolute right-1 bottom-1" title="video">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

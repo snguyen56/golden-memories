@@ -1,8 +1,9 @@
 import { Photo, Media } from "@/models/mediaSchema";
 import Modal, { closeDialog } from "./Modal";
-import { Dispatch, RefObject, SetStateAction, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
 import Image from "next/image";
 import ShareButton from "./ShareButton";
+import Video from "./Video";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
@@ -13,6 +14,7 @@ type Props = {
 
 function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
   const [openShare, setOpenShare] = useState<boolean>(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const isPhoto = (media: Photo | Media): media is Photo =>
     "src" in media && "alt" in media;
@@ -123,16 +125,23 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
               </button>
             </div>
           </div>
-          <div className="w-full md:w-auto">
-            <Image
-              src={imageURL}
-              alt={alt}
-              width={media.width}
-              height={media.height}
-              className="h-full w-full object-contain"
-              sizes="100vw"
-            />
-          </div>
+          {media.type === "Video" ? (
+            <div className="mx-auto aspect-video md:w-3/4">
+              <Video videoRef={videoRef} video={media} controls={true} />
+            </div>
+          ) : (
+            <div className="w-full md:w-auto">
+              <Image
+                src={imageURL}
+                alt={alt}
+                width={media.width}
+                height={media.height}
+                className="h-full w-full object-contain"
+                sizes="100vw"
+              />
+            </div>
+          )}
+
           <div className="mt-8 w-full">
             <h3 className="text-2xl font-bold text-black">Comments</h3>
             <p>

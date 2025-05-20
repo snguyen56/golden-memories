@@ -1,9 +1,9 @@
 import { Photo } from "@/models/Images";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 type Props = {
   isOpen: boolean;
-  setIsOpen: (state: boolean) => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
   photo: Photo;
 };
 

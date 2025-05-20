@@ -2,15 +2,15 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useAnimation, type PanInfo } from "framer-motion";
-import { ImagesResults } from "@/models/mediaSchema";
+import { Media, Photo } from "@/models/mediaSchema";
 import Image from "next/image";
 
 type Props = {
-  images: ImagesResults;
+  media: (Photo | Media)[];
   loading?: boolean;
 };
 
-export default function Carousel({ images, loading = true }: Props) {
+export default function Carousel({ media, loading = true }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [width, setWidth] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -44,7 +44,7 @@ export default function Carousel({ images, loading = true }: Props) {
   }, [updatePosition]);
 
   const dragConstraints = {
-    left: -((images.photos.length - 1) * totalSlideWidth),
+    left: -((media.length - 1) * totalSlideWidth),
     right: 0,
   };
 
@@ -59,7 +59,7 @@ export default function Carousel({ images, loading = true }: Props) {
       if (offset > 0) {
         newIndex = Math.max(0, currentIndex - 1);
       } else {
-        newIndex = Math.min(images.photos.length - 1, currentIndex + 1);
+        newIndex = Math.min(media.length - 1, currentIndex + 1);
       }
     }
 
@@ -67,10 +67,10 @@ export default function Carousel({ images, loading = true }: Props) {
   };
 
   const handleNext = useCallback(() => {
-    if (currentIndex < images.photos.length - 1) {
+    if (currentIndex < media.length - 1) {
       setCurrentIndex((prevSlide) => prevSlide + 1);
     }
-  }, [currentIndex, images.photos.length]);
+  }, [currentIndex, media.length]);
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
@@ -117,9 +117,9 @@ export default function Carousel({ images, loading = true }: Props) {
           animate={controls}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
-          {images.photos.map((photo, index) => (
+          {media.map((item, index) => (
             <motion.div
-              key={photo.id}
+              key={item.id}
               className="flex h-9/10 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-zinc-100 shadow-lg"
               style={{ width: slideWidth }}
               whileHover={{ cursor: "grab" }}
@@ -129,15 +129,35 @@ export default function Carousel({ images, loading = true }: Props) {
                 transition: { duration: 0.3 },
               }}
             >
-              <Image
-                src={photo.src.large}
-                alt={photo.alt}
-                width={photo.width}
-                height={photo.height}
-                draggable={false}
-                className="h-full w-full object-cover"
-                aria-label={`Slide ${index + 1} of ${images.photos.length}`}
-              />
+              {"src" in item ? (
+                <Image
+                  src={item.src.large}
+                  alt={item.alt}
+                  width={item.width}
+                  height={item.height}
+                  draggable={false}
+                  className="h-full w-full object-cover"
+                  aria-label={`Slide ${index + 1} of ${media.length}`}
+                />
+              ) : (
+                <video
+                  width={item.width}
+                  height={item.height}
+                  poster={item.image}
+                  playsInline
+                  controls
+                  muted
+                  onEnded={(event) => {
+                    event.currentTarget.currentTime = 0;
+                    event.currentTarget.play();
+                  }}
+                >
+                  <source
+                    src={item.video_files[0].link}
+                    type={item.video_files[0].file_type}
+                  />
+                </video>
+              )}
             </motion.div>
           ))}
           {loading && (
@@ -175,12 +195,12 @@ export default function Carousel({ images, loading = true }: Props) {
       <button
         onClick={handleNext}
         className={`absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white/50 p-2 transition-all hover:bg-white ${
-          currentIndex === images.photos.length - 1
+          currentIndex === media.length - 1
             ? "cursor-not-allowed opacity-50"
             : "cursor-pointer opacity-100"
         }`}
         aria-label="Next slide"
-        disabled={currentIndex === images.photos.length - 1}
+        disabled={currentIndex === media.length - 1}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

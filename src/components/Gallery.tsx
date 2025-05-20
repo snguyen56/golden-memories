@@ -7,14 +7,17 @@ type Props = {
   collectionId?: string;
 };
 
-async function Gallery({ search, collectionId }: Props) {
-  let url = "https://api.pexels.com/v1/curated";
+function buildURL({ search, collectionId }: Props) {
   if (search) {
-    url = `https://api.pexels.com/v1/search?query=${search}`;
+    return `https://api.pexels.com/v1/search?query=${search}`;
   } else if (collectionId) {
-    url = `https://api.pexels.com/v1/collections/${collectionId}`;
+    return `https://api.pexels.com/v1/collections/${collectionId}`;
   }
+  return "https://api.pexels.com/v1/curated";
+}
 
+async function Gallery({ search, collectionId }: Props) {
+  const url = buildURL({ search, collectionId });
   const data = await fetchImages(url);
 
   if (!data) return <p>No Images Found</p>;

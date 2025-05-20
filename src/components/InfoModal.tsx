@@ -23,6 +23,9 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
   const alt = isPhoto(media) ? media.alt : "Video Thumbnail";
   const photographer = isPhoto(media) ? media.photographer : media.user.name;
 
+  const actionStyle =
+    "flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100";
+
   return (
     <Modal dialogRef={dialogRef}>
       <div className="mx-auto my-15 rounded-xl bg-white text-zinc-600 md:w-8/10">
@@ -50,7 +53,7 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
             <div className="flex gap-2">
               <button
                 type="button"
-                className="flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100"
+                className={actionStyle}
                 onClick={() => setOpenShare(true)}
               >
                 <svg
@@ -71,7 +74,7 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
               </button>
               <button
                 type="button"
-                className="flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100"
+                className={actionStyle}
                 onClick={() => {
                   setLiked((prev) => !prev);
                 }}
@@ -103,9 +106,13 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
                 )}
                 <p className="hidden md:block">Like</p>
               </button>
-              <button
-                type="button"
-                className="flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100"
+              <a
+                href={media.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Download"
+                aria-label="Download Link"
+                className={actionStyle}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +129,7 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
                   />
                 </svg>
                 <p className="hidden md:block">Download</p>
-              </button>
+              </a>
             </div>
           </div>
           {media.type === "Video" ? (

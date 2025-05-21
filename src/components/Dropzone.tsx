@@ -171,7 +171,7 @@ function Dropzone() {
                   type="button"
                   aria-label="Delete photo"
                   title="Delete photo"
-                  className="absolute top-1 right-1 cursor-pointer rounded-full bg-black/50 md:hidden md:group-hover:block"
+                  className="absolute top-1 right-1 block cursor-pointer rounded-full bg-black/50 md:hidden md:group-hover:block"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleDelete(index);
@@ -237,6 +237,20 @@ function Dropzone() {
         type="submit"
         className="mt-6 ml-auto flex w-24 cursor-pointer items-center justify-center gap-2 rounded-lg bg-black p-2 text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
       >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
+          />
+        </svg>
         Upload
       </button>
     </form>

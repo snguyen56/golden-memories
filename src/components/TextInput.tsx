@@ -36,7 +36,7 @@ function TextInput<TFieldValues extends FieldValues>({
       {label && (
         <label
           htmlFor={id}
-          className="absolute left-0 -z-1 transition-all duration-200 not-peer-placeholder-shown:-translate-y-5 not-peer-placeholder-shown:text-sm peer-focus:-translate-y-5 peer-focus:text-sm peer-focus:text-black"
+          className={`absolute left-0 -z-1 transition-all duration-200 not-peer-placeholder-shown:-translate-y-5 not-peer-placeholder-shown:text-sm peer-focus:-translate-y-5 peer-focus:text-sm ${error ? "text-red-500" : "peer-focus:text-black"}`}
         >
           {label}
         </label>

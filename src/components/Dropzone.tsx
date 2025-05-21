@@ -6,12 +6,14 @@ import TextInput from "./TextInput";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
+import Image from "next/image";
 
 const fileSchema = z.object({
   id: z.string(),
   name: z.string().trim().nonempty("Name is required"),
   collection: z.string().trim().optional(),
   preview: z.string(),
+  file: z.any(),
   width: z.number().optional(),
   height: z.number().optional(),
 });
@@ -33,8 +35,8 @@ function Dropzone() {
     watch,
   } = useForm<dropzoneData>({
     resolver: zodResolver(formSchema),
-    mode: "onBlur",
     defaultValues: { files: [] },
+    mode: "onBlur",
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -42,30 +44,38 @@ function Dropzone() {
     name: "files",
   });
 
-  const files = watch("files");
+  const watchFiles = watch("files");
 
   useEffect(() => {
     return () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
+      watchFiles.forEach((file) => URL.revokeObjectURL(file.preview));
     };
-  }, [files]);
+  }, [watchFiles]);
 
   const { getRootProps, getInputProps, open } = useDropzone({
     accept: {
       "image/*": [],
     },
     onDrop: (acceptedFiles) => {
-      const newFiles = acceptedFiles.map((file) => ({
-        id: crypto.randomUUID(),
-        name: file.name.split(".")[0],
-        collection: "",
-        preview: URL.createObjectURL(file),
-      }));
+      const newFiles = acceptedFiles.map((file) => {
+        const myImage = new window.Image();
+        const imageSource = URL.createObjectURL(file);
+        myImage.src = imageSource;
+        return {
+          id: crypto.randomUUID(),
+          name: file.name.split(".")[0],
+          collection: "",
+          preview: imageSource,
+          file: File,
+          width: myImage.width,
+          height: myImage.height,
+        };
+      });
 
       newFiles.forEach((file) => append(file));
 
       if (selectedIndex === null && newFiles.length > 0) {
-        setSelectedIndex(fields.length);
+        setSelectedIndex(0);
       }
     },
   });
@@ -147,13 +157,16 @@ function Dropzone() {
                 onClick={() => handleSelectFile(index)}
               >
                 <div className="aspect-video">
-                  <img
-                    src={files[index]?.preview}
-                    alt={files[index]?.name}
+                  <Image
+                    src={watchFiles[index].preview}
+                    alt={watchFiles[index].name}
+                    width={watchFiles[index].width}
+                    height={watchFiles[index].height}
                     className="h-full w-full object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>
-                <p>{files[index]?.name}</p>
+                <p>{watchFiles[index]?.name}</p>
                 <button
                   type="button"
                   aria-label="Delete photo"
@@ -185,13 +198,16 @@ function Dropzone() {
         </div>
         <div className="space-y-8">
           <h3 className="text-xl font-semibold text-black">Photo Details</h3>
-          {selectedIndex !== null && (
+          {selectedIndex !== null && watchFiles[selectedIndex] && (
             <>
               <div className="max-h-100 max-w-135 overflow-hidden rounded-xl border bg-zinc-200">
-                <img
-                  src={files[selectedIndex].preview}
-                  alt={files[selectedIndex].name}
+                <Image
+                  src={watchFiles[selectedIndex].preview}
+                  alt={watchFiles[selectedIndex].name}
+                  width={watchFiles[selectedIndex].width}
+                  height={watchFiles[selectedIndex].height}
                   className="h-full w-full object-contain"
+                  sizes="540px"
                 />
               </div>
               <TextInput

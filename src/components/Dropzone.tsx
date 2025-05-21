@@ -78,8 +78,8 @@ function Dropzone() {
     remove(index);
     if (selectedIndex === index && fields.length > 0) {
       setSelectedIndex(0);
-    } else if (selectedIndex !== null && selectedIndex > index) {
-      setSelectedIndex(selectedIndex - 1);
+    } else if (fields.length === 0) {
+      setSelectedIndex(null);
     }
   };
 
@@ -101,7 +101,6 @@ function Dropzone() {
           <button
             type="button"
             className="flex h-10 w-28 cursor-pointer items-center justify-center rounded-lg border bg-white text-black transition-all ease-in-out hover:bg-black hover:text-white"
-            onClick={open}
           >
             Click here
           </button>
@@ -138,7 +137,6 @@ function Dropzone() {
             </button>
             <input {...getInputProps()} />
           </div>
-
           <div className="mt-4 flex max-h-68 space-y-2 gap-x-2 overflow-auto rounded border bg-zinc-100 p-2 md:max-h-150 md:max-w-68 md:flex-col md:gap-x-0">
             {fields.map((file, index) => (
               <div
@@ -187,7 +185,7 @@ function Dropzone() {
         </div>
         <div className="space-y-8">
           <h3 className="text-xl font-semibold text-black">Photo Details</h3>
-          {selectedIndex !== null && fields[selectedIndex] ? (
+          {selectedIndex !== null && (
             <>
               <div className="max-h-100 max-w-135 overflow-hidden rounded-xl border bg-zinc-200">
                 <img
@@ -196,7 +194,6 @@ function Dropzone() {
                   className="h-full w-full object-contain"
                 />
               </div>
-
               <TextInput
                 key={`name-${fields[selectedIndex].id}`}
                 type="text"
@@ -206,7 +203,6 @@ function Dropzone() {
                 register={register}
                 error={errors.files?.[selectedIndex]?.name}
               />
-
               <TextInput
                 key={`collection-${fields[selectedIndex].id}`}
                 type="text"
@@ -217,8 +213,6 @@ function Dropzone() {
                 error={errors.files?.[selectedIndex]?.collection}
               />
             </>
-          ) : (
-            <p>Select a photo to edit details</p>
           )}
         </div>
       </div>

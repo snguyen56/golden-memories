@@ -1,6 +1,8 @@
+import { FieldValues, UseFormHandleSubmit } from "react-hook-form";
+
 type Props = {
   children: React.ReactNode;
-  handleSubmit: (event: React.SyntheticEvent) => void;
+  handleSubmit: ReturnType<UseFormHandleSubmit<FieldValues>>;
 };
 
 function AuthForm({ children, handleSubmit }: Props) {

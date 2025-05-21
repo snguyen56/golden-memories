@@ -2,16 +2,47 @@
 import TextInput from "@/components/TextInput";
 import AuthForm from "../../components/AuthForm";
 import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-function page() {
-  const handleSubmit = (event: React.SyntheticEvent) => {
-    event.preventDefault();
+const signupSchema = z
+  .object({
+    fullName: z.string().trim().nonempty({ message: "Full name is required" }),
+    email: z
+      .string()
+      .trim()
+      .nonempty({ message: "Email is required" })
+      .email({ message: "Invalid email address" }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters" }),
+    confirmPassword: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
-    console.log("Form submitted");
+type signUp = z.infer<typeof signupSchema>;
+
+function Page() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signupSchema),
+    mode: "onBlur",
+  });
+  const onSubmit = (data: signUp) => {
+    alert("Form submitted!: " + JSON.stringify(data));
   };
   return (
     <div className="grid place-items-center">
-      <AuthForm handleSubmit={handleSubmit}>
+      <AuthForm handleSubmit={handleSubmit(onSubmit)}>
         <div>
           <h2 className="text-center text-2xl font-bold text-black">Sign Up</h2>
           <p className="mt-1 text-sm">
@@ -24,19 +55,32 @@ function page() {
             name="fullName"
             id="fullName"
             label="Full Name"
+            register={register}
+            error={errors.fullName}
           />
-          <TextInput type="email" name="email" id="email" label="Email" />
+          <TextInput
+            type="email"
+            name="email"
+            id="email"
+            label="Email"
+            register={register}
+            error={errors.email}
+          />
           <TextInput
             type="password"
             name="password"
             id="password"
             label="Password"
+            register={register}
+            error={errors.password}
           />
           <TextInput
-            type="confirmPassword"
+            type="password"
             name="confirmPassword"
             id="confirmPassword"
             label="Confirm Password"
+            register={register}
+            error={errors.confirmPassword}
           />
         </div>
         <button
@@ -56,4 +100,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

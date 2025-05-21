@@ -1,18 +1,39 @@
 "use client";
 import TextInput from "@/components/TextInput";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-function page() {
-  const handleSubmit = (event: React.SyntheticEvent) => {
-    event.preventDefault();
+const loginSchema = z.object({
+  email: z
+    .string()
+    .trim()
+    .nonempty({ message: "Email is required" })
+    .email({ message: "Invalid email address" }),
+  password: z.string().nonempty({ message: "Password is required" }),
+  remember: z.boolean().optional(),
+});
 
-    console.log("Form submitted");
+type loginInputs = z.infer<typeof loginSchema>;
+
+function Page() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    mode: "onBlur",
+  });
+  const onSubmit = (data: loginInputs) => {
+    alert("Form submitted!: " + JSON.stringify(data));
   };
 
   return (
     <div className="grid place-items-center">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="flex min-w-sm flex-col gap-8 rounded-xl p-8 sm:border"
       >
         <div>
@@ -21,18 +42,27 @@ function page() {
             Enter your email below to login to your account
           </p>
         </div>
-        <TextInput type="email" name="email" id="email" label="Email" />
+        <TextInput
+          type="email"
+          name="email"
+          id="email"
+          label="Email"
+          register={register}
+          error={errors.email}
+        />
         <TextInput
           type="password"
           name="password"
           id="password"
           label="Password"
+          register={register}
+          error={errors.password}
         />
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
-            name="remember"
             id="remember"
+            {...register("remember")}
             className="peer size-3.5 appearance-none rounded border checked:bg-black"
           />
           <label htmlFor="remember">Remember me</label>
@@ -137,4 +167,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

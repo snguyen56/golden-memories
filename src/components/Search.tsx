@@ -1,27 +1,38 @@
 "use client";
+import { useForm } from "react-hook-form";
 import TextInput from "./TextInput";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
 type Props = {
   id?: string;
 };
 
-function Search({ id = "search" }: Props) {
-  const handleSubmit = () => {
-    // event.preventDefault();
+const searchSchema = z.object({
+  query: z.string().trim().nonempty(),
+});
 
-    console.log("Search submitted");
+type search = z.infer<typeof searchSchema>;
+
+function Search({ id = "search" }: Props) {
+  const router = useRouter();
+  const { register, handleSubmit } = useForm({
+    resolver: zodResolver(searchSchema),
+  });
+  const onSubmit = (data: search) => {
+    if (!data.query.trim()) return;
+    const searchParams = new URLSearchParams({ query: data.query });
+    router.push(`/results?${searchParams.toString()}`);
   };
+
   return (
-    <form
-      role="search"
-      className="relative"
-      onSubmit={handleSubmit}
-      action="/results"
-    >
+    <form role="search" className="relative" onSubmit={handleSubmit(onSubmit)}>
       <TextInput
         type="search"
         id={id}
         name="query"
+        register={register}
         placeholder="Search..."
       ></TextInput>
       <button

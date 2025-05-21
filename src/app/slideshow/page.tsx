@@ -16,7 +16,7 @@ async function page() {
 
   const posts: (Photo | Media)[] = "media" in data ? data.media : data.photos;
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="mb-14 flex flex-col items-center justify-center">
       <h2 className="text-3xl font-bold text-black">Slide Show</h2>
       <div className="w-full max-w-4xl">
         <Carousel media={posts} />

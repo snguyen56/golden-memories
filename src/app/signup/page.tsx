@@ -41,7 +41,7 @@ function Page() {
     alert("Form submitted!: " + JSON.stringify(data));
   };
   return (
-    <div className="grid place-items-center">
+    <div className="mb-14 grid place-items-center">
       <AuthForm handleSubmit={handleSubmit(onSubmit)}>
         <div>
           <h2 className="text-center text-2xl font-bold text-black">Sign Up</h2>

@@ -31,7 +31,7 @@ function Page() {
   };
 
   return (
-    <div className="grid place-items-center">
+    <div className="mb-14 grid place-items-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex min-w-sm flex-col gap-8 rounded-xl p-8 sm:border"

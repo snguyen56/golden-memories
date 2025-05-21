@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 async function page() {
   const albums: CollectionsResults | undefined = await fetchCollections();
   return (
-    <>
+    <div className="mb-14">
       <h2 className="text-3xl font-bold text-black">Collections</h2>
       <div className="mt-4 grid place-items-center gap-y-6 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
         {albums ? (
@@ -21,7 +21,7 @@ async function page() {
           <p>No Collections Found</p>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

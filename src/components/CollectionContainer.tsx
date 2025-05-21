@@ -26,7 +26,7 @@ async function collectionContainer({ collection }: Props) {
             )}
             {cover.type === "Video" && (
               <Image
-                src={cover.video_pictures.picture}
+                src={cover.image}
                 alt={cover.id.toString()}
                 width={cover.width}
                 height={cover.height}

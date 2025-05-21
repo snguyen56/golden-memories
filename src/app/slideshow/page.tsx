@@ -12,18 +12,17 @@ async function page() {
     "https://api.pexels.com/v1/curated",
   );
 
-  if (data) {
-    const posts: (Photo | Media)[] = "media" in data ? data.media : data.photos;
+  if (!data) return <p>No Images Found</p>;
 
-    return (
-      <div className="flex flex-col items-center justify-center">
-        <h2 className="text-3xl font-bold text-black">Slide Show</h2>
-        <div className="w-full max-w-4xl">
-          {data ? <Carousel media={posts} /> : <p>No Images Found</p>}
-        </div>
+  const posts: (Photo | Media)[] = "media" in data ? data.media : data.photos;
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <h2 className="text-3xl font-bold text-black">Slide Show</h2>
+      <div className="w-full max-w-4xl">
+        <Carousel media={posts} />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default page;

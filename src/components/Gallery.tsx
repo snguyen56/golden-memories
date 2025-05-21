@@ -22,16 +22,14 @@ async function Gallery({ search, collectionId }: Props) {
 
   if (!data) return <p>No Images Found</p>;
 
-  if (data) {
-    const posts: (Photo | Media)[] = "media" in data ? data.media : data.photos;
-    return (
-      <div className="mt-5 grid w-full auto-rows-[10px] grid-cols-[repeat(auto-fit,360px)] place-items-center justify-center gap-x-5">
-        {posts.map((post) => (
-          <ImageContainer media={post} key={post.id} />
-        ))}
-      </div>
-    );
-  }
+  const posts: (Photo | Media)[] = "media" in data ? data.media : data.photos;
+  return (
+    <div className="mt-5 grid w-full auto-rows-[10px] grid-cols-[repeat(auto-fit,360px)] place-items-center justify-center gap-x-5">
+      {posts.map((post) => (
+        <ImageContainer media={post} key={post.id} />
+      ))}
+    </div>
+  );
 }
 
 export default Gallery;

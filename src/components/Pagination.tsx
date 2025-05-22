@@ -14,11 +14,17 @@ function Pagination({ page, totalPages }: Props) {
   const singleStyle =
     "flex h-10 min-w-10 place-items-center rounded-lg p-2 hover:bg-zinc-200";
   return (
-    <nav className="flex justify-center">
+    <nav
+      className="flex justify-center"
+      aria-label="Pagination"
+      role="navigation"
+    >
       <ul className="flex gap-2">
         <li>
           <Link
             href={`${pathname}?page=${page - 1}`}
+            aria-disabled={page === 1}
+            tabIndex={page === 1 ? -1 : 0}
             className={`${singleStyle} ${page === 1 ? "pointer-events-none opacity-50" : ""} `}
           >
             <svg
@@ -117,6 +123,8 @@ function Pagination({ page, totalPages }: Props) {
         <li>
           <Link
             href={`${pathname}?page=${page + 1}`}
+            aria-disabled={page === totalPages}
+            tabIndex={page === totalPages ? -1 : 0}
             className={`${singleStyle} ${page === totalPages ? "pointer-events-none opacity-50" : ""} `}
           >
             Next

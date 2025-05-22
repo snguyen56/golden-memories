@@ -49,7 +49,19 @@
 
 [![Golden Memories Screen Shot][]](https://golden-memories-git-dev-snguyen56s-projects.vercel.app/)
 
-Golden Memories is a simple and elegant photo sharing website built to help users preserve and share their favorite moments. The application allows users to upload images, view them in a clean gallery layout, and browse through shared memories with ease. Designed with a minimalist user interface, it focuses on usability and performance, providing a smooth and responsive experience across devices. Golden Memories is deployed on Vercel and leverages modern web technologies to ensure fast loading times and scalability. Ideal for personal use or small communities, it offers a nostalgic, user-friendly way to relive and share life's golden moments.
+Golden Memories is a simple, modern, minimalist photo sharing website built to help users share their favorite moments in an elegant interface. The application allows users to upload images and videos, view them in a clean gallery layout, and browse through shared memories with ease. Designed with a minimalist user interface, it focuses on usability and performance, providing a smooth and responsive experience across devices.
+
+I built this website because:
+
+- I wanted to help my family share and view photos more easily, all in one place
+- To give my family an easy way to look back on the good times we had, and keep those moments close
+- I wanted to build something for my family, something that was simple and practical to easily save and share our moments
+
+Ideal for personal use or small communities, it offers a nostalgic, user-friendly way to relive and share life's golden moments.
+
+> ℹ️ **Notice**
+>
+> For privacy reasons, the link to the real website will be hidden. However, a public demo version of the site is available for anyone who wants to explore it.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -106,7 +118,11 @@ _Below is an example of how you can instruct your audience on installing and set
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+### Upload photos and videos
+
+### View the gallery
+
+### View the slideshow
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -135,12 +151,14 @@ Project Link: https://github.com/snguyen56/golden-memories
 ## Acknowledgments
 
 - [Choose an Open Source License](https://choosealicense.com)
+- [Pexels](https://www.pexels.com/)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Vercel](https://vercel.com/)
 - [Motion](https://motion.dev/)
 - [React Hook Forms](https://react-hook-form.com/)
 - [react-dropzone](https://react-dropzone.js.org/)
 - [Zod](https://zod.dev/)
+- [DummyJSON](https://dummyjson.com/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

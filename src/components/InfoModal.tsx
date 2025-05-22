@@ -15,6 +15,82 @@ type Props = {
 function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
   const [openShare, setOpenShare] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const comments = [
+    {
+      id: 1,
+      body: "This is some awesome thinking!",
+      postId: 242,
+      likes: 3,
+      user: { id: 105, username: "emmac", fullName: "Emma Wilson" },
+    },
+    {
+      id: 2,
+      body: "What terrific math skills you're showing!",
+      postId: 46,
+      likes: 4,
+      user: { id: 183, username: "cameronp", fullName: "Cameron Perez" },
+    },
+    {
+      id: 3,
+      body: "You are an amazing writer!",
+      postId: 235,
+      likes: 2,
+      user: { id: 1, username: "emilys", fullName: "Emily Johnson" },
+    },
+    {
+      id: 4,
+      body: "Wow! You have improved so much!",
+      postId: 31,
+      likes: 1,
+      user: {
+        id: 89,
+        username: "braydenf",
+        fullName: "Brayden Fleming",
+      },
+    },
+    {
+      id: 5,
+      body: "Nice idea!",
+      postId: 212,
+      likes: 1,
+      user: { id: 149, username: "wyattp", fullName: "Wyatt Perry" },
+    },
+    {
+      id: 6,
+      body: "You are showing excellent understanding!",
+      postId: 184,
+      likes: 5,
+      user: { id: 110, username: "danielt", fullName: "Daniel Taylor" },
+    },
+    {
+      id: 7,
+      body: "This is clear, concise, and complete!",
+      postId: 172,
+      likes: 1,
+      user: { id: 4, username: "jamesd", fullName: "James Davis" },
+    },
+    {
+      id: 8,
+      body: "What a powerful argument!",
+      postId: 233,
+      likes: 0,
+      user: { id: 145, username: "lukec", fullName: "Luke Cooper" },
+    },
+    {
+      id: 9,
+      body: "I knew you could do it!",
+      postId: 207,
+      likes: 3,
+      user: { id: 207, username: "jaces", fullName: "Jace Smith" },
+    },
+    {
+      id: 10,
+      body: "Wonderful ideas!",
+      postId: 87,
+      likes: 0,
+      user: { id: 86, username: "noram", fullName: "Nora Mills" },
+    },
+  ];
 
   const isPhoto = (media: Photo | Media): media is Photo =>
     "src" in media && "alt" in media;
@@ -151,12 +227,33 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
 
           <div className="mt-8 w-full">
             <h3 className="text-2xl font-bold text-black">Comments</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab
-              placeat cupiditate consequuntur sapiente deleniti, suscipit animi
-              distinctio illum explicabo odit eligendi aliquid necessitatibus
-              error qui quas voluptates quisquam laborum sit.
-            </p>
+            <div className="space-y-5 p-2">
+              {comments.map((comment) => (
+                <div key={comment.id} className="flex gap-1 text-sm">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-10"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                    />
+                  </svg>
+
+                  <div>
+                    <h4 className="font-semibold text-black">
+                      {comment.user.fullName}
+                    </h4>
+                    <p>{comment.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           <button
             type="button"

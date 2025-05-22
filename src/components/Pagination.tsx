@@ -10,7 +10,6 @@ type Props = {
 function Pagination({ page, totalPages }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  console.log(searchParams.toString());
 
   function createParams(page: number) {
     const params = new URLSearchParams(searchParams?.toString() || "");

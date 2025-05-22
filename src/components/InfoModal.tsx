@@ -258,6 +258,7 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
                 name="comment"
                 id="comment"
                 label="comment"
+                placeholder="Add a comment..."
                 register={register}
                 error={errors.comment}
               />

@@ -4,6 +4,10 @@ import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
 import Image from "next/image";
 import ShareButton from "./ShareButton";
 import Video from "./Video";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import TextInput from "./TextInput";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
@@ -11,6 +15,11 @@ type Props = {
   liked: boolean;
   setLiked: Dispatch<SetStateAction<boolean>>;
 };
+
+const commentSchema = z.object({
+  comment: z.string().trim().nonempty({ message: "Comment cannot be empty" }),
+});
+type commentInput = z.infer<typeof commentSchema>;
 
 function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
   const [openShare, setOpenShare] = useState<boolean>(false);
@@ -92,6 +101,15 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
     },
   ];
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(commentSchema),
+    mode: "onBlur",
+  });
+
   const isPhoto = (media: Photo | Media): media is Photo =>
     "src" in media && "alt" in media;
 
@@ -101,6 +119,10 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
 
   const actionStyle =
     "flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100";
+
+  const onSubmit = (data: commentInput) => {
+    alert("Comment submitted!: " + JSON.stringify(data));
+  };
 
   return (
     <Modal dialogRef={dialogRef}>
@@ -227,9 +249,31 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
 
           <div className="mt-8 w-full">
             <h3 className="text-2xl font-bold text-black">Comments</h3>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="my-5 flex flex-col gap-1"
+            >
+              <TextInput
+                type="text"
+                name="comment"
+                id="comment"
+                label="comment"
+                register={register}
+                error={errors.comment}
+              />
+              <button
+                type="submit"
+                className="ml-auto cursor-pointer rounded-lg border bg-black p-2 text-white transition-all ease-in-out hover:bg-zinc-800"
+              >
+                Comment
+              </button>
+            </form>
             <div className="space-y-5 p-2">
               {comments.map((comment) => (
-                <div key={comment.id} className="flex gap-1 text-sm">
+                <div
+                  key={comment.id}
+                  className="flex gap-1 rounded-lg bg-zinc-200 p-2 text-sm"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

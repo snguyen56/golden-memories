@@ -12,12 +12,13 @@ export async function generateMetadata({ searchParams }: Props) {
 
 async function page({ searchParams }: Props) {
   const search = (await searchParams).query;
+  const { page } = await searchParams;
   return (
     <>
       <h2 className="text-3xl font-bold text-black">
         Search Results for {search}
       </h2>
-      <Gallery search={search} />
+      <Gallery search={search} page={page} />
     </>
   );
 }

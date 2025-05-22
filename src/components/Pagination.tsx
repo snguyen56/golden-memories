@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 type Props = {
   page: number;
@@ -9,6 +9,15 @@ type Props = {
 
 function Pagination({ page, totalPages }: Props) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  console.log(searchParams.toString());
+
+  function createParams(page: number) {
+    const params = new URLSearchParams(searchParams?.toString() || "");
+    params.set("page", String(page));
+    return `${pathname}?${params.toString()}`;
+  }
+
   const buttonStyle =
     "flex h-10 min-w-10 place-items-center rounded-lg p-2 px-4";
   const singleStyle =
@@ -22,7 +31,7 @@ function Pagination({ page, totalPages }: Props) {
       <ul className="flex gap-2">
         <li>
           <Link
-            href={`${pathname}?page=${page - 1}`}
+            href={createParams(page - 1)}
             aria-disabled={page === 1}
             tabIndex={page === 1 ? -1 : 0}
             className={`${singleStyle} ${page === 1 ? "pointer-events-none opacity-50" : ""} `}
@@ -49,7 +58,7 @@ function Pagination({ page, totalPages }: Props) {
           <>
             <li aria-current={1 === page ? "page" : undefined}>
               <Link
-                href={`${pathname}?page=${1}`}
+                href={createParams(1)}
                 className={`${buttonStyle} hover:bg-zinc-200 ${1 === page ? "border text-black" : ""}`}
               >
                 {1}
@@ -66,7 +75,7 @@ function Pagination({ page, totalPages }: Props) {
               aria-current={index + 1 === page ? "page" : undefined}
             >
               <Link
-                href={`${pathname}?page=${index + 1}`}
+                href={createParams(index + 1)}
                 className={`${buttonStyle} hover:bg-zinc-200 ${index + 1 === page ? "border text-black" : ""}`}
               >
                 {index + 1}
@@ -82,7 +91,7 @@ function Pagination({ page, totalPages }: Props) {
               aria-current={page - 1 + index === page ? "page" : undefined}
             >
               <Link
-                href={`${pathname}?page=${page - 1 + index}`}
+                href={createParams(page - 1 + index)}
                 className={`${buttonStyle} hover:bg-zinc-200 ${page - 1 + index === page ? "border text-black" : ""}`}
               >
                 {page - 1 + index}
@@ -99,7 +108,7 @@ function Pagination({ page, totalPages }: Props) {
               }
             >
               <Link
-                href={`${pathname}?page=${totalPages - 4 + index + 1}`}
+                href={createParams(totalPages - 4 + index + 1)}
                 className={`${buttonStyle} hover:bg-zinc-200 ${totalPages - 4 + index + 1 === page ? "border text-black" : ""}`}
               >
                 {totalPages - 4 + index + 1}
@@ -112,7 +121,7 @@ function Pagination({ page, totalPages }: Props) {
             <li className={buttonStyle}>...</li>
             <li aria-current={totalPages === page ? "page" : undefined}>
               <Link
-                href={`${pathname}?page=${totalPages}`}
+                href={createParams(totalPages)}
                 className={`${buttonStyle} hover:bg-zinc-200 ${totalPages === page ? "border text-black" : ""}`}
               >
                 {totalPages}
@@ -122,7 +131,7 @@ function Pagination({ page, totalPages }: Props) {
         )}
         <li>
           <Link
-            href={`${pathname}?page=${page + 1}`}
+            href={createParams(page + 1)}
             aria-disabled={page === totalPages}
             tabIndex={page === totalPages ? -1 : 0}
             className={`${singleStyle} ${page === totalPages ? "pointer-events-none opacity-50" : ""} `}

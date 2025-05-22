@@ -13,7 +13,7 @@ function buildURL({ search, collectionId, page = "1" }: Props) {
   if (search) {
     return `https://api.pexels.com/v1/search?query=${search}&page=${page}`;
   } else if (collectionId) {
-    return `https://api.pexels.com/v1/collections/${collectionId}&page=${page}`;
+    return `https://api.pexels.com/v1/collections/${collectionId}?page=${page}`;
   }
   return `https://api.pexels.com/v1/curated?page=${page}`;
 }

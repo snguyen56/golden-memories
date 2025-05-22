@@ -127,9 +127,9 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
   return (
     <Modal dialogRef={dialogRef}>
       <div className="mx-auto my-15 rounded-xl bg-white text-zinc-600 md:w-8/10">
-        <div className="relative flex h-full flex-col items-center p-10">
+        <div className="relative flex h-full flex-col items-center p-5 pt-10 sm:p-10">
           <div className="mb-8 flex w-full justify-between">
-            <div className="flex grow items-center gap-2 text-black">
+            <div className="flex grow items-center gap-2 overflow-hidden text-black">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -235,14 +235,13 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
               <Video videoRef={videoRef} video={media} controls={true} />
             </div>
           ) : (
-            <div className="w-full md:w-auto">
+            <div className="relative aspect-square w-full lg:max-w-1/2">
               <Image
                 src={imageURL}
                 alt={alt}
-                width={media.width}
-                height={media.height}
-                className="h-full w-full object-contain"
-                sizes="100vw"
+                fill
+                className="object-contain"
+                sizes="(min-width: 1024px) 50vw, 100vw"
               />
             </div>
           )}

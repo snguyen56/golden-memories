@@ -24,6 +24,8 @@ async function Gallery({ search, collectionId, page = "1" }: Props) {
 
   if (!data) return <p>No Images Found</p>;
 
+  const totalPages = Math.ceil(data.total_results / 15) - 1;
+
   const posts: (Photo | Media)[] = "media" in data ? data.media : data.photos;
   return (
     <>
@@ -33,7 +35,7 @@ async function Gallery({ search, collectionId, page = "1" }: Props) {
         ))}
       </div>
       <div className="mt-10">
-        <Pagination page={parseInt(page)} />
+        <Pagination page={parseInt(page)} totalPages={totalPages} />
       </div>
     </>
   );

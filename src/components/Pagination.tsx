@@ -4,9 +4,10 @@ import { usePathname } from "next/navigation";
 
 type Props = {
   page: number;
+  totalPages: number;
 };
 
-function Pagination({ page }: Props) {
+function Pagination({ page, totalPages }: Props) {
   const pathname = usePathname();
   const buttonStyle =
     "flex h-10 min-w-10 place-items-center rounded-lg p-2 px-4";
@@ -15,8 +16,9 @@ function Pagination({ page }: Props) {
   return (
     <nav className="flex justify-center">
       <ul className="flex gap-2">
-        <Link href={`${pathname}?page=${page - 1}`}>
-          <li
+        <li>
+          <Link
+            href={`${pathname}?page=${page - 1}`}
             className={`${singleStyle} ${page === 1 ? "pointer-events-none opacity-50" : ""} `}
           >
             <svg
@@ -34,49 +36,89 @@ function Pagination({ page }: Props) {
               />
             </svg>
             Previous
-          </li>
-        </Link>
-        {page > 4 && (
+          </Link>
+        </li>
+        {/* First page & ellipses */}
+        {page >= 4 && (
           <>
-            <Link href={`${pathname}?page=${1}`}>
-              <li
-                key={1}
-                aria-current={1 === page ? "page" : undefined}
+            <li aria-current={1 === page ? "page" : undefined}>
+              <Link
+                href={`${pathname}?page=${1}`}
                 className={`${buttonStyle} hover:bg-zinc-200 ${1 === page ? "border text-black" : ""}`}
               >
                 {1}
-              </li>
-            </Link>
+              </Link>
+            </li>
             <li className={buttonStyle}>...</li>
           </>
         )}
-        {page < 5 &&
-          Array.from({ length: 5 }, (_, index) => (
-            <Link key={index + 1} href={`${pathname}?page=${index + 1}`}>
-              <li
-                aria-current={index + 1 === page ? "page" : undefined}
+        {/* First pages */}
+        {page < 4 &&
+          Array.from({ length: 4 }, (_, index) => (
+            <li
+              key={index + 1}
+              aria-current={index + 1 === page ? "page" : undefined}
+            >
+              <Link
+                href={`${pathname}?page=${index + 1}`}
                 className={`${buttonStyle} hover:bg-zinc-200 ${index + 1 === page ? "border text-black" : ""}`}
               >
                 {index + 1}
-              </li>
-            </Link>
+              </Link>
+            </li>
           ))}
-        {page >= 5 &&
+        {/* Middle 3 pages */}
+        {page >= 4 &&
+          page <= totalPages - 3 &&
           Array.from({ length: 3 }, (_, index) => (
             <li
               key={page - 1 + index}
               aria-current={page - 1 + index === page ? "page" : undefined}
-              className={`${buttonStyle} hover:bg-zinc-200 ${page - 1 + index === page ? "border text-black" : ""}`}
             >
-              <Link href={`${pathname}?page=${page - 1 + index}`}>
+              <Link
+                href={`${pathname}?page=${page - 1 + index}`}
+                className={`${buttonStyle} hover:bg-zinc-200 ${page - 1 + index === page ? "border text-black" : ""}`}
+              >
                 {page - 1 + index}
               </Link>
             </li>
           ))}
-        {/* Hide ellipses when current page is <= max page - 4 */}
-        <li className={buttonStyle}>...</li>
-        <Link href={`${pathname}?page=${page + 1}`}>
-          <li className={singleStyle}>
+        {/* Last pages */}
+        {page > totalPages - 3 &&
+          Array.from({ length: Math.min(4, totalPages) }, (_, index) => (
+            <li
+              key={totalPages - 4 + index}
+              aria-current={
+                totalPages - 4 + index + 1 === page ? "page" : undefined
+              }
+            >
+              <Link
+                href={`${pathname}?page=${totalPages - 4 + index + 1}`}
+                className={`${buttonStyle} hover:bg-zinc-200 ${totalPages - 4 + index + 1 === page ? "border text-black" : ""}`}
+              >
+                {totalPages - 4 + index + 1}
+              </Link>
+            </li>
+          ))}
+        {/* Last page & ellipses */}
+        {page <= totalPages - 3 && (
+          <>
+            <li className={buttonStyle}>...</li>
+            <li aria-current={totalPages === page ? "page" : undefined}>
+              <Link
+                href={`${pathname}?page=${totalPages}`}
+                className={`${buttonStyle} hover:bg-zinc-200 ${totalPages === page ? "border text-black" : ""}`}
+              >
+                {totalPages}
+              </Link>
+            </li>
+          </>
+        )}
+        <li>
+          <Link
+            href={`${pathname}?page=${page + 1}`}
+            className={`${singleStyle} ${page === totalPages ? "pointer-events-none opacity-50" : ""} `}
+          >
             Next
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -92,8 +134,8 @@ function Pagination({ page }: Props) {
                 d="m8.25 4.5 7.5 7.5-7.5 7.5"
               />
             </svg>
-          </li>
-        </Link>
+          </Link>
+        </li>
       </ul>
     </nav>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, useAnimation, type PanInfo } from "framer-motion";
+import { motion, useAnimate, type PanInfo } from "framer-motion";
 import { Media, Photo } from "@/models/mediaSchema";
 import Image from "next/image";
 
@@ -14,18 +14,19 @@ export default function Carousel({ media, loading = true }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [width, setWidth] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimation();
+  const [scope, animate] = useAnimate();
 
   const slideWidth = width * (2 / 3);
   const slideGap = 20;
   const totalSlideWidth = slideWidth + slideGap;
 
   const updatePosition = useCallback(() => {
-    controls.start({
-      x: -currentIndex * totalSlideWidth,
-      transition: { type: "spring", stiffness: 300, damping: 30 },
-    });
-  }, [controls, currentIndex, totalSlideWidth]);
+    animate(
+      scope.current,
+      { x: -currentIndex * totalSlideWidth },
+      { type: "spring", stiffness: 300, damping: 30 },
+    );
+  }, [animate, scope, currentIndex, totalSlideWidth]);
 
   useEffect(() => {
     if (carouselRef.current) {
@@ -92,10 +93,12 @@ export default function Carousel({ media, loading = true }: Props) {
   }, [currentIndex, handleNext, handlePrevious]);
 
   useEffect(() => {
-    controls.start({
-      x: -currentIndex * totalSlideWidth,
-    });
-  }, [controls, currentIndex, totalSlideWidth]);
+    animate(
+      scope.current,
+      { x: -currentIndex * totalSlideWidth },
+      { type: "spring", stiffness: 300, damping: 30 },
+    );
+  }, [animate, scope, currentIndex, totalSlideWidth]);
 
   return (
     <div
@@ -114,8 +117,7 @@ export default function Carousel({ media, loading = true }: Props) {
           drag="x"
           dragConstraints={dragConstraints}
           onDragEnd={handleDragEnd}
-          animate={controls}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          ref={scope}
         >
           {media.map((item, index) => (
             <motion.div

@@ -29,6 +29,7 @@ function Video({ videoRef, video, controls = false }: Props) {
       controls={controls}
       muted
       playsInline
+      className="object-cover"
       onEnded={(event) => {
         event.currentTarget.currentTime = 0;
         event.currentTarget.play();

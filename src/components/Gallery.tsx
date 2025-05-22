@@ -6,19 +6,20 @@ import Pagination from "./Pagination";
 type Props = {
   search?: string;
   collectionId?: string;
+  page?: string;
 };
 
-function buildURL({ search, collectionId }: Props) {
+function buildURL({ search, collectionId, page = "1" }: Props) {
   if (search) {
-    return `https://api.pexels.com/v1/search?query=${search}`;
+    return `https://api.pexels.com/v1/search?query=${search}&page=${page}`;
   } else if (collectionId) {
-    return `https://api.pexels.com/v1/collections/${collectionId}`;
+    return `https://api.pexels.com/v1/collections/${collectionId}&page=${page}`;
   }
-  return "https://api.pexels.com/v1/curated";
+  return `https://api.pexels.com/v1/curated?page=${page}`;
 }
 
-async function Gallery({ search, collectionId }: Props) {
-  const url = buildURL({ search, collectionId });
+async function Gallery({ search, collectionId, page = "1" }: Props) {
+  const url = buildURL({ search, collectionId, page });
   const data = await fetchImages(url);
 
   if (!data) return <p>No Images Found</p>;
@@ -32,7 +33,7 @@ async function Gallery({ search, collectionId }: Props) {
         ))}
       </div>
       <div className="mt-10">
-        <Pagination page={1} />
+        <Pagination page={parseInt(page)} />
       </div>
     </>
   );

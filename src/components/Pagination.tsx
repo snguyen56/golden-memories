@@ -27,7 +27,7 @@ function Pagination({ page, totalPages }: Props) {
       aria-label="Pagination"
       role="navigation"
     >
-      <ul className="flex gap-2">
+      <ul className="flex gap-0.5 md:gap-2">
         <li>
           <Link
             href={createParams(page - 1)}
@@ -49,7 +49,7 @@ function Pagination({ page, totalPages }: Props) {
                 d="M15.75 19.5 8.25 12l7.5-7.5"
               />
             </svg>
-            Previous
+            <span className="hidden md:inline">Previous</span>
           </Link>
         </li>
         {/* First page & ellipses */}
@@ -135,7 +135,7 @@ function Pagination({ page, totalPages }: Props) {
             tabIndex={page === totalPages ? -1 : 0}
             className={`${singleStyle} ${page === totalPages ? "pointer-events-none opacity-50" : ""} `}
           >
-            Next
+            <span className="hidden md:inline">Next</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

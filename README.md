@@ -47,7 +47,7 @@
 
 ## About The Project
 
-[![Golden Memories Screen Shot][]](https://golden-memories-git-dev-snguyen56s-projects.vercel.app/)
+[![Golden Memories Screen Shot](/public/website.png)](https://golden-memories-git-dev-snguyen56s-projects.vercel.app/)
 
 Golden Memories is a simple, modern, minimalist photo sharing website built to help users share their favorite moments in an elegant interface. The application allows users to upload images and videos, view them in a clean gallery layout, and browse through shared memories with ease. Designed with a minimalist user interface, it focuses on usability and performance, providing a smooth and responsive experience across devices.
 
@@ -80,16 +80,12 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-
 - npm
   ```sh
   npm install npm@latest -g
   ```
 
 ### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
 1. Get a free API Key at [https://www.pexels.com/api/](https://www.pexels.com/api/)
 2. Clone the repo
@@ -116,13 +112,23 @@ _Below is an example of how you can instruct your audience on installing and set
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
 ### Upload photos and videos
+
+Easily upload your photos and videos to share
+
+![Upload screenshot](/public/upload.png)
 
 ### View the gallery
 
+Browse all uploaded media in a clean gallery
+
+![Gallery screenshot](/public/gallery.png)
+
 ### View the slideshow
+
+Alternatively, view the media in a slideshow
+
+![Slideshow screenshot](/public/slideshow.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -139,6 +145,8 @@ Distributed under the Unlicense License. See `LICENSE.txt` for more information.
 ## Contact
 
 Github - https://github.com/snguyen56
+
+Website - https://snguyen56.github.io/
 
 LinkedIn - [Steven Nguyen](https://www.linkedin.com/in/steven-nguyen-bb5568216/)
 
@@ -159,11 +167,11 @@ Project Link: https://github.com/snguyen56/golden-memories
 - [react-dropzone](https://react-dropzone.js.org/)
 - [Zod](https://zod.dev/)
 - [DummyJSON](https://dummyjson.com/)
+- [unDraw](https://undraw.co/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/

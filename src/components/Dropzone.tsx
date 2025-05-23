@@ -158,10 +158,10 @@ function Dropzone() {
               >
                 <div className="aspect-video">
                   <Image
-                    src={watchFiles[index].preview}
+                    src={fields[index].preview}
                     alt={watchFiles[index].name}
-                    width={watchFiles[index].width}
-                    height={watchFiles[index].height}
+                    width={fields[index].width}
+                    height={fields[index].height}
                     className="h-full w-full object-cover"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />

@@ -1,4 +1,6 @@
 import Gallery from "@/components/Gallery";
+import GalleryLoader from "@/components/GalleryLoader";
+import { Suspense } from "react";
 
 type Props = {
   searchParams: Promise<{ [key: string]: string }>;
@@ -18,7 +20,9 @@ async function page({ searchParams }: Props) {
       <h2 className="text-3xl font-bold text-black">
         Search Results for {search}
       </h2>
-      <Gallery search={search} page={page} />
+      <Suspense fallback={<GalleryLoader />}>
+        <Gallery search={search} page={page} />
+      </Suspense>
     </>
   );
 }

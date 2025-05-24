@@ -1,16 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, RefObject } from "react";
 import { motion, useAnimate, type PanInfo } from "framer-motion";
 import { Media, Photo } from "@/models/mediaSchema";
 import Image from "next/image";
 
 type Props = {
   media: (Photo | Media)[];
-  loading?: boolean;
+  loading: boolean;
+  observerRef: RefObject<HTMLDivElement | null>;
 };
 
-export default function Carousel({ media, loading = true }: Props) {
+export default function Carousel({ media, loading, observerRef }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [width, setWidth] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -130,6 +131,7 @@ export default function Carousel({ media, loading = true }: Props) {
                 scale: currentIndex === index ? 1 : 0.9,
                 transition: { duration: 0.3 },
               }}
+              ref={index === media.length - 1 ? observerRef : undefined}
             >
               {"src" in item ? (
                 <Image

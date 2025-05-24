@@ -25,8 +25,7 @@ export async function GET(request: NextRequest) {
   const collectionId = searchParams.get("collectionId");
   const page = searchParams.get("page") || "1";
   const url = buildURL({ search, collectionId, page });
-  // https://api.pexels.com/v1/collections/eqinbrc?page=2&per_page=15
-  // /api/pexels?collectionId=eqinbrc&page=1
+
   try {
     const result = await fetch(url, {
       headers: {
@@ -49,5 +48,4 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error(error);
   }
-  return new Response(url);
 }

@@ -1,6 +1,8 @@
 import Gallery from "@/components/Gallery";
+import GalleryLoader from "@/components/GalleryLoader";
 import { CollectionsResults } from "@/models/mediaSchema";
 import fetchCollections from "@/utils/fetchCollections";
+import { Suspense } from "react";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -24,7 +26,9 @@ async function Page({ params, searchParams }: Props) {
   return (
     <div>
       <h2 className="text-3xl font-bold text-black">{result?.title}</h2>
-      <Gallery collectionId={id} page={page} />
+      <Suspense fallback={<GalleryLoader />}>
+        <Gallery collectionId={id} page={page} />
+      </Suspense>
     </div>
   );
 }

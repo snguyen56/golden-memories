@@ -1,16 +1,26 @@
 import CollectionContainer from "@/components/CollectionContainer";
+import Pagination from "@/components/Pagination";
 import { CollectionsResults } from "@/models/mediaSchema";
 import fetchCollections from "@/utils/fetchCollections";
 import { Metadata } from "next";
+
+type Props = {
+  searchParams: Promise<{ [key: string]: string }>;
+};
 
 export const metadata: Metadata = {
   title: "Collections | Golden Memories",
 };
 
-async function page() {
-  const albums: CollectionsResults | undefined = await fetchCollections();
+async function page({ searchParams }: Props) {
+  const { page = "1" } = await searchParams;
+  const albums: CollectionsResults | undefined = await fetchCollections(
+    parseInt(page),
+  );
+  if (!albums) return <p>No Collections Found</p>;
+  const totalPages = Math.ceil(albums.total_results / 15) - 1;
   return (
-    <div className="mb-14">
+    <div className="mb-4">
       <h2 className="text-3xl font-bold text-black">Collections</h2>
       <div className="mt-4 grid place-items-center gap-y-6 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
         {albums ? (
@@ -20,6 +30,9 @@ async function page() {
         ) : (
           <p>No Collections Found</p>
         )}
+      </div>
+      <div className="mt-10">
+        <Pagination page={parseInt(page)} totalPages={totalPages} />
       </div>
     </div>
   );

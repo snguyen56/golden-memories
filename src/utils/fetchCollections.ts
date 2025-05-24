@@ -1,12 +1,12 @@
 import { CollectionsResults } from "@/models/mediaSchema";
 import { CollectionsSchemaWithPagination } from "@/models/mediaSchema";
 
-export default async function fetchCollections(): Promise<
-  CollectionsResults | undefined
-> {
+export default async function fetchCollections(
+  page: number,
+): Promise<CollectionsResults | undefined> {
   try {
     const result = await fetch(
-      "https://api.pexels.com/v1/collections/featured",
+      `https://api.pexels.com/v1/collections/featured?page=${page}&per_page=16`,
       {
         headers: {
           authorization: process.env.PEXELS_API_KEY!,

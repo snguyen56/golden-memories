@@ -1,5 +1,4 @@
 import { Photo, Media } from "@/models/mediaSchema";
-import fetchImages from "@/utils/fetchImages";
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
@@ -12,21 +11,27 @@ function useInfiniteScroll({ next_page }: Props) {
   const [nextPage, setNextPage] = useState(next_page);
 
   const observerRef = useRef<HTMLDivElement | null>(null);
+  const fetchedPages = useRef<Set<string>>(new Set());
 
   useEffect(() => {
-    if (!nextPage || loading) return;
+    if (!nextPage || loading || fetchedPages.current.has(nextPage)) return;
 
     const fetchNextPage = async () => {
       setLoading(true);
+      console.log("hook fetching");
       try {
-        const data = await fetchImages(nextPage);
+        fetchedPages.current.add(nextPage);
+        const nextURL = new URL(nextPage);
+        const params = nextURL.searchParams.toString();
+        const res = await fetch(`/api/pexels?${params}`);
+        const data = await res.json();
         if (!data) {
           setLoading(false);
           return;
         }
         const posts: (Photo | Media)[] =
           "media" in data ? data.media : data.photos;
-        setMedia((prev) => [...prev, ...posts]);
+        setMedia([...posts]);
         setNextPage(data.next_page);
       } catch (error) {
         console.error(error);
@@ -45,6 +50,10 @@ function useInfiniteScroll({ next_page }: Props) {
       if (targetElement) observer.unobserve(targetElement);
     };
   }, [nextPage, loading]);
+
+  useEffect(() => {
+    setNextPage(next_page);
+  }, [next_page]);
 
   return { loading, media, observerRef };
 }

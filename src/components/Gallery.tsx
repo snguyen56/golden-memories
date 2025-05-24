@@ -1,7 +1,10 @@
-import fetchImages from "@/utils/fetchImages";
+"use client";
 import type { Media, Photo } from "@/models/mediaSchema";
 import ImageContainer from "./ImageContainer";
-import Pagination from "./Pagination";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import GalleryLoader from "./GalleryLoader";
 
 type Props = {
   search?: string;
@@ -9,34 +12,54 @@ type Props = {
   page?: string;
 };
 
-function buildURL({ search, collectionId, page = "1" }: Props) {
-  if (search) {
-    return `https://api.pexels.com/v1/search?query=${search}&page=${page}`;
-  } else if (collectionId) {
-    return `https://api.pexels.com/v1/collections/${collectionId}?page=${page}`;
-  }
-  return `https://api.pexels.com/v1/curated?page=${page}`;
-}
+function Gallery({ search, collectionId, page = "1" }: Props) {
+  const [media, setMedia] = useState<(Photo | Media)[]>([]);
+  const [nextURL, setNextURL] = useState<string | undefined>();
+  const searchParams = useSearchParams();
 
-async function Gallery({ search, collectionId, page = "1" }: Props) {
-  const url = buildURL({ search, collectionId, page });
-  const data = await fetchImages(url);
+  const {
+    loading,
+    media: fetchedMedia,
+    observerRef,
+  } = useInfiniteScroll({
+    next_page: nextURL,
+  });
 
-  if (!data) return <p>No Images Found</p>;
+  const params = new URLSearchParams(searchParams?.toString() || "");
+  if (search) params.set("search", search);
+  if (collectionId) params.set("collectionId", collectionId);
+  params.set("page", String(page));
+  const URLParams = `?${params.toString()}`;
 
-  const totalPages = Math.ceil(data.total_results / 15) - 1;
+  useEffect(() => {
+    if (!URLParams) return;
+    const fetchData = async () => {
+      const res = await fetch(`/api/pexels${URLParams}`);
+      const data = await res.json();
+      if (!data) return;
+      const posts: (Photo | Media)[] =
+        "media" in data ? data.media : data.photos;
+      setNextURL(data.next_page);
+      setMedia(posts);
+    };
+    fetchData();
+  }, [URLParams]);
 
-  const posts: (Photo | Media)[] = "media" in data ? data.media : data.photos;
+  useEffect(() => {
+    setMedia((prev) => [...prev, ...fetchedMedia]);
+  }, [fetchedMedia]);
+
+  if (!media) return <p>No Images Found</p>;
+
   return (
     <>
       <div className="mt-5 grid w-full auto-rows-[10px] grid-cols-[repeat(auto-fit,360px)] place-items-center justify-center gap-x-5">
-        {posts.map((post) => (
+        {media.map((post) => (
           <ImageContainer media={post} key={post.id} />
         ))}
       </div>
-      <div className="mt-10">
-        <Pagination page={parseInt(page)} totalPages={totalPages} />
-      </div>
+      <div ref={observerRef}></div>
+      {loading && <GalleryLoader />}
     </>
   );
 }

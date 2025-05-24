@@ -21,10 +21,12 @@ function buildURL({ search, collectionId, page = "1" }: Props) {
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const search = searchParams.get("search");
+  const search = searchParams.get("query");
   const collectionId = searchParams.get("collectionId");
   const page = searchParams.get("page") || "1";
   const url = buildURL({ search, collectionId, page });
+  // https://api.pexels.com/v1/collections/eqinbrc?page=2&per_page=15
+  // /api/pexels?collectionId=eqinbrc&page=1
   try {
     const result = await fetch(url, {
       headers: {
@@ -33,6 +35,7 @@ export async function GET(request: NextRequest) {
     });
     if (!result.ok) throw new Error("Fetch Images Error!");
     const json = await result.json();
+
     if ("photos" in json) {
       const data = PhotosSchemaWithPagination.parse(json);
       if (data.total_results == 0) return undefined;

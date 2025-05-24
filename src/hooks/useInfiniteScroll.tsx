@@ -17,9 +17,15 @@ function useInfiniteScroll({ next_page }: Props) {
 
     const fetchNextPage = async () => {
       setLoading(true);
-      console.log("hook fetching");
       try {
         const nextURL = new URL(nextPage);
+        if (nextPage.includes("collections")) {
+          const match = nextPage.match(/\/collections\/([^/?]+)/);
+          if (match) {
+            const collectionId = match[1];
+            nextURL.searchParams.set("collectionId", collectionId);
+          }
+        }
         const params = nextURL.searchParams.toString();
         const res = await fetch(`/api/pexels?${params}`);
         const data = await res.json();

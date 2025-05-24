@@ -26,7 +26,7 @@ function Gallery({ search, collectionId, page = "1" }: Props) {
   });
 
   const params = new URLSearchParams(searchParams?.toString() || "");
-  if (search) params.set("search", search);
+  if (search) params.set("query", search);
   if (collectionId) params.set("collectionId", collectionId);
   params.set("page", String(page));
   const URLParams = `?${params.toString()}`;

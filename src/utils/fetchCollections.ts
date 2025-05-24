@@ -2,7 +2,7 @@ import { CollectionsResults } from "@/models/mediaSchema";
 import { CollectionsSchemaWithPagination } from "@/models/mediaSchema";
 
 export default async function fetchCollections(
-  page: number,
+  page: number = 1,
 ): Promise<CollectionsResults | undefined> {
   try {
     const result = await fetch(

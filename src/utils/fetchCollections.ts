@@ -1,7 +1,7 @@
 import { CollectionsResults } from "@/models/mediaSchema";
 import { CollectionsSchemaWithPagination } from "@/models/mediaSchema";
 
-export default async function fetchImages(): Promise<
+export default async function fetchCollections(): Promise<
   CollectionsResults | undefined
 > {
   try {
@@ -15,7 +15,6 @@ export default async function fetchImages(): Promise<
     );
     if (!result.ok) throw new Error("Fetch Collections Error!");
     const collectionResults: CollectionsResults = await result.json();
-    // console.log(collectionResults);
     const data = CollectionsSchemaWithPagination.parse(collectionResults);
     if (data.total_results == 0) return undefined;
     return data;

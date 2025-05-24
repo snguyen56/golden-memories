@@ -11,16 +11,14 @@ function useInfiniteScroll({ next_page }: Props) {
   const [nextPage, setNextPage] = useState(next_page);
 
   const observerRef = useRef<HTMLDivElement | null>(null);
-  const fetchedPages = useRef<Set<string>>(new Set());
 
   useEffect(() => {
-    if (!nextPage || loading || fetchedPages.current.has(nextPage)) return;
+    if (!nextPage || loading) return;
 
     const fetchNextPage = async () => {
       setLoading(true);
       console.log("hook fetching");
       try {
-        fetchedPages.current.add(nextPage);
         const nextURL = new URL(nextPage);
         const params = nextURL.searchParams.toString();
         const res = await fetch(`/api/pexels?${params}`);
@@ -31,7 +29,7 @@ function useInfiniteScroll({ next_page }: Props) {
         }
         const posts: (Photo | Media)[] =
           "media" in data ? data.media : data.photos;
-        setMedia([...posts]);
+        setMedia(posts);
         setNextPage(data.next_page);
       } catch (error) {
         console.error(error);
@@ -52,6 +50,7 @@ function useInfiniteScroll({ next_page }: Props) {
   }, [nextPage, loading]);
 
   useEffect(() => {
+    setMedia([]);
     setNextPage(next_page);
   }, [next_page]);
 

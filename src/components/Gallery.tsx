@@ -4,7 +4,7 @@ import ImageContainer from "./ImageContainer";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
-import GalleryLoader from "./GalleryLoader";
+import { Placeholders } from "./GalleryLoader";
 
 type Props = {
   search?: string;
@@ -46,7 +46,11 @@ function Gallery({ search, collectionId, page = "1" }: Props) {
   }, [URLParams]);
 
   useEffect(() => {
-    setMedia((prev) => [...prev, ...fetchedMedia]);
+    setMedia((prev) => {
+      const existingIds = new Set(prev.map((item) => item.id));
+      const newItems = fetchedMedia.filter((item) => !existingIds.has(item.id));
+      return [...prev, ...newItems];
+    });
   }, [fetchedMedia]);
 
   if (!media) return <p>No Images Found</p>;
@@ -57,9 +61,9 @@ function Gallery({ search, collectionId, page = "1" }: Props) {
         {media.map((post) => (
           <ImageContainer media={post} key={post.id} />
         ))}
+        {loading && <Placeholders />}
       </div>
       <div ref={observerRef}></div>
-      {loading && <GalleryLoader />}
     </>
   );
 }

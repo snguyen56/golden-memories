@@ -15,7 +15,7 @@
     <a href="https://github.com/snguyen56/golden-memories"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://golden-memories-git-dev-snguyen56s-projects.vercel.app/">View Demo</a>
+    <a href="https://golden-memories-git-pexels-infinite-scroll-snguyen56s-projects.vercel.app/?_vercel_share=TIvvlEBC91ErdX4ZGDhCCUTfqNsRhJhj">View Demo</a>
   </p>
 </div>
 
@@ -47,7 +47,7 @@
 
 ## About The Project
 
-[![Golden Memories Screen Shot](/public/website.png)](https://golden-memories-git-dev-snguyen56s-projects.vercel.app/)
+[![Golden Memories Screen Shot](/public/website.png)](https://golden-memories-git-pexels-infinite-scroll-snguyen56s-projects.vercel.app/?_vercel_share=TIvvlEBC91ErdX4ZGDhCCUTfqNsRhJhj)
 
 Golden Memories is a simple, modern, minimalist photo sharing website built to help users share their favorite moments in an elegant interface. The application allows users to upload images and videos, view them in a clean gallery layout, and browse through shared memories with ease. Designed with a minimalist user interface, it focuses on usability and performance, providing a smooth and responsive experience across devices.
 

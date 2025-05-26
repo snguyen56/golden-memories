@@ -1,5 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "404 Not Found | Golden Memories",
+};
 
 export default function NotFound() {
   return (

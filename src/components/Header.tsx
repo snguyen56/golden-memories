@@ -43,30 +43,12 @@ function Header() {
           </h1>
         </div>
         <nav className="flex justify-between">
-          {/* <Link
-          href="/"
-          className="font-[family-name:var(--font-playfair-display)] text-3xl text-black italic"
-        >
-          Nguyen Family
-        </Link> */}
-          <span className="flex items-end gap-3 text-2xl font-bold text-black">
-            Photos provided by
-            <a
-              href="https://www.pexels.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="h-8">
-                <Image
-                  className="size-full"
-                  src="https://images.pexels.com/lib/api/pexels.png"
-                  alt="pexels logo"
-                  width={566}
-                  height={200}
-                />
-              </div>
-            </a>
-          </span>
+          <Link
+            href="/"
+            className="font-[family-name:var(--font-playfair-display)] text-3xl text-black italic"
+          >
+            Nguyen Family
+          </Link>
           <ul className="flex items-end gap-6">
             {navigation.map(({ title, link }, index) => (
               <li key={index} className="hover:text-black">

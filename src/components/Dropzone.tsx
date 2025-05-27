@@ -7,6 +7,7 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import Image from "next/image";
+import { generateUploadSignature } from "@/app/upload/actions";
 
 const fileSchema = z.object({
   id: z.string(),
@@ -66,7 +67,7 @@ function Dropzone() {
           name: file.name.split(".")[0],
           collection: "",
           preview: imageSource,
-          file: File,
+          file: file,
           width: myImage.width,
           height: myImage.height,
         };
@@ -93,8 +94,47 @@ function Dropzone() {
     }
   };
 
-  const onSubmit = (data: dropzoneData) => {
-    console.log("Submitting files", data.files);
+  const onSubmit = async (data: dropzoneData) => {
+    if (!data.files.length) return;
+
+    try {
+      const { signature, timestamp, apiKey, cloudName, folder } =
+        await generateUploadSignature();
+
+      const uploadResponses = await Promise.all(
+        data.files.map(async (item) => {
+          const formData = new FormData();
+          formData.append("file", item.file);
+          formData.append("api_key", apiKey);
+          formData.append("timestamp", timestamp.toString());
+          formData.append("signature", signature);
+          // formData.append("display_name", item.name);
+          // formData.append(
+          //   "folder",
+          //   item.collection ? `${folder}/${item.collection}` : folder,
+          // );
+          formData.append("folder", folder);
+
+          const res = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+            {
+              method: "POST",
+              body: formData,
+            },
+          );
+
+          if (!res.ok) throw new Error("Upload failed");
+          const responseData = await res.json();
+
+          console.log("Cloudinary response:", responseData);
+
+          return responseData;
+        }),
+      );
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Something went wrong during upload");
+    }
   };
 
   if (fields.length === 0)

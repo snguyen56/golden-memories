@@ -4,7 +4,6 @@ import "./globals.css";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import MobileNavbar from "@/components/MobileNavbar";
-import DemoNotice from "@/components/DemoNotice";
 
 export const revalidate = 3600;
 
@@ -51,7 +50,6 @@ export default function RootLayout({
       >
         <Header />
         <MobileNavbar />
-        <DemoNotice />
         <main className="mt-10 mb-10">{children}</main>
         <Footer />
       </body>

@@ -7,14 +7,14 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET!,
 });
 
-export async function generateUploadSignature(name: string, folder?: string) {
+export async function generateUploadSignature(name: string, folder: string) {
   const timestamp = Math.floor(Date.now() / 1000);
-  const safeFolder = folder || "golden-memories";
 
   const paramsToSign = {
-    folder: safeFolder,
+    folder,
     timestamp,
     public_id: name,
+    upload_preset: "golden memories",
   };
 
   const signature = cloudinary.utils.api_sign_request(
@@ -27,6 +27,6 @@ export async function generateUploadSignature(name: string, folder?: string) {
     timestamp,
     apiKey: process.env.CLOUDINARY_API_KEY!,
     cloudName: process.env.CLOUDINARY_CLOUD_NAME!,
-    folder: safeFolder,
+    folder,
   };
 }

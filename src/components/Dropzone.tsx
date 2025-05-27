@@ -98,21 +98,21 @@ function Dropzone() {
     if (!data.files.length) return;
 
     try {
-      const { signature, timestamp, apiKey, cloudName, folder } =
-        await generateUploadSignature();
-
       const uploadResponses = await Promise.all(
         data.files.map(async (item) => {
+          const folder = item.collection
+            ? `golden-memories/${item.collection}`
+            : "golden-memories";
+
+          const { signature, timestamp, apiKey, cloudName } =
+            await generateUploadSignature(item.name, folder);
+
           const formData = new FormData();
           formData.append("file", item.file);
           formData.append("api_key", apiKey);
           formData.append("timestamp", timestamp.toString());
           formData.append("signature", signature);
-          // formData.append("display_name", item.name);
-          // formData.append(
-          //   "folder",
-          //   item.collection ? `${folder}/${item.collection}` : folder,
-          // );
+          formData.append("public_id", item.name);
           formData.append("folder", folder);
 
           const res = await fetch(

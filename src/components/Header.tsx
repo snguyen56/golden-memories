@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Search from "./Search";
-
 export const navigation = [
   {
     title: "Home",

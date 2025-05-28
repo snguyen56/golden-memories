@@ -1,4 +1,5 @@
 import { FieldValues, UseFormHandleSubmit } from "react-hook-form";
+import { authClient } from "@/utils/auth-client";
 
 type Props = {
   children: React.ReactNode;
@@ -6,6 +7,12 @@ type Props = {
 };
 
 function AuthForm({ children, handleSubmit }: Props) {
+  const handleGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
   const socialLinks = [
     {
       name: "Google",
@@ -83,6 +90,7 @@ function AuthForm({ children, handleSubmit }: Props) {
         {socialLinks.map((social) => (
           <button
             type="button"
+            onClick={handleGoogle}
             key={social.name}
             className="flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg border hover:bg-zinc-100"
           >

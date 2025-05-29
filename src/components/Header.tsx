@@ -5,28 +5,38 @@ import navigation from "@/utils/navigation";
 import { authClient } from "@/utils/auth-client";
 
 function Header() {
+  const { data: session } = authClient.useSession();
   return (
     <header className="lg:border-b-1 lg:pt-9">
       <div className="hidden lg:block">
         <div className="flex items-center justify-end gap-6">
           <Search />
-          <Link href="/login" className="hover:text-black">
-            Login
-          </Link>
-          <Link
-            href="/signup"
-            className="flex h-9 w-24 items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
-          >
-            Sign Up
-          </Link>
-          <button
-            type="button"
-            onClick={async () => {
-              await authClient.signOut();
-            }}
-          >
-            Sign Out
-          </button>
+          {session ? (
+            <>
+              <p>{session.user.name}</p>
+              <button
+                type="button"
+                className="flex h-9 w-24 cursor-pointer items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
+                onClick={async () => {
+                  await authClient.signOut();
+                }}
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="hover:text-black">
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="flex h-9 w-24 items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
         <div className="grid h-80 place-items-center">
           <h1 className="font-[family-name:var(--font-playfair-display)] text-7xl text-black italic">

@@ -4,7 +4,6 @@ import "./globals.css";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import MobileNavbar from "@/components/MobileNavbar";
-import { getSession } from "@/app/server";
 
 export const revalidate = 3600;
 
@@ -43,7 +42,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getSession();
   return (
     <html lang="en">
       <body
@@ -51,7 +49,6 @@ export default async function RootLayout({
       >
         <Header />
         <MobileNavbar />
-        {session ? session.user.name : "not logged in"}
         <main className="mt-10 mb-10">{children}</main>
         <Footer />
       </body>

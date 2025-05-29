@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { navigation } from "./Header";
+import navigation from "@/utils/navigation";
 
 function Footer() {
   return (

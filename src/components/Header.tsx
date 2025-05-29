@@ -1,23 +1,8 @@
+"use client";
 import Link from "next/link";
 import Search from "./Search";
-export const navigation = [
-  {
-    title: "Home",
-    link: "/",
-  },
-  {
-    title: "Collections",
-    link: "/collections",
-  },
-  {
-    title: "Slideshow",
-    link: "/slideshow",
-  },
-  {
-    title: "Upload",
-    link: "/upload",
-  },
-];
+import navigation from "@/utils/navigation";
+import { authClient } from "@/utils/auth-client";
 
 function Header() {
   return (
@@ -34,6 +19,14 @@ function Header() {
           >
             Sign Up
           </Link>
+          <button
+            type="button"
+            onClick={async () => {
+              await authClient.signOut();
+            }}
+          >
+            Sign Out
+          </button>
         </div>
         <div className="grid h-80 place-items-center">
           <h1 className="font-[family-name:var(--font-playfair-display)] text-7xl text-black italic">

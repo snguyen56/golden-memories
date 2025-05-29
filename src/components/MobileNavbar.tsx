@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Search from "./Search";
-import { navigation } from "./Header";
+import navigation from "@/utils/navigation";
 import { useState } from "react";
 
 function MobileNavbar() {

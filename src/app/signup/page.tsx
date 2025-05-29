@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { signUp } from "./actions";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/utils/auth-client";
 
 const signupSchema = z
   .object({
@@ -18,10 +19,10 @@ const signupSchema = z
       .email({ message: "Invalid email address" }),
     password: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
+      .min(8, { message: "Password must be at least 8 characters" }),
     confirmPassword: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
+      .min(8, { message: "Password must be at least 8 characters" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -43,11 +44,12 @@ function Page() {
 
   const router = useRouter();
 
-  const onSubmit = (data: signUp) => {
-    signUp(data.fullName, data.email, data.password);
-    router.refresh();
+  const onSubmit = async (data: signUp) => {
+    await signUp(data.fullName, data.email, data.password);
+    authClient.$store.notify("$sessionSignal");
     router.push("/");
   };
+
   return (
     <div className="mb-14 grid place-items-center">
       <AuthForm handleSubmit={handleSubmit(onSubmit)}>

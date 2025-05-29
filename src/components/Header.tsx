@@ -3,9 +3,11 @@ import Link from "next/link";
 import Search from "./Search";
 import navigation from "@/utils/navigation";
 import { authClient } from "@/utils/auth-client";
+import { useRouter } from "next/navigation";
 
 function Header() {
   const { data: session } = authClient.useSession();
+  const router = useRouter();
   return (
     <header className="lg:border-b-1 lg:pt-9">
       <div className="hidden lg:block">
@@ -13,12 +15,13 @@ function Header() {
           <Search />
           {session ? (
             <>
-              <p>{session.user.name}</p>
+              <p title={session.user.name}>{session.user.name}</p>
               <button
                 type="button"
                 className="flex h-9 w-24 cursor-pointer items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
                 onClick={async () => {
                   await authClient.signOut();
+                  router.push("/login");
                 }}
               >
                 Sign Out

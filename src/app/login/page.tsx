@@ -4,6 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { signin } from "./actions";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/utils/auth-client";
 
 const loginSchema = z.object({
   email: z
@@ -26,8 +29,13 @@ function Page() {
     resolver: zodResolver(loginSchema),
     mode: "onBlur",
   });
-  const onSubmit = (data: loginInputs) => {
-    alert("Form submitted!: " + JSON.stringify(data));
+
+  const router = useRouter();
+
+  const onSubmit = async (data: loginInputs) => {
+    await signin(data.email, data.password, data.remember);
+    authClient.$store.notify("$sessionSignal"); // may be a temporary fix until real bug gets resolved
+    router.push("/");
   };
 
   return (

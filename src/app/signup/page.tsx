@@ -5,6 +5,8 @@ import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { signUp } from "./actions";
+import { useRouter } from "next/navigation";
 
 const signupSchema = z
   .object({
@@ -38,8 +40,13 @@ function Page() {
     resolver: zodResolver(signupSchema),
     mode: "onBlur",
   });
+
+  const router = useRouter();
+
   const onSubmit = (data: signUp) => {
-    alert("Form submitted!: " + JSON.stringify(data));
+    signUp(data.fullName, data.email, data.password);
+    router.refresh();
+    router.push("/");
   };
   return (
     <div className="mb-14 grid place-items-center">

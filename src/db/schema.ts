@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   pgTable,
   text,
@@ -130,6 +131,72 @@ export const like = pgTable(
   },
   (table) => [primaryKey({ columns: [table.userId, table.postId] })],
 );
+
+export const userRelations = relations(user, ({ many }) => ({
+  posts: many(post),
+  comments: many(comment),
+  likes: many(like),
+  collections: many(collection),
+  sessions: many(session),
+  accounts: many(account),
+}));
+
+export const postRelations = relations(post, ({ one, many }) => ({
+  user: one(user, {
+    fields: [post.userId],
+    references: [user.id],
+  }),
+  collection: one(collection, {
+    fields: [post.collectionId],
+    references: [collection.id],
+  }),
+  comments: many(comment),
+  likes: many(like),
+}));
+
+export const commentRelations = relations(comment, ({ one }) => ({
+  user: one(user, {
+    fields: [comment.userId],
+    references: [user.id],
+  }),
+  post: one(post, {
+    fields: [comment.postId],
+    references: [post.id],
+  }),
+}));
+
+export const likeRelations = relations(like, ({ one }) => ({
+  user: one(user, {
+    fields: [like.userId],
+    references: [user.id],
+  }),
+  post: one(post, {
+    fields: [like.postId],
+    references: [post.id],
+  }),
+}));
+
+export const collectionRelations = relations(collection, ({ one, many }) => ({
+  user: one(user, {
+    fields: [collection.userId],
+    references: [user.id],
+  }),
+  posts: many(post),
+}));
+
+export const sessionRelations = relations(session, ({ one }) => ({
+  user: one(user, {
+    fields: [session.userId],
+    references: [user.id],
+  }),
+}));
+
+export const accountRelations = relations(account, ({ one }) => ({
+  user: one(user, {
+    fields: [account.userId],
+    references: [user.id],
+  }),
+}));
 
 export const schema = {
   user,

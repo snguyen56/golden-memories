@@ -4,6 +4,7 @@ import Search from "./Search";
 import navigation from "@/utils/navigation";
 import { authClient } from "@/utils/auth-client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 function Header() {
   const { data: session } = authClient.useSession();
@@ -15,7 +16,14 @@ function Header() {
           <Search />
           {session ? (
             <>
-              <p title={session.user.name}>{session.user.name}</p>
+              <div className="relative size-10 overflow-hidden rounded-full">
+                <Image
+                  src={session.user.image!}
+                  alt="user avatar"
+                  fill
+                  title={session.user.name}
+                />
+              </div>
               <button
                 type="button"
                 className="flex h-9 w-24 cursor-pointer items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"

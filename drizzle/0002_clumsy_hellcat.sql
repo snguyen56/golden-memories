@@ -1,0 +1,2 @@
+ALTER TABLE "post" ALTER COLUMN "collection_id" DROP NOT NULL;--> statement-breakpoint
+ALTER TABLE "post" ADD CONSTRAINT "post_collection_id_collection_id_fk" FOREIGN KEY ("collection_id") REFERENCES "public"."collection"("id") ON DELETE set null ON UPDATE no action;

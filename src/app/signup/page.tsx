@@ -30,7 +30,6 @@ const signupSchema = z
   });
 
 type signUp = z.infer<typeof signupSchema>;
-// https://res.cloudinary.com/dshapo0iy/image/upload/v1748369070/golden-memories/avatar.png
 
 function Page() {
   const {

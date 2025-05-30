@@ -8,10 +8,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import TextInput from "./TextInput";
+import { Post } from "@/models/postSchema";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
-  media: Photo | Media;
+  post: Post;
   liked: boolean;
   setLiked: Dispatch<SetStateAction<boolean>>;
 };
@@ -21,7 +22,7 @@ const commentSchema = z.object({
 });
 type commentInput = z.infer<typeof commentSchema>;
 
-function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
+function InfoModal({ dialogRef, post, liked, setLiked }: Props) {
   const [openShare, setOpenShare] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const comments = [
@@ -110,13 +111,6 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
     mode: "onBlur",
   });
 
-  const isPhoto = (media: Photo | Media): media is Photo =>
-    "src" in media && "alt" in media;
-
-  const imageURL = isPhoto(media) ? media.src.large : media.image;
-  const alt = isPhoto(media) ? media.alt : "Video Thumbnail";
-  const photographer = isPhoto(media) ? media.photographer : media.user.name;
-
   const actionStyle =
     "flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100";
 
@@ -145,7 +139,7 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
                 />
               </svg>
               <p className="max-w-1/2 truncate text-lg font-semibold">
-                {photographer}
+                {post.userName}
               </p>
             </div>
             <div className="flex gap-2">
@@ -205,7 +199,7 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
                 <p className="hidden md:block">Like</p>
               </button>
               <a
-                href={media.url}
+                href={undefined}
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Download"
@@ -230,15 +224,15 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
               </a>
             </div>
           </div>
-          {media.type === "Video" ? (
+          {post.resourceType === "Video" ? (
             <div className="mx-auto aspect-video md:w-3/4">
               <Video videoRef={videoRef} video={media} controls={true} />
             </div>
           ) : (
             <div className="relative aspect-square w-full lg:max-w-1/2">
               <Image
-                src={imageURL}
-                alt={alt}
+                src={post.url}
+                alt={post.name}
                 fill
                 className="object-contain"
                 sizes="(min-width: 1024px) 50vw, 100vw"
@@ -324,7 +318,7 @@ function InfoModal({ dialogRef, media, liked, setLiked }: Props) {
           </button>
         </div>
       </div>
-      <ShareButton isOpen={openShare} setIsOpen={setOpenShare} media={media} />
+      {/* <ShareButton isOpen={openShare} setIsOpen={setOpenShare} media={media} /> */}
     </Modal>
   );
 }

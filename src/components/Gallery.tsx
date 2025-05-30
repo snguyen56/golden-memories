@@ -1,10 +1,11 @@
 "use client";
-import type { Media, Photo } from "@/models/mediaSchema";
+// import type { Media, Photo } from "@/models/mediaSchema";
+import { Post } from "@/models/postSchema";
 import ImageContainer from "./ImageContainer";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import useInfiniteScroll from "@/hooks/useInfiniteScroll";
-import { Placeholders } from "./GalleryLoader";
+// import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+// import { Placeholders } from "./GalleryLoader";
 
 type Props = {
   search?: string;
@@ -13,17 +14,17 @@ type Props = {
 };
 
 function Gallery({ search, collectionId, page = "1" }: Props) {
-  const [media, setMedia] = useState<(Photo | Media)[]>([]);
-  const [nextURL, setNextURL] = useState<string | undefined>();
+  const [media, setMedia] = useState<Post[]>([]);
+  // const [nextURL, setNextURL] = useState<string | undefined>();
   const searchParams = useSearchParams();
 
-  const {
-    loading,
-    media: fetchedMedia,
-    observerRef,
-  } = useInfiniteScroll({
-    next_page: nextURL,
-  });
+  // const {
+  //   loading,
+  //   media: fetchedMedia,
+  //   observerRef,
+  // } = useInfiniteScroll({
+  //   next_page: nextURL,
+  // });
 
   const params = new URLSearchParams(searchParams?.toString() || "");
   if (search) params.set("query", search);
@@ -32,26 +33,25 @@ function Gallery({ search, collectionId, page = "1" }: Props) {
   const URLParams = `?${params.toString()}`;
 
   useEffect(() => {
-    if (!URLParams) return;
     const fetchData = async () => {
-      const res = await fetch(`/api/pexels${URLParams}`);
+      const res = await fetch(`/api/posts`);
       const data = await res.json();
       if (!data) return;
-      const posts: (Photo | Media)[] =
-        "media" in data ? data.media : data.photos;
-      setNextURL(data.next_page);
-      setMedia(posts);
+      // const posts: (Photo | Media)[] =
+      //   "media" in data ? data.media : data.photos;
+      // setNextURL(data.next_page);
+      setMedia(data.posts);
     };
     fetchData();
-  }, [URLParams]);
+  }, []);
 
-  useEffect(() => {
-    setMedia((prev) => {
-      const existingIds = new Set(prev.map((item) => item.id));
-      const newItems = fetchedMedia.filter((item) => !existingIds.has(item.id));
-      return [...prev, ...newItems];
-    });
-  }, [fetchedMedia]);
+  // useEffect(() => {
+  //   setMedia((prev) => {
+  //     const existingIds = new Set(prev.map((item) => item.id));
+  //     const newItems = fetchedMedia.filter((item) => !existingIds.has(item.id));
+  //     return [...prev, ...newItems];
+  //   });
+  // }, [fetchedMedia]);
 
   if (!media) return <p>No Images Found</p>;
 
@@ -59,11 +59,11 @@ function Gallery({ search, collectionId, page = "1" }: Props) {
     <>
       <div className="mt-5 grid w-full auto-rows-[10px] grid-cols-[repeat(auto-fit,360px)] place-items-center justify-center gap-x-5">
         {media.map((post) => (
-          <ImageContainer media={post} key={post.id} />
+          <ImageContainer post={post} key={post.id} />
         ))}
-        {loading && <Placeholders />}
+        {/* {loading && <Placeholders />} */}
       </div>
-      <div ref={observerRef}></div>
+      {/* <div ref={observerRef}></div> */}
     </>
   );
 }

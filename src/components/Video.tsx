@@ -1,9 +1,9 @@
-import { Video as VideoSchema } from "@/models/mediaSchema";
+import { Post } from "@/models/postSchema";
 import { RefObject } from "react";
 
 type Props = {
   videoRef: RefObject<HTMLVideoElement | null>;
-  video: VideoSchema;
+  video: Post;
   controls?: boolean;
 };
 
@@ -25,7 +25,6 @@ function Video({ videoRef, video, controls = false }: Props) {
       ref={videoRef}
       width={video.width}
       height={video.height}
-      poster={video.image}
       controls={controls}
       muted
       playsInline
@@ -35,10 +34,7 @@ function Video({ videoRef, video, controls = false }: Props) {
         event.currentTarget.play();
       }}
     >
-      <source
-        src={video.video_files[0].link}
-        type={video.video_files[0].file_type}
-      />
+      <source src={video.url} type={video.format} />
     </video>
   );
 }

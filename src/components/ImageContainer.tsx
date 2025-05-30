@@ -1,16 +1,17 @@
 "use client";
-import { Photo, Media } from "@/models/mediaSchema";
+// import { Photo, Media } from "@/models/mediaSchema";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { openDialog } from "./Modal";
 import InfoModal from "./InfoModal";
 import Video, { playVideo, pauseVideo } from "./Video";
+import { Post } from "@/models/postSchema";
 
-type Props = { media: Photo | Media };
+type Props = { post: Post };
 
-function ImageContainer({ media }: Props) {
+function ImageContainer({ post }: Props) {
   const [liked, setLiked] = useState<boolean>(false);
-  const widthHeightRatio = media.height / media.width;
+  const widthHeightRatio = post.height / post.width;
   const imageHeight = Math.ceil(360 * widthHeightRatio);
   const rowSpan = Math.ceil(imageHeight / 10) + 2;
 
@@ -20,28 +21,17 @@ function ImageContainer({ media }: Props) {
   const overlayStyle =
     "relative flex w-full justify-between from-black/30 to-black/0 p-2 pl-4 transition-all ease-in-out";
 
-  const isPhoto = (media: Photo | Media): media is Photo =>
-    "src" in media && "alt" in media;
-
-  const imageURL = isPhoto(media) ? media.src.large : media.image;
-  const photographer = isPhoto(media) ? media.photographer : media.user.name;
-  const photographer_url = isPhoto(media)
-    ? media.photographer_url
-    : media.user.url;
-  const alt = isPhoto(media) ? media.alt : `Video by ${photographer}`;
-  const url = media.url;
-
   return (
     <div className="w-90" style={{ gridRow: `span ${rowSpan}` }}>
       <div className="relative cursor-pointer overflow-hidden rounded-xl">
-        {media.type === "Video" ? (
-          <Video videoRef={videoRef} video={media} />
+        {post.resourceType === "Video" ? (
+          <Video videoRef={videoRef} video={post} />
         ) : (
           <Image
-            src={imageURL}
-            alt={alt}
-            width={media.width}
-            height={media.height}
+            src={post.url}
+            alt={post.name}
+            width={post.width}
+            height={post.height}
             className="h-full w-full object-cover"
             sizes="360px"
           />
@@ -60,8 +50,8 @@ function ImageContainer({ media }: Props) {
             className={`${overlayStyle} -top-full bg-linear-to-b group-hover:top-0`}
           >
             <a
-              href={photographer_url}
-              title={photographer}
+              href={undefined}
+              title={post.userName}
               target="_blank"
               rel="noopener noreferrer"
               className="flex max-w-1/2 gap-2 truncate hover:underline"
@@ -81,7 +71,7 @@ function ImageContainer({ media }: Props) {
                 />
               </svg>
 
-              {photographer}
+              {post.userName}
             </a>
             <div className="flex gap-2">
               <button
@@ -119,7 +109,7 @@ function ImageContainer({ media }: Props) {
                 )}
               </button>
               <a
-                href={url}
+                href={post.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Download"
@@ -146,10 +136,10 @@ function ImageContainer({ media }: Props) {
           <div
             className={`${overlayStyle} top-full bg-linear-to-t group-hover:top-0`}
           >
-            <p className="max-w-3/4 truncate">{alt}</p>
+            <p className="max-w-3/4 truncate">{post.name}</p>
           </div>
         </div>
-        {media.type === "Video" && (
+        {post.resourceType === "Video" && (
           <div className="absolute right-1 bottom-1" title="video">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -175,7 +165,7 @@ function ImageContainer({ media }: Props) {
       </div>
       <InfoModal
         dialogRef={dialogRef}
-        media={media}
+        post={post}
         liked={liked}
         setLiked={setLiked}
       />

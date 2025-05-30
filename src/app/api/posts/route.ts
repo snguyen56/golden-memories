@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { schema } from "@/db/schema";
-import { desc, lt } from "drizzle-orm";
+import { desc, lt, eq } from "drizzle-orm";
 
 export async function GET(request: NextRequest) {
   const url = request.nextUrl;
@@ -9,12 +9,21 @@ export async function GET(request: NextRequest) {
   const limit = 15;
 
   try {
-    const posts = await db
-      .select()
+    const rows = await db
+      .select({
+        post: schema.post,
+        userName: schema.user.name,
+      })
       .from(schema.post)
+      .leftJoin(schema.user, eq(schema.post.userId, schema.user.id))
       .where(cursor ? lt(schema.post.createdAt, new Date(cursor)) : undefined)
       .orderBy(desc(schema.post.createdAt))
       .limit(limit);
+
+    const posts = rows.map((row) => ({
+      ...row.post,
+      userName: row.userName ?? null,
+    }));
 
     const nextCursor =
       posts.length === limit

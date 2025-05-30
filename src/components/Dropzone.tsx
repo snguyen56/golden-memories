@@ -7,7 +7,8 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import Image from "next/image";
-import { generateUploadSignature } from "@/app/upload/actions";
+import { generateUploadSignature, createPost } from "@/app/upload/actions";
+import { authClient } from "@/utils/auth-client";
 
 const fileSchema = z.object({
   id: z.string(),
@@ -28,6 +29,7 @@ type dropzoneData = z.infer<typeof formSchema>;
 function Dropzone() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
+  const userId = authClient.useSession().data?.user.id;
 
   const {
     register,
@@ -129,7 +131,7 @@ function Dropzone() {
 
           if (!res.ok) throw new Error("Upload failed");
           const responseData = await res.json();
-
+          await createPost(responseData, userId!, item.collection);
           console.log("Cloudinary response:", responseData);
 
           return responseData;

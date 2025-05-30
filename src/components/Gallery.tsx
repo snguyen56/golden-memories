@@ -1,5 +1,4 @@
 "use client";
-// import type { Media, Photo } from "@/models/mediaSchema";
 import { Post } from "@/models/postSchema";
 import ImageContainer from "./ImageContainer";
 import { useEffect, useState } from "react";
@@ -37,9 +36,6 @@ function Gallery() {
       const res = await fetch(`/api/posts`);
       const data = await res.json();
       if (!data) return;
-      // const posts: (Photo | Media)[] =
-      //   "media" in data ? data.media : data.photos;
-      // setNextURL(data.next_page);
       setMedia(data.posts);
     };
     fetchData();

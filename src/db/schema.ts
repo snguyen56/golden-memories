@@ -207,4 +207,11 @@ export const schema = {
   collection,
   comment,
   like,
+  userRelations,
+  postRelations,
+  commentRelations,
+  likeRelations,
+  collectionRelations,
+  sessionRelations,
+  accountRelations,
 };

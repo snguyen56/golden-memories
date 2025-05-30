@@ -138,7 +138,7 @@ function InfoModal({ dialogRef, post, liked, setLiked }: Props) {
                 />
               </svg>
               <p className="max-w-1/2 truncate text-lg font-semibold">
-                {post.userName}
+                {post.user.name}
               </p>
             </div>
             <div className="flex gap-2">

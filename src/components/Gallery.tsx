@@ -2,20 +2,20 @@
 import { Post } from "@/models/postSchema";
 import ImageContainer from "./ImageContainer";
 import { useEffect, useState } from "react";
-// import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { Placeholders } from "./GalleryLoader";
 
-// type Props = {
-//   search?: string;
-//   collectionId?: string;
-//   page?: string;
-// };
+type Props = {
+  search?: string;
+  // collectionId?: string;
+  // page?: string;
+};
 
-function Gallery() {
+function Gallery({ search }: Props) {
   const [media, setMedia] = useState<Post[]>([]);
   const [nextURL, setNextURL] = useState<string | undefined>();
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
   const {
     loading,
@@ -25,22 +25,22 @@ function Gallery() {
     next_page: nextURL,
   });
 
-  // const params = new URLSearchParams(searchParams?.toString() || "");
-  // if (search) params.set("query", search);
+  const params = new URLSearchParams(searchParams?.toString() || "");
+  if (search) params.set("query", search);
   // if (collectionId) params.set("collectionId", collectionId);
   // params.set("page", String(page));
-  // const URLParams = `?${params.toString()}`;
+  const URLParams = `?${params.toString()}`;
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`/api/posts`);
+      const res = await fetch(`/api/posts${URLParams}`);
       const data = await res.json();
       if (!data) return;
       setMedia(data.posts);
       setNextURL(data.nextCursor);
     };
     fetchData();
-  }, []);
+  }, [URLParams]);
 
   useEffect(() => {
     setMedia((prev) => {

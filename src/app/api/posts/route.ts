@@ -4,6 +4,7 @@ import { db } from "@/db";
 export async function GET(request: NextRequest) {
   const url = request.nextUrl;
   const cursor = url.searchParams.get("cursor");
+  const search = url.searchParams.get("query");
   const limit = 15;
 
   try {
@@ -17,9 +18,19 @@ export async function GET(request: NextRequest) {
         },
         likes: true,
       },
-      where: cursor
-        ? (fields, { lt }) => lt(fields.createdAt, new Date(cursor))
-        : undefined,
+      where: (fields, operators) => {
+        const conditions = [];
+
+        if (cursor) {
+          conditions.push(operators.lt(fields.createdAt, new Date(cursor)));
+        }
+
+        if (search) {
+          conditions.push(operators.ilike(fields.name, `%${search}%`));
+        }
+
+        return conditions.length > 0 ? operators.and(...conditions) : undefined;
+      },
       orderBy: (fields, { desc }) => desc(fields.createdAt),
       limit,
     });

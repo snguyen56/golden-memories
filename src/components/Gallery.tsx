@@ -3,8 +3,8 @@ import { Post } from "@/models/postSchema";
 import ImageContainer from "./ImageContainer";
 import { useEffect, useState } from "react";
 // import { useSearchParams } from "next/navigation";
-// import useInfiniteScroll from "@/hooks/useInfiniteScroll";
-// import { Placeholders } from "./GalleryLoader";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import { Placeholders } from "./GalleryLoader";
 
 // type Props = {
 //   search?: string;
@@ -14,16 +14,16 @@ import { useEffect, useState } from "react";
 
 function Gallery() {
   const [media, setMedia] = useState<Post[]>([]);
-  // const [nextURL, setNextURL] = useState<string | undefined>();
+  const [nextURL, setNextURL] = useState<string | undefined>();
   // const searchParams = useSearchParams();
 
-  // const {
-  //   loading,
-  //   media: fetchedMedia,
-  //   observerRef,
-  // } = useInfiniteScroll({
-  //   next_page: nextURL,
-  // });
+  const {
+    loading,
+    media: fetchedMedia,
+    observerRef,
+  } = useInfiniteScroll({
+    next_page: nextURL,
+  });
 
   // const params = new URLSearchParams(searchParams?.toString() || "");
   // if (search) params.set("query", search);
@@ -37,17 +37,18 @@ function Gallery() {
       const data = await res.json();
       if (!data) return;
       setMedia(data.posts);
+      setNextURL(data.nextCursor);
     };
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   setMedia((prev) => {
-  //     const existingIds = new Set(prev.map((item) => item.id));
-  //     const newItems = fetchedMedia.filter((item) => !existingIds.has(item.id));
-  //     return [...prev, ...newItems];
-  //   });
-  // }, [fetchedMedia]);
+  useEffect(() => {
+    setMedia((prev) => {
+      const existingIds = new Set(prev.map((item) => item.id));
+      const newItems = fetchedMedia.filter((item) => !existingIds.has(item.id));
+      return [...prev, ...newItems];
+    });
+  }, [fetchedMedia]);
 
   if (!media) return <p>No Images Found</p>;
 
@@ -57,9 +58,9 @@ function Gallery() {
         {media.map((post) => (
           <ImageContainer post={post} key={post.id} />
         ))}
-        {/* {loading && <Placeholders />} */}
+        {loading && <Placeholders />}
       </div>
-      {/* <div ref={observerRef}></div> */}
+      <div ref={observerRef}></div>
     </>
   );
 }

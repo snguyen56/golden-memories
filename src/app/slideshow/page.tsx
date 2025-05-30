@@ -1,11 +1,11 @@
 "use client";
 import Carousel from "@/components/Carousel";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
-import { Media, Photo } from "@/models/mediaSchema";
+import { Post } from "@/models/postSchema";
 import { useState, useEffect } from "react";
 
 function Page() {
-  const [media, setMedia] = useState<(Photo | Media)[]>([]);
+  const [media, setMedia] = useState<Post[]>([]);
   const [nextURL, setNextURL] = useState<string | undefined>();
 
   const {
@@ -18,13 +18,11 @@ function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`/api/pexels`);
+      const res = await fetch(`/api/posts`);
       const data = await res.json();
       if (!data) return;
-      const posts: (Photo | Media)[] =
-        "media" in data ? data.media : data.photos;
-      setNextURL(data.next_page);
-      setMedia(posts);
+      setMedia(data.posts);
+      setNextURL(data.nextCursor);
     };
     fetchData();
   }, []);
@@ -43,7 +41,7 @@ function Page() {
     <div className="mb-14 flex flex-col items-center justify-center">
       <h2 className="text-3xl font-bold text-black">Slide Show</h2>
       <div className="w-full max-w-4xl">
-        <Carousel media={media} observerRef={observerRef} loading={loading} />
+        <Carousel posts={media} observerRef={observerRef} loading={loading} />
       </div>
     </div>
   );

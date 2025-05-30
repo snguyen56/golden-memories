@@ -2,16 +2,16 @@
 
 import { useState, useEffect, useRef, useCallback, RefObject } from "react";
 import { motion, useAnimate, type PanInfo } from "framer-motion";
-import { Media, Photo } from "@/models/mediaSchema";
 import Image from "next/image";
+import { Post } from "@/models/postSchema";
 
 type Props = {
-  media: (Photo | Media)[];
+  posts: Post[];
   loading: boolean;
   observerRef: RefObject<HTMLDivElement | null>;
 };
 
-export default function Carousel({ media, loading, observerRef }: Props) {
+export default function Carousel({ posts, loading, observerRef }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [width, setWidth] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -46,7 +46,7 @@ export default function Carousel({ media, loading, observerRef }: Props) {
   }, [updatePosition]);
 
   const dragConstraints = {
-    left: -((media.length - 1) * totalSlideWidth),
+    left: -((posts.length - 1) * totalSlideWidth),
     right: 0,
   };
 
@@ -61,7 +61,7 @@ export default function Carousel({ media, loading, observerRef }: Props) {
       if (offset > 0) {
         newIndex = Math.max(0, currentIndex - 1);
       } else {
-        newIndex = Math.min(media.length - 1, currentIndex + 1);
+        newIndex = Math.min(posts.length - 1, currentIndex + 1);
       }
     }
 
@@ -69,10 +69,10 @@ export default function Carousel({ media, loading, observerRef }: Props) {
   };
 
   const handleNext = useCallback(() => {
-    if (currentIndex < media.length - 1) {
+    if (currentIndex < posts.length - 1) {
       setCurrentIndex((prevSlide) => prevSlide + 1);
     }
-  }, [currentIndex, media.length]);
+  }, [currentIndex, posts.length]);
 
   const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
@@ -120,7 +120,7 @@ export default function Carousel({ media, loading, observerRef }: Props) {
           onDragEnd={handleDragEnd}
           ref={scope}
         >
-          {media.map((item, index) => (
+          {posts.map((item, index) => (
             <motion.div
               key={item.id}
               className="flex h-9/10 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-zinc-100 shadow-lg"
@@ -131,23 +131,22 @@ export default function Carousel({ media, loading, observerRef }: Props) {
                 scale: currentIndex === index ? 1 : 0.9,
                 transition: { duration: 0.3 },
               }}
-              ref={index === media.length - 1 ? observerRef : undefined}
+              ref={index === posts.length - 1 ? observerRef : undefined}
             >
-              {"src" in item ? (
+              {item.resourceType === "image" ? (
                 <Image
-                  src={item.src.large}
-                  alt={item.alt}
+                  src={item.url}
+                  alt={item.name}
                   width={item.width}
                   height={item.height}
                   draggable={false}
                   className="h-full w-full object-cover"
-                  aria-label={`Slide ${index + 1} of ${media.length}`}
+                  aria-label={`Slide ${index + 1} of ${posts.length}`}
                 />
               ) : (
                 <video
                   width={item.width}
                   height={item.height}
-                  poster={item.image}
                   playsInline
                   controls
                   muted
@@ -156,10 +155,7 @@ export default function Carousel({ media, loading, observerRef }: Props) {
                     event.currentTarget.play();
                   }}
                 >
-                  <source
-                    src={item.video_files[0].link}
-                    type={item.video_files[0].file_type}
-                  />
+                  <source src={item.url} type={item.format} />
                 </video>
               )}
             </motion.div>
@@ -199,12 +195,12 @@ export default function Carousel({ media, loading, observerRef }: Props) {
       <button
         onClick={handleNext}
         className={`absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white/50 p-2 transition-all hover:bg-white ${
-          currentIndex === media.length - 1
+          currentIndex === posts.length - 1
             ? "cursor-not-allowed opacity-50"
             : "cursor-pointer opacity-100"
         }`}
         aria-label="Next slide"
-        disabled={currentIndex === media.length - 1}
+        disabled={currentIndex === posts.length - 1}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

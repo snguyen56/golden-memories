@@ -96,9 +96,7 @@ export const collection = pgTable(
     createdAt: timestamp("created_at").notNull(),
     updatedAt: timestamp("updated_at").notNull(),
   },
-  (table) => ({
-    userCollectionIndex: index("collection_user_idx").on(table.userId),
-  }),
+  (table) => [index("collection_user_idx").on(table.userId)],
 );
 
 export const comment = pgTable(
@@ -114,9 +112,7 @@ export const comment = pgTable(
     content: text("content").notNull(),
     createdAt: timestamp("created_at").notNull(),
   },
-  (table) => ({
-    postCommentIndex: index("comment_post_idx").on(table.postId),
-  }),
+  (table) => [index("comment_post_idx").on(table.postId)],
 );
 
 export const like = pgTable(
@@ -130,9 +126,7 @@ export const like = pgTable(
       .references(() => post.id, { onDelete: "cascade" }),
     createdAt: timestamp("created_at").notNull(),
   },
-  (table) => ({
-    id: primaryKey({ columns: [table.userId, table.postId] }),
-  }),
+  (table) => [primaryKey({ columns: [table.userId, table.postId] })],
 );
 
 export const schema = {

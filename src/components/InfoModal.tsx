@@ -1,4 +1,3 @@
-import { Photo, Media } from "@/models/mediaSchema";
 import Modal, { closeDialog } from "./Modal";
 import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
 import Image from "next/image";
@@ -226,7 +225,7 @@ function InfoModal({ dialogRef, post, liked, setLiked }: Props) {
           </div>
           {post.resourceType === "Video" ? (
             <div className="mx-auto aspect-video md:w-3/4">
-              <Video videoRef={videoRef} video={media} controls={true} />
+              <Video videoRef={videoRef} video={post} controls={true} />
             </div>
           ) : (
             <div className="relative aspect-square w-full lg:max-w-1/2">
@@ -318,7 +317,7 @@ function InfoModal({ dialogRef, post, liked, setLiked }: Props) {
           </button>
         </div>
       </div>
-      {/* <ShareButton isOpen={openShare} setIsOpen={setOpenShare} media={media} /> */}
+      <ShareButton isOpen={openShare} setIsOpen={setOpenShare} post={post} />
     </Modal>
   );
 }

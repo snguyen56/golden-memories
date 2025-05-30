@@ -1,21 +1,17 @@
-import { Photo, Media } from "@/models/mediaSchema";
+import { Post } from "@/models/postSchema";
 import { Dispatch, SetStateAction, useState } from "react";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  media: Photo | Media;
+  post: Post;
 };
 
-function ShareButton({ isOpen, setIsOpen, media }: Props) {
+function ShareButton({ isOpen, setIsOpen, post }: Props) {
   const [copying, setCopying] = useState(false);
 
-  const isPhoto = (media: Photo | Media): media is Photo =>
-    "src" in media && "alt" in media;
-  const alt = isPhoto(media) ? media.alt : "Pexels Video";
-
-  const URL = encodeURIComponent(media.url);
-  const text = encodeURIComponent(alt);
+  const URL = encodeURIComponent(post.url);
+  const text = encodeURIComponent(post.name);
   const socialLinks = [
     {
       name: "Twitter",
@@ -68,13 +64,13 @@ function ShareButton({ isOpen, setIsOpen, media }: Props) {
           />
         </svg>
       ),
-      shareURL: `mailto:?subject=${text}&body=${media.url}`,
+      shareURL: `mailto:?subject=${text}&body=${post.url}`,
     },
   ];
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(media.url);
+      await navigator.clipboard.writeText(post.url);
       setCopying(true);
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setCopying(false);
@@ -115,13 +111,13 @@ function ShareButton({ isOpen, setIsOpen, media }: Props) {
 
           <div className="relative mt-5 flex rounded-lg border p-1">
             <label htmlFor="copy_name" className="absolute -top-7">
-              Copy link to post
+              Copy link to image
             </label>
             <input
               type="text"
               name="copy_name"
               id="copy_name"
-              value={media.url}
+              value={post.url}
               readOnly
               className="grow p-1 outline-0"
             />

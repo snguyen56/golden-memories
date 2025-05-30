@@ -1,4 +1,12 @@
-import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  integer,
+  primaryKey,
+  index,
+} from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -7,7 +15,9 @@ export const user = pgTable("user", {
   emailVerified: boolean("email_verified")
     .$defaultFn(() => false)
     .notNull(),
-  image: text("image"),
+  image: text("image").default(
+    "https://res.cloudinary.com/dshapo0iy/image/upload/v1748369070/golden-memories/avatar.png",
+  ),
   createdAt: timestamp("created_at")
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
@@ -60,4 +70,78 @@ export const verification = pgTable("verification", {
   ),
 });
 
-export const schema = { user, session, account, verification };
+export const post = pgTable("post", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  url: text("url").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  collectionId: text("collection_id").notNull(),
+  width: integer("width").notNull(),
+  height: integer("height").notNull(),
+  format: text("format").notNull(),
+  resourceType: text("resource_type").notNull(),
+  createdAt: timestamp("created_at").notNull(),
+  updatedAt: timestamp("updated_at").notNull(),
+});
+
+export const collection = pgTable(
+  "collection",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").notNull(),
+    updatedAt: timestamp("updated_at").notNull(),
+  },
+  (table) => ({
+    userCollectionIndex: index("collection_user_idx").on(table.userId),
+  }),
+);
+
+export const comment = pgTable(
+  "comment",
+  {
+    id: text("id").primaryKey(),
+    postId: text("post_id")
+      .notNull()
+      .references(() => post.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    content: text("content").notNull(),
+    createdAt: timestamp("created_at").notNull(),
+  },
+  (table) => ({
+    postCommentIndex: index("comment_post_idx").on(table.postId),
+  }),
+);
+
+export const like = pgTable(
+  "like",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    postId: text("post_id")
+      .notNull()
+      .references(() => post.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").notNull(),
+  },
+  (table) => ({
+    id: primaryKey({ columns: [table.userId, table.postId] }),
+  }),
+);
+
+export const schema = {
+  user,
+  session,
+  account,
+  verification,
+  post,
+  collection,
+  comment,
+  like,
+};

@@ -5,6 +5,7 @@ export async function GET(request: NextRequest) {
   const url = request.nextUrl;
   const cursor = url.searchParams.get("cursor");
   const search = url.searchParams.get("query");
+  const collectionId = url.searchParams.get("collectionId");
   const limit = 15;
 
   try {
@@ -27,6 +28,10 @@ export async function GET(request: NextRequest) {
 
         if (search) {
           conditions.push(operators.ilike(fields.name, `%${search}%`));
+        }
+
+        if (collectionId) {
+          conditions.push(operators.eq(fields.collectionId, collectionId));
         }
 
         return conditions.length > 0 ? operators.and(...conditions) : undefined;

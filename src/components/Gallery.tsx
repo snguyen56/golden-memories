@@ -8,11 +8,11 @@ import { Placeholders } from "./GalleryLoader";
 
 type Props = {
   search?: string;
-  // collectionId?: string;
+  collectionId?: string;
   // page?: string;
 };
 
-function Gallery({ search }: Props) {
+function Gallery({ search, collectionId }: Props) {
   const [media, setMedia] = useState<Post[]>([]);
   const [nextURL, setNextURL] = useState<string | undefined>();
   const searchParams = useSearchParams();
@@ -27,7 +27,7 @@ function Gallery({ search }: Props) {
 
   const params = new URLSearchParams(searchParams?.toString() || "");
   if (search) params.set("query", search);
-  // if (collectionId) params.set("collectionId", collectionId);
+  if (collectionId) params.set("collectionId", collectionId);
   // params.set("page", String(page));
   const URLParams = `?${params.toString()}`;
 

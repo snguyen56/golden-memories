@@ -1,5 +1,5 @@
-import { Collection } from "@/models/mediaSchema";
-import { fetchCover } from "@/utils/fetchMedia";
+import { Collection } from "@/models/collectionSchema";
+// import { fetchCover } from "@/utils/fetchMedia";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,22 +8,23 @@ type Props = {
 };
 
 async function collectionContainer({ collection }: Props) {
-  const cover = await fetchCover(collection.id, 1);
+  const cover = collection.cover;
+  // const cover = await fetchCover(collection.id, 1);
   if (cover)
     return (
       <div className="group relative w-80">
         <Link href={`/collections/${collection.id}`}>
           <div className="h-44 w-full overflow-hidden rounded-xl">
-            {cover.type === "Photo" && (
-              <Image
-                src={cover.src.large}
-                alt={cover.alt}
-                width={cover.width}
-                height={cover.height}
-                className="h-full w-full object-cover"
-                sizes="320px"
-              />
-            )}
+            {/* {cover.type === "Photo" && ( */}
+            <Image
+              src={cover.url}
+              alt={cover.name}
+              width={cover.width}
+              height={cover.height}
+              className="h-full w-full object-cover"
+              sizes="320px"
+            />
+            {/* )}
             {cover.type === "Video" && (
               <Image
                 src={cover.image}
@@ -33,12 +34,10 @@ async function collectionContainer({ collection }: Props) {
                 className="h-full w-full object-cover"
                 sizes="320px"
               />
-            )}
+            )} */}
           </div>
           <div className="absolute top-0 hidden h-44 w-full rounded-xl bg-black opacity-30 group-hover:block"></div>
-          <h3 className="mt-1 p-2 text-2xl font-semibold">
-            {collection.title}
-          </h3>
+          <h3 className="mt-1 p-2 text-2xl font-semibold">{collection.id}</h3>
         </Link>
       </div>
     );

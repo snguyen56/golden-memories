@@ -27,7 +27,7 @@ export async function GET() {
 
     return NextResponse.json({ collections });
   } catch (error) {
-    console.error("Error fetching collections with cover images:", error);
+    console.error("Error fetching collections:", error);
     return NextResponse.json(
       { error: "Failed to fetch collections" },
       { status: 500 },

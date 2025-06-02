@@ -1,15 +1,15 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { openDialog } from "./Modal";
 import InfoModal from "./InfoModal";
 import Video, { playVideo, pauseVideo } from "./Video";
 import { Post } from "@/models/postSchema";
+import { addLike, deleteLike } from "@/app/actions";
 
-type Props = { post: Post };
+type Props = { post: Post; userId: string | undefined };
 
-function ImageContainer({ post }: Props) {
-  const [liked, setLiked] = useState<boolean>(false);
+function ImageContainer({ post, userId }: Props) {
   const widthHeightRatio = post.height / post.width;
   const imageHeight = Math.ceil(360 * widthHeightRatio);
   const rowSpan = Math.ceil(imageHeight / 10) + 2;
@@ -17,8 +17,35 @@ function ImageContainer({ post }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const isliked = post.likes.some((like) => like.userId === userId);
+  const [liked, setLiked] = useState<boolean>(isliked);
+  const [pending, setPending] = useState(false);
+
+  const handleLike = async () => {
+    if (!userId || pending) return;
+    const nextLiked = !liked;
+    setPending(true);
+    setLiked(nextLiked);
+    try {
+      if (nextLiked) {
+        await addLike(userId, post.id);
+      } else {
+        await deleteLike(userId, post.id);
+      }
+    } catch (error) {
+      console.error("Failed to update like: ", error);
+      setLiked(!nextLiked);
+    } finally {
+      setPending(false);
+    }
+  };
+
   const overlayStyle =
     "relative flex w-full justify-between from-black/30 to-black/0 p-2 pl-4 transition-all ease-in-out";
+
+  useEffect(() => {
+    setLiked(post.likes.some((like) => like.userId === userId));
+  }, [post.likes, userId]);
 
   return (
     <div className="w-90" style={{ gridRow: `span ${rowSpan}` }}>
@@ -65,9 +92,8 @@ function ImageContainer({ post }: Props) {
                 type="button"
                 title="Like"
                 className="cursor-pointer rounded-lg p-1 hover:bg-black/30"
-                onClick={() => {
-                  setLiked((prev) => !prev);
-                }}
+                onClick={handleLike}
+                disabled={pending}
               >
                 {liked ? (
                   <svg

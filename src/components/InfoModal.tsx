@@ -39,11 +39,31 @@ function InfoModal({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    fetch(`/api/comments?postId=${post.id}`)
-      .then((res) => res.json())
-      .then((data) => setComments(data.comments))
-      .catch(console.error);
-  }, [post.id]);
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    async function fetchComments() {
+      try {
+        const res = await fetch(`/api/comments?postId=${post.id}`);
+        const data = await res.json();
+        setComments(data.comments);
+      } catch (error) {
+        console.error("Failed to fetch comments on modal open:", error);
+      }
+    }
+
+    function onDialogToggle() {
+      if (dialog?.open) {
+        fetchComments();
+      }
+    }
+
+    dialog.addEventListener("toggle", onDialogToggle);
+
+    return () => {
+      dialog.removeEventListener("toggle", onDialogToggle);
+    };
+  }, [dialogRef, post.id]);
 
   const {
     register,

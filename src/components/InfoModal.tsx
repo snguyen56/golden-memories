@@ -227,7 +227,7 @@ function InfoModal({
               {comments.map((comment) => (
                 <div
                   key={comment.id}
-                  className="flex gap-1 rounded-lg bg-zinc-200 p-2 text-sm"
+                  className="flex gap-2 rounded-lg bg-zinc-200 p-2 text-sm"
                 >
                   <div className="relative size-10 overflow-hidden rounded-full">
                     <Image
@@ -237,9 +237,19 @@ function InfoModal({
                     ></Image>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-black">
-                      {comment.user.name}
-                    </h4>
+                    <div className="flex items-baseline gap-2">
+                      <h4 className="font-semibold text-black">
+                        {comment.user.name}
+                      </h4>
+                      <time
+                        dateTime={new Date(comment.createdAt).toISOString()}
+                        className="text-xs"
+                      >
+                        {new Intl.DateTimeFormat("en-US").format(
+                          new Date(comment.createdAt),
+                        )}
+                      </time>
+                    </div>
                     <p>{comment.content}</p>
                   </div>
                 </div>

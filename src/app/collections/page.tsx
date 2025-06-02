@@ -1,17 +1,35 @@
 import CollectionContainer from "@/components/CollectionContainer";
 import { Collection } from "@/models/collectionSchema";
 import { Metadata } from "next";
+import { db } from "@/db";
 
 export const metadata: Metadata = {
   title: "Collections | Golden Memories",
 };
 
 async function page() {
-  const url = process.env.BETTER_AUTH_URL!;
-  console.log("FETCHING:", `${url}/api/collections`);
-  const res = await fetch(`${url}/api/collections`);
-  const data = await res.json();
-  const albums = data.collections;
+  const collectionsWithCover = await db.query.collection.findMany({
+    with: {
+      posts: {
+        orderBy: (posts, { asc }) => [asc(posts.createdAt)],
+        columns: {
+          name: true,
+          url: true,
+          width: true,
+          height: true,
+        },
+        limit: 1,
+      },
+    },
+    limit: 16,
+  });
+
+  const collections = collectionsWithCover.map((collection) => ({
+    ...collection,
+    cover: collection.posts[0] || null,
+    posts: undefined,
+  }));
+  const albums = collections;
   if (!albums) return <p>No Collections Found</p>;
   return (
     <div className="mb-14">

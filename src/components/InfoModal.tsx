@@ -10,6 +10,7 @@ import TextInput from "./TextInput";
 import { Post } from "@/models/postSchema";
 import { addComment } from "@/app/actions";
 import { Comment } from "@/models/commentSchema";
+import downloadFile from "@/utils/downloadMedia";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
@@ -159,12 +160,10 @@ function InfoModal({
                 )}
                 <p className="hidden md:block">Like</p>
               </button>
-              <a
-                href={undefined}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
                 title="Download"
-                aria-label="Download Link"
+                aria-label="Download Button"
+                onClick={() => downloadFile(post.name, post.url, post.format)}
                 className={actionStyle}
               >
                 <svg
@@ -182,7 +181,7 @@ function InfoModal({
                   />
                 </svg>
                 <p className="hidden md:block">Download</p>
-              </a>
+              </button>
             </div>
           </div>
           {post.resourceType === "Video" ? (

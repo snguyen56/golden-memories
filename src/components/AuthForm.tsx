@@ -7,12 +7,6 @@ type Props = {
 };
 
 function AuthForm({ children, handleSubmit }: Props) {
-  const handleGoogle = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL: "/",
-    });
-  };
   const socialLinks = [
     {
       name: "Google",
@@ -44,6 +38,12 @@ function AuthForm({ children, handleSubmit }: Props) {
           ></path>
         </svg>
       ),
+      signIn: async () => {
+        await authClient.signIn.social({
+          provider: "google",
+          callbackURL: "/",
+        });
+      },
     },
     {
       name: "Twitter",
@@ -60,6 +60,12 @@ function AuthForm({ children, handleSubmit }: Props) {
           ></path>
         </svg>
       ),
+      signIn: async () => {
+        await authClient.signIn.social({
+          provider: "twitter",
+          callbackURL: "/",
+        });
+      },
     },
     {
       name: "Facebook",
@@ -90,7 +96,7 @@ function AuthForm({ children, handleSubmit }: Props) {
         {socialLinks.map((social) => (
           <button
             type="button"
-            onClick={handleGoogle}
+            onClick={social.signIn}
             key={social.name}
             className="flex h-9 cursor-pointer items-center justify-center gap-2 rounded-lg border hover:bg-zinc-100"
           >

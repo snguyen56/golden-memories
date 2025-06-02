@@ -1,5 +1,5 @@
 import Modal, { closeDialog } from "./Modal";
-import { RefObject, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ShareButton from "./ShareButton";
 import Video from "./Video";
@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import TextInput from "./TextInput";
 import { Post } from "@/models/postSchema";
 import { addComment } from "@/app/actions";
+import { Comment } from "@/models/commentSchema";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
@@ -33,83 +34,16 @@ function InfoModal({
   handleLike,
 }: Props) {
   const [openShare, setOpenShare] = useState<boolean>(false);
+  const [comments, setComments] = useState<Comment[]>([]);
+
   const videoRef = useRef<HTMLVideoElement>(null);
-  const comments = [
-    {
-      id: 1,
-      body: "This is some awesome thinking!",
-      postId: 242,
-      likes: 3,
-      user: { id: 105, username: "emmac", fullName: "Emma Wilson" },
-    },
-    {
-      id: 2,
-      body: "What terrific math skills you're showing!",
-      postId: 46,
-      likes: 4,
-      user: { id: 183, username: "cameronp", fullName: "Cameron Perez" },
-    },
-    {
-      id: 3,
-      body: "You are an amazing writer!",
-      postId: 235,
-      likes: 2,
-      user: { id: 1, username: "emilys", fullName: "Emily Johnson" },
-    },
-    {
-      id: 4,
-      body: "Wow! You have improved so much!",
-      postId: 31,
-      likes: 1,
-      user: {
-        id: 89,
-        username: "braydenf",
-        fullName: "Brayden Fleming",
-      },
-    },
-    {
-      id: 5,
-      body: "Nice idea!",
-      postId: 212,
-      likes: 1,
-      user: { id: 149, username: "wyattp", fullName: "Wyatt Perry" },
-    },
-    {
-      id: 6,
-      body: "You are showing excellent understanding!",
-      postId: 184,
-      likes: 5,
-      user: { id: 110, username: "danielt", fullName: "Daniel Taylor" },
-    },
-    {
-      id: 7,
-      body: "This is clear, concise, and complete!",
-      postId: 172,
-      likes: 1,
-      user: { id: 4, username: "jamesd", fullName: "James Davis" },
-    },
-    {
-      id: 8,
-      body: "What a powerful argument!",
-      postId: 233,
-      likes: 0,
-      user: { id: 145, username: "lukec", fullName: "Luke Cooper" },
-    },
-    {
-      id: 9,
-      body: "I knew you could do it!",
-      postId: 207,
-      likes: 3,
-      user: { id: 207, username: "jaces", fullName: "Jace Smith" },
-    },
-    {
-      id: 10,
-      body: "Wonderful ideas!",
-      postId: 87,
-      likes: 0,
-      user: { id: 86, username: "noram", fullName: "Nora Mills" },
-    },
-  ];
+
+  useEffect(() => {
+    fetch(`/api/comments?postId=${post.id}`)
+      .then((res) => res.json())
+      .then((data) => setComments(data.comments))
+      .catch(console.error);
+  }, [post.id]);
 
   const {
     register,
@@ -280,26 +214,18 @@ function InfoModal({
                   key={comment.id}
                   className="flex gap-1 rounded-lg bg-zinc-200 p-2 text-sm"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-10"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                  </svg>
-
+                  <div className="relative size-10 overflow-hidden rounded-full">
+                    <Image
+                      src={comment.user.image}
+                      fill
+                      alt="User Avatar"
+                    ></Image>
+                  </div>
                   <div>
                     <h4 className="font-semibold text-black">
-                      {comment.user.fullName}
+                      {comment.user.name}
                     </h4>
-                    <p>{comment.body}</p>
+                    <p>{comment.content}</p>
                   </div>
                 </div>
               ))}

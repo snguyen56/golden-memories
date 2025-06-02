@@ -34,13 +34,19 @@ export async function addComment(
   const createdAt = new Date();
   const session = await getSession();
 
-  await db.insert(comment).values({
-    id,
-    userId,
-    postId,
-    content,
-    createdAt,
-  });
+  try {
+    await db.insert(comment).values({
+      id,
+      userId,
+      postId,
+      content,
+      createdAt,
+    });
+  } catch (error) {
+    console.error("Failed to create comment: ", error);
+    throw new Error("Failed to create comment");
+  }
+
   return {
     id,
     userId,

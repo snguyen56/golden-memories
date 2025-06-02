@@ -59,9 +59,14 @@ function InfoModal({
     "flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100";
 
   const onSubmit = async (data: commentInput) => {
-    const newComment = await addComment(userId!, post.id, data.comment);
-    setComments((prev) => [newComment, ...prev]);
-    reset();
+    try {
+      const newComment = await addComment(userId!, post.id, data.comment);
+      setComments((prev) => [newComment, ...prev]);
+      reset();
+    } catch (error) {
+      console.error("Failed to create comment: ", error);
+      alert("Failed to create comment! Try again later.");
+    }
   };
 
   return (

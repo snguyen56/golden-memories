@@ -8,10 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import TextInput from "./TextInput";
 import { Post } from "@/models/postSchema";
+import { addComment } from "@/app/actions";
 
 type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
   post: Post;
+  userId: string | undefined;
   liked: boolean;
   pending: boolean;
   handleLike: () => Promise<void>;
@@ -22,7 +24,14 @@ const commentSchema = z.object({
 });
 type commentInput = z.infer<typeof commentSchema>;
 
-function InfoModal({ dialogRef, post, liked, pending, handleLike }: Props) {
+function InfoModal({
+  dialogRef,
+  post,
+  userId,
+  liked,
+  pending,
+  handleLike,
+}: Props) {
   const [openShare, setOpenShare] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const comments = [
@@ -105,6 +114,7 @@ function InfoModal({ dialogRef, post, liked, pending, handleLike }: Props) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(commentSchema),
@@ -115,7 +125,8 @@ function InfoModal({ dialogRef, post, liked, pending, handleLike }: Props) {
     "flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100";
 
   const onSubmit = (data: commentInput) => {
-    alert("Comment submitted!: " + JSON.stringify(data));
+    addComment(userId!, post.id, data.comment);
+    reset();
   };
 
   return (

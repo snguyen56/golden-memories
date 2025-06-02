@@ -179,6 +179,7 @@ function ImageContainer({ post, userId }: Props) {
       <InfoModal
         dialogRef={dialogRef}
         post={post}
+        userId={userId}
         liked={liked}
         pending={pending}
         handleLike={handleLike}

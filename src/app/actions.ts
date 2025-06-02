@@ -2,7 +2,7 @@
 import { db } from "@/db";
 import { auth } from "../utils/auth";
 import { headers } from "next/headers";
-import { like } from "@/db/schema";
+import { comment, like } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 
 export async function getSession() {
@@ -23,4 +23,18 @@ export async function deleteLike(userId: string, postId: string) {
   await db
     .delete(like)
     .where(and(eq(like.userId, userId), eq(like.postId, postId)));
+}
+
+export async function addComment(
+  userId: string,
+  postId: string,
+  content: string,
+) {
+  await db.insert(comment).values({
+    id: crypto.randomUUID(),
+    userId,
+    postId,
+    content,
+    createdAt: new Date(),
+  });
 }

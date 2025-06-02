@@ -58,8 +58,9 @@ function InfoModal({
   const actionStyle =
     "flex cursor-pointer gap-2 rounded-lg border p-2 font-semibold hover:bg-zinc-100";
 
-  const onSubmit = (data: commentInput) => {
-    addComment(userId!, post.id, data.comment);
+  const onSubmit = async (data: commentInput) => {
+    const newComment = await addComment(userId!, post.id, data.comment);
+    setComments((prev) => [newComment, ...prev]);
     reset();
   };
 
@@ -69,20 +70,9 @@ function InfoModal({
         <div className="relative flex h-full flex-col items-center p-5 pt-10 sm:p-10">
           <div className="mb-8 flex w-full justify-between">
             <div className="flex grow items-center gap-2 overflow-hidden text-black">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-              </svg>
+              <div className="relative size-10 overflow-hidden rounded-full">
+                <Image src={post.user.image} fill alt="Poster's Avatar"></Image>
+              </div>
               <p className="max-w-1/2 truncate text-lg font-semibold">
                 {post.user.name}
               </p>
@@ -218,7 +208,7 @@ function InfoModal({
                     <Image
                       src={comment.user.image}
                       fill
-                      alt="User Avatar"
+                      alt="Commenter's Avatar"
                     ></Image>
                   </div>
                   <div>

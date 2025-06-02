@@ -30,11 +30,28 @@ export async function addComment(
   postId: string,
   content: string,
 ) {
+  const id = crypto.randomUUID();
+  const createdAt = new Date();
+  const session = await getSession();
+
   await db.insert(comment).values({
-    id: crypto.randomUUID(),
+    id,
     userId,
     postId,
     content,
-    createdAt: new Date(),
+    createdAt,
   });
+  return {
+    id,
+    userId,
+    postId,
+    content,
+    createdAt,
+    user: {
+      name: session?.user.name || "user",
+      image:
+        session?.user.image ||
+        "https://res.cloudinary.com/dshapo0iy/image/upload/v1748369070/golden-memories/avatar.png",
+    },
+  };
 }

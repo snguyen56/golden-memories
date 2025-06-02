@@ -180,7 +180,8 @@ function ImageContainer({ post, userId }: Props) {
         dialogRef={dialogRef}
         post={post}
         liked={liked}
-        setLiked={setLiked}
+        pending={pending}
+        handleLike={handleLike}
       />
     </div>
   );

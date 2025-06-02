@@ -1,5 +1,5 @@
 import Modal, { closeDialog } from "./Modal";
-import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import Image from "next/image";
 import ShareButton from "./ShareButton";
 import Video from "./Video";
@@ -13,7 +13,8 @@ type Props = {
   dialogRef: RefObject<HTMLDialogElement | null>;
   post: Post;
   liked: boolean;
-  setLiked: Dispatch<SetStateAction<boolean>>;
+  pending: boolean;
+  handleLike: () => Promise<void>;
 };
 
 const commentSchema = z.object({
@@ -21,7 +22,7 @@ const commentSchema = z.object({
 });
 type commentInput = z.infer<typeof commentSchema>;
 
-function InfoModal({ dialogRef, post, liked, setLiked }: Props) {
+function InfoModal({ dialogRef, post, liked, pending, handleLike }: Props) {
   const [openShare, setOpenShare] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const comments = [
@@ -144,6 +145,7 @@ function InfoModal({ dialogRef, post, liked, setLiked }: Props) {
             <div className="flex gap-2">
               <button
                 type="button"
+                title="Share"
                 className={actionStyle}
                 onClick={() => setOpenShare(true)}
               >
@@ -165,10 +167,10 @@ function InfoModal({ dialogRef, post, liked, setLiked }: Props) {
               </button>
               <button
                 type="button"
+                title="Like"
                 className={actionStyle}
-                onClick={() => {
-                  setLiked((prev) => !prev);
-                }}
+                disabled={pending}
+                onClick={handleLike}
               >
                 {liked ? (
                   <svg

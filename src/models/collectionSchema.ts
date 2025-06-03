@@ -5,6 +5,7 @@ export const CoverImageSchema = z.object({
   url: z.string().url(),
   width: z.number(),
   height: z.number(),
+  resourceType: z.string(),
 });
 
 export const CollectionSchema = z.object({

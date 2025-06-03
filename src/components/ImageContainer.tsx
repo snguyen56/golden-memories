@@ -146,15 +146,16 @@ function ImageContainer({ post, userId }: Props) {
             </div>
           </div>
           <div
-            className={`${overlayStyle} top-full bg-linear-to-t group-hover:top-0`}
+            className={`${overlayStyle} top-full items-end bg-linear-to-t group-hover:top-0`}
           >
             <p className="max-w-3/4 truncate">{post.name}</p>
             {post.userId === userId && (
               <button
                 type="button"
                 title="Delete"
-                className="-translate-x-full cursor-pointer"
-                onClick={async () => {
+                className={`${post.resourceType === "video" ? "mr-2 -translate-x-full" : ""} cursor-pointer rounded-lg p-1 hover:bg-black/30`}
+                onClick={async (event) => {
+                  event.stopPropagation();
                   await deletePost(post.id, post.userId, userId);
                   window.location.reload();
                 }}
@@ -178,7 +179,7 @@ function ImageContainer({ post, userId }: Props) {
           </div>
         </div>
         {post.resourceType === "video" && (
-          <div className="absolute right-1 bottom-1" title="video">
+          <div className="absolute right-2 bottom-2" title="video">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

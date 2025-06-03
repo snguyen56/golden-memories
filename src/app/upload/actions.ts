@@ -60,13 +60,15 @@ export async function createPost(
   collection?: string,
 ) {
   const assetId: string = responseData.asset_id;
-  const name: string = responseData.display_name;
   const url: string = responseData.secure_url;
   const width: number = responseData.width;
   const height: number = responseData.height;
   const format: string = responseData.format;
   const resourceType: string = responseData.resource_type;
   const createdAt = new Date(responseData.created_at);
+  const public_id: string = responseData.public_id;
+
+  const name: string = public_id.split("/").pop()!;
 
   let collectionId: string;
 

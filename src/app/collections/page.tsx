@@ -17,6 +17,7 @@ async function page() {
           url: true,
           width: true,
           height: true,
+          resourceType: true,
         },
         limit: 1,
       },

@@ -57,7 +57,11 @@ function Dropzone() {
     };
   }, [watchFiles]);
 
+  const byte = 1024 * 1024;
+  const maxSize = 50 * byte;
+
   const { getRootProps, getInputProps, open } = useDropzone({
+    maxSize,
     accept: {
       "image/*": [],
       "video/*": [],
@@ -267,9 +271,9 @@ function Dropzone() {
               <TextInput
                 key={`name-${fields[selectedIndex].id}`}
                 type="text"
-                id="photo-name"
+                id="file-name"
                 name={`files.${selectedIndex}.name`}
-                label="Photo Name"
+                label="File Name"
                 register={register}
                 error={errors.files?.[selectedIndex]?.name}
               />

@@ -12,8 +12,26 @@ import { authClient } from "@/utils/auth-client";
 
 const fileSchema = z.object({
   id: z.string(),
-  name: z.string().trim().nonempty("Name is required"),
-  collection: z.string().trim().optional(),
+  name: z
+    .string()
+    .trim()
+    .regex(/^[a-zA-Z0-9 _-]+$/, "Name must not contain special characters")
+    .nonempty("Name is required"),
+  collection: z
+    .string()
+    .trim()
+    .optional()
+    .refine(
+      (val) => {
+        if (val === undefined || val.trim() === "") {
+          return true;
+        }
+        return /^[a-zA-Z0-9\s_-]+$/.test(val);
+      },
+      {
+        message: "Collection must not contain special characters",
+      },
+    ),
   preview: z.string(),
   file: z.any(),
   width: z.number().optional(),

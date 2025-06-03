@@ -137,7 +137,11 @@ function Dropzone() {
             },
           );
 
-          if (!res.ok) throw new Error("Upload failed");
+          if (!res.ok) {
+            const error = await res.json();
+            console.error("Cloudinary upload failed: ", error.message);
+            throw new Error("Upload failed");
+          }
           const responseData = await res.json();
           await createPost(responseData, userId!, item.collection);
           console.log("Cloudinary response:", responseData);

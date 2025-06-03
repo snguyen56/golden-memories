@@ -4,9 +4,14 @@ import Link from "next/link";
 import Search from "./Search";
 import navigation from "@/utils/navigation";
 import { useState } from "react";
+import { authClient } from "@/utils/auth-client";
+import { useRouter } from "next/navigation";
 
 function MobileNavbar() {
   const [open, setOpen] = useState(false);
+  const { data: session } = authClient.useSession();
+  const router = useRouter();
+
   return (
     <aside className="fixed top-0 left-0 z-10 mb-4 w-screen bg-white lg:hidden">
       {open && (
@@ -74,20 +79,36 @@ function MobileNavbar() {
           ))}
         </ul>
         <div className="mb-4 flex flex-col items-end justify-end gap-4 px-4">
-          <Link
-            href="/login"
-            onClick={() => setOpen(false)}
-            className="flex h-10 w-full items-center justify-center rounded-lg border hover:text-black"
-          >
-            Login
-          </Link>
-          <Link
-            href="/signup"
-            onClick={() => setOpen(false)}
-            className="flex h-10 w-full items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
-          >
-            Sign Up
-          </Link>
+          {session ? (
+            <Link
+              href="/signup"
+              onClick={async () => {
+                await authClient.signOut();
+                setOpen(false);
+                router.push("/login");
+              }}
+              className="flex h-10 w-full items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
+            >
+              Log Out
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                onClick={() => setOpen(false)}
+                className="flex h-10 w-full items-center justify-center rounded-lg border hover:text-black"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                onClick={() => setOpen(false)}
+                className="flex h-10 w-full items-center justify-center rounded-lg bg-black text-white transition-all ease-in-out hover:bg-zinc-800 active:scale-95"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </nav>
     </aside>

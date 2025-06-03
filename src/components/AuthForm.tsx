@@ -94,7 +94,7 @@ function AuthForm({ children, handleSubmit }: Props) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex min-w-sm flex-col gap-8 rounded-xl border p-8"
+      className="flex min-w-sm flex-col gap-8 rounded-xl p-8 md:border"
     >
       {children}
       <span className="h-px w-full bg-zinc-500"></span>

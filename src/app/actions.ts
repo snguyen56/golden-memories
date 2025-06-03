@@ -2,13 +2,57 @@
 import { db } from "@/db";
 import { auth } from "../utils/auth";
 import { headers } from "next/headers";
-import { comment, like } from "@/db/schema";
+import { comment, like, post } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+  api_key: process.env.CLOUDINARY_API_KEY!,
+  api_secret: process.env.CLOUDINARY_API_SECRET!,
+});
 
 export async function getSession() {
   return auth.api.getSession({
     headers: await headers(),
   });
+}
+
+export async function deletePost(id: string, posterId: string, userId: string) {
+  if (posterId !== userId) {
+    throw new Error("Unauthorized: You can only delete your own posts");
+  }
+  const timestamp = Math.floor(Date.now() / 1000);
+
+  const paramsToSign = {
+    asset_id: id,
+    timestamp,
+  };
+  const signature = cloudinary.utils.api_sign_request(
+    paramsToSign,
+    process.env.CLOUDINARY_API_SECRET!,
+  );
+
+  const body = new FormData();
+  body.append("asset_id", id);
+  body.append("timestamp", timestamp.toString());
+  body.append("api_key", process.env.CLOUDINARY_API_KEY!);
+  body.append("signature", signature);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME!}/asset/destroy`,
+    {
+      method: "POST",
+      body,
+    },
+  );
+  if (!res.ok) {
+    console.error("CLoudinary Error: ", await res.text());
+    throw new Error("Delete failed");
+  }
+  const responseData = await res.json();
+  await db.delete(post).where(and(eq(post.id, id), eq(post.userId, userId)));
+  console.log("Cloudinary response:", responseData);
 }
 
 export async function addLike(userId: string, postId: string) {

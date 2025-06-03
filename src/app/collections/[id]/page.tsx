@@ -9,17 +9,18 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   return {
-    title: `${id} | Golden Memories`,
+    title: `${decodeURIComponent(id)} | Golden Memories`,
   };
 }
 
 async function Page({ params }: Props) {
   const { id } = await params;
+  const collectionName = decodeURIComponent(id);
   return (
     <div>
-      <h2 className="text-3xl font-bold text-black">{id}</h2>
+      <h2 className="text-3xl font-bold text-black">{collectionName}</h2>
       <Suspense fallback={<GalleryLoader />}>
-        <Gallery collectionId={id} />
+        <Gallery collectionId={collectionName} />
       </Suspense>
     </div>
   );

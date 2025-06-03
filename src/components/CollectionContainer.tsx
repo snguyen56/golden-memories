@@ -11,7 +11,7 @@ async function collectionContainer({ collection }: Props) {
   if (cover)
     return (
       <div className="group relative w-80">
-        <Link href={`/collections/${collection.id}`}>
+        <Link href={`/collections/${encodeURIComponent(collection.id)}`}>
           <div className="h-44 w-full overflow-hidden rounded-xl">
             {/* {cover.type === "Photo" && ( */}
             <Image
@@ -23,7 +23,7 @@ async function collectionContainer({ collection }: Props) {
               sizes="320px"
             />
             {/* )}
-            {cover.type === "Video" && (
+            {cover.type === "video" && (
               <Image
                 src={cover.image}
                 alt={cover.id.toString()}

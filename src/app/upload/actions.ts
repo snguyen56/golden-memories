@@ -89,7 +89,7 @@ export async function createPost(
 
     collectionId = collection;
   } else {
-    collectionId = "unassigned";
+    collectionId = "Unassigned";
   }
 
   await db.insert(schema.post).values({

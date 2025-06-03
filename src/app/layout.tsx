@@ -49,7 +49,7 @@ export default async function RootLayout({
       >
         <Header />
         <MobileNavbar />
-        <main className="mt-10 mb-10">{children}</main>
+        <main className="mt-16 mb-10 lg:mt-24">{children}</main>
         <Footer />
       </body>
     </html>

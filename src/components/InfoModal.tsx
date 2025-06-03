@@ -184,7 +184,7 @@ function InfoModal({
               </button>
             </div>
           </div>
-          {post.resourceType === "Video" ? (
+          {post.resourceType === "video" ? (
             <div className="mx-auto aspect-video md:w-3/4">
               <Video videoRef={videoRef} video={post} controls={true} />
             </div>

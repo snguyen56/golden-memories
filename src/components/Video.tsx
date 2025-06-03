@@ -34,7 +34,17 @@ function Video({ videoRef, video, controls = false }: Props) {
         event.currentTarget.play();
       }}
     >
-      <source src={video.url} type={video.format} />
+      <source
+        src={video.url}
+        type={
+          video.format === "mov"
+            ? "video/quicktime"
+            : video.format === "mp4"
+              ? "video/mp4"
+              : `video/${video.format}`
+        }
+      />
+      Your browser does not support the video type
     </video>
   );
 }

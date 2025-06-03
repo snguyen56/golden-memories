@@ -51,7 +51,7 @@ function ImageContainer({ post, userId }: Props) {
   return (
     <div className="w-90" style={{ gridRow: `span ${rowSpan}` }}>
       <div className="relative cursor-pointer overflow-hidden rounded-xl">
-        {post.resourceType === "Video" ? (
+        {post.resourceType === "video" ? (
           <Video videoRef={videoRef} video={post} />
         ) : (
           <Image
@@ -151,7 +151,7 @@ function ImageContainer({ post, userId }: Props) {
             <p className="max-w-3/4 truncate">{post.name}</p>
           </div>
         </div>
-        {post.resourceType === "Video" && (
+        {post.resourceType === "video" && (
           <div className="absolute right-1 bottom-1" title="video">
             <svg
               xmlns="http://www.w3.org/2000/svg"

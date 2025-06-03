@@ -155,7 +155,16 @@ export default function Carousel({ posts, loading, observerRef }: Props) {
                     event.currentTarget.play();
                   }}
                 >
-                  <source src={item.url} type={item.format} />
+                  <source
+                    src={item.url}
+                    type={
+                      item.format === "mov"
+                        ? "video/quicktime"
+                        : item.format === "mp4"
+                          ? "video/mp4"
+                          : `video/${item.format}`
+                    }
+                  />
                 </video>
               )}
             </motion.div>

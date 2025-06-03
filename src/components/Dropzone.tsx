@@ -60,6 +60,7 @@ function Dropzone() {
   const { getRootProps, getInputProps, open } = useDropzone({
     accept: {
       "image/*": [],
+      "video/*": [],
     },
     onDrop: (acceptedFiles) => {
       const newFiles = acceptedFiles.map((file) => {
@@ -109,6 +110,9 @@ function Dropzone() {
             ? `golden-memories/${item.collection}`
             : "golden-memories";
 
+          const isVideo = item.file.type.startsWith("video/");
+          const resourceType = isVideo ? "video" : "image";
+
           const { signature, timestamp, apiKey, cloudName } =
             await generateUploadSignature(item.name, folder);
 
@@ -122,7 +126,7 @@ function Dropzone() {
           formData.append("upload_preset", "golden memories");
 
           const res = await fetch(
-            `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+            `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`,
             {
               method: "POST",
               body: formData,

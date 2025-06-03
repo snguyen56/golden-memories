@@ -19,8 +19,6 @@ async function collectionContainer({ collection }: Props) {
   }
 
   const cover = collection.cover;
-  console.log(urlTransform(cover.url));
-
   if (cover)
     return (
       <div className="group relative w-80">

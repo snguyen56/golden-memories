@@ -51,7 +51,7 @@ function Gallery({ search, collectionId }: Props) {
     });
   }, [fetchedMedia]);
 
-  if (!media) return <p>No Images Found</p>;
+  if (!media || media.length === 0) return <p>No Images Found</p>;
 
   return (
     <>

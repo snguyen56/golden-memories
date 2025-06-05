@@ -49,7 +49,7 @@ function Page() {
       await signUp(data.fullName, data.email, data.password);
       authClient.$store.notify("$sessionSignal");
       router.push("/");
-    } catch (error: unknown) {
+    } catch (error) {
       const err = error instanceof Error ? error : new Error("Unknown error");
       setError("email", { type: "server", message: err.message });
     }

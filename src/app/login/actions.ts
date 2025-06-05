@@ -6,12 +6,17 @@ export const signin = async (
   password: string,
   rememberMe: boolean = false,
 ) => {
-  await auth.api.signInEmail({
-    body: {
-      email,
-      password,
-      rememberMe,
-    },
-    asResponse: true,
-  });
+  try {
+    await auth.api.signInEmail({
+      body: {
+        email,
+        password,
+        rememberMe,
+      },
+    });
+  } catch (error: unknown) {
+    const err = error as { message?: string; body?: { message?: string } };
+    const errorMessage = err?.body?.message || err?.message || "Login failed";
+    throw new Error(errorMessage);
+  }
 };

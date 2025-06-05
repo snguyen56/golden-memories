@@ -24,6 +24,7 @@ type loginInputs = z.infer<typeof loginSchema>;
 function Page() {
   const {
     register,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -34,9 +35,14 @@ function Page() {
   const router = useRouter();
 
   const onSubmit = async (data: loginInputs) => {
-    await signin(data.email, data.password, data.remember);
-    authClient.$store.notify("$sessionSignal"); // may be a temporary fix until real bug gets resolved
-    router.push("/");
+    try {
+      await signin(data.email, data.password, data.remember);
+      authClient.$store.notify("$sessionSignal"); // may be a temporary fix until real bug gets resolved
+      router.push("/");
+    } catch (error) {
+      const err = error instanceof Error ? error : new Error("Unknown error");
+      setError("email", { type: "server", message: err.message });
+    }
   };
 
   return (
@@ -48,22 +54,24 @@ function Page() {
             Enter your email below to login to your account
           </p>
         </div>
-        <TextInput
-          type="email"
-          name="email"
-          id="email"
-          label="Email"
-          register={register}
-          error={errors.email}
-        />
-        <TextInput
-          type="password"
-          name="password"
-          id="password"
-          label="Password"
-          register={register}
-          error={errors.password}
-        />
+        <div className="space-y-10">
+          <TextInput
+            type="email"
+            name="email"
+            id="email"
+            label="Email"
+            register={register}
+            error={errors.email}
+          />
+          <TextInput
+            type="password"
+            name="password"
+            id="password"
+            label="Password"
+            register={register}
+            error={errors.password}
+          />
+        </div>
         <div className="flex items-center gap-2">
           <input
             type="checkbox"

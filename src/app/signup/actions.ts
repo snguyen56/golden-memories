@@ -1,5 +1,6 @@
 "use server";
 import { auth } from "@/utils/auth";
+import { APIError } from "better-auth/api";
 
 export const signUp = async (name: string, email: string, password: string) => {
   try {
@@ -11,9 +12,9 @@ export const signUp = async (name: string, email: string, password: string) => {
         callbackURL: "/",
       },
     });
-  } catch (error: unknown) {
-    const err = error as { message?: string; body?: { message?: string } };
-    const errorMessage = err?.body?.message || err?.message || "Signup failed";
-    throw new Error(errorMessage);
+  } catch (error) {
+    if (error instanceof APIError) {
+      throw new Error(error.message);
+    }
   }
 };

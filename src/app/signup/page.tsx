@@ -45,13 +45,16 @@ function Page() {
   const router = useRouter();
 
   const onSubmit = async (data: signUp) => {
-    try {
-      await signUp(data.fullName, data.email, data.password);
+    const response = await signUp(data.fullName, data.email, data.password);
+    console.log(response);
+    if (!response.success) {
+      setError("email", {
+        type: "server",
+        message: response.data.message,
+      });
+    } else {
       authClient.$store.notify("$sessionSignal");
       router.push("/");
-    } catch (error) {
-      const err = error instanceof Error ? error : new Error("Unknown error");
-      setError("email", { type: "server", message: err.message });
     }
   };
 

@@ -35,13 +35,12 @@ function Page() {
   const router = useRouter();
 
   const onSubmit = async (data: loginInputs) => {
-    try {
-      await signin(data.email, data.password, data.remember);
+    const response = await signin(data.email, data.password, data.remember);
+    if (!response.success) {
+      setError("email", { type: "server", message: response.data.message });
+    } else {
       authClient.$store.notify("$sessionSignal"); // may be a temporary fix until real bug gets resolved
       router.push("/");
-    } catch (error) {
-      const err = error instanceof Error ? error : new Error("Unknown error");
-      setError("email", { type: "server", message: err.message });
     }
   };
 

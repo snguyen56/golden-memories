@@ -34,6 +34,7 @@ type signUp = z.infer<typeof signupSchema>;
 function Page() {
   const {
     register,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -44,9 +45,14 @@ function Page() {
   const router = useRouter();
 
   const onSubmit = async (data: signUp) => {
-    await signUp(data.fullName, data.email, data.password);
-    authClient.$store.notify("$sessionSignal");
-    router.push("/");
+    try {
+      await signUp(data.fullName, data.email, data.password);
+      authClient.$store.notify("$sessionSignal");
+      router.push("/");
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error("Unknown error");
+      setError("email", { type: "server", message: err.message });
+    }
   };
 
   return (

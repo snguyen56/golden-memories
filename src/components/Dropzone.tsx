@@ -89,23 +89,58 @@ function Dropzone({ collectionNames }: Props) {
       "image/*": [],
       "video/*": [],
     },
-    onDrop: (acceptedFiles) => {
-      const newFiles = acceptedFiles.map((file) => {
+    onDrop: async (acceptedFiles) => {
+      const newFiles = acceptedFiles.map(async (file) => {
+        const objectURL = URL.createObjectURL(file);
+        if (file.type.startsWith("video/")) {
+          const video = document.createElement("video");
+          video.src = objectURL;
+          video.preload = "metadata";
+          video.muted = true;
+          video.playsInline = true;
+
+          await new Promise<void>((resolve) => {
+            video.addEventListener("loadeddata", () => resolve(), {
+              once: true,
+            });
+          });
+
+          const canvas = document.createElement("canvas");
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          const ctx = canvas.getContext("2d")!;
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+          const thumbnailDataURL = canvas.toDataURL("image/png");
+
+          video.pause();
+          video.src = "";
+          URL.revokeObjectURL(objectURL);
+
+          return {
+            id: crypto.randomUUID(),
+            name: file.name.split(".")[0],
+            collection: "",
+            preview: thumbnailDataURL,
+            file,
+            width: canvas.width,
+            height: canvas.height,
+          };
+        }
         const myImage = new window.Image();
-        const imageSource = URL.createObjectURL(file);
-        myImage.src = imageSource;
+        myImage.src = objectURL;
         return {
           id: crypto.randomUUID(),
           name: file.name.split(".")[0],
           collection: "",
-          preview: imageSource,
+          preview: objectURL,
           file: file,
           width: myImage.width,
           height: myImage.height,
         };
       });
 
-      newFiles.forEach((file) => append(file));
+      newFiles.forEach(async (file) => append(await file));
 
       if (selectedIndex === null && newFiles.length > 0) {
         setSelectedIndex(0);

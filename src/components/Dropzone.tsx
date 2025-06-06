@@ -10,6 +10,7 @@ import Image from "next/image";
 import { generateUploadSignature, createPost } from "@/app/upload/actions";
 import { authClient } from "@/utils/auth-client";
 import Combobox from "./Combobox";
+import { revalidatePath } from "next/cache";
 
 const fileSchema = z.object({
   id: z.string(),
@@ -203,7 +204,10 @@ function Dropzone({ collectionNames }: Props) {
           const responseData = await res.json();
           await createPost(responseData, userId!, item.collection);
           console.log("Cloudinary response:", responseData);
-
+          revalidatePath("/");
+          revalidatePath("/slideshow");
+          revalidatePath("/collections");
+          revalidatePath("/upload");
           return responseData;
         }),
       );

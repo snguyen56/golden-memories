@@ -9,6 +9,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import Image from "next/image";
 import { generateUploadSignature, createPost } from "@/app/upload/actions";
 import { authClient } from "@/utils/auth-client";
+import Combobox from "./Combobox";
 
 const fileSchema = z.object({
   id: z.string(),
@@ -44,7 +45,11 @@ const formSchema = z.object({
 
 type dropzoneData = z.infer<typeof formSchema>;
 
-function Dropzone() {
+type Props = {
+  collectionNames: string[];
+};
+
+function Dropzone({ collectionNames }: Props) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const userId = authClient.useSession().data?.user.id;
@@ -299,14 +304,14 @@ function Dropzone() {
                 register={register}
                 error={errors.files?.[selectedIndex]?.name}
               />
-              <TextInput
+              <Combobox
                 key={`collection-${fields[selectedIndex].id}`}
-                type="text"
                 id="collection"
                 name={`files.${selectedIndex}.collection`}
-                label="Collection"
+                label="collection"
                 register={register}
                 error={errors.files?.[selectedIndex]?.collection}
+                options={collectionNames}
               />
             </>
           )}

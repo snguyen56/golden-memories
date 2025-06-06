@@ -5,12 +5,13 @@ export const downloadFile = (name: string, url: string, format: string) => {
     })
       .then((response) => response.blob())
       .then((blob) => {
-        const url = window.URL.createObjectURL(blob);
+        const downloadUrl = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
-        link.href = url;
+        link.href = downloadUrl;
         link.download = `${name}.${format}`;
         link.click();
         link.remove();
+        URL.revokeObjectURL(downloadUrl);
       });
   } catch (error) {
     console.error("Failed to download file: ", error);

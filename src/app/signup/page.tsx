@@ -46,7 +46,6 @@ function Page() {
 
   const onSubmit = async (data: signUp) => {
     const response = await signUp(data.fullName, data.email, data.password);
-    console.log(response);
     if (!response.success) {
       setError("email", {
         type: "server",

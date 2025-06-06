@@ -10,7 +10,7 @@ import Image from "next/image";
 import { generateUploadSignature, createPost } from "@/app/upload/actions";
 import { authClient } from "@/utils/auth-client";
 import Combobox from "./Combobox";
-import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 const fileSchema = z.object({
   id: z.string(),
@@ -54,6 +54,7 @@ function Dropzone({ collectionNames }: Props) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const userId = authClient.useSession().data?.user.id;
+  const router = useRouter();
 
   const {
     register,
@@ -204,10 +205,7 @@ function Dropzone({ collectionNames }: Props) {
           const responseData = await res.json();
           await createPost(responseData, userId!, item.collection);
           console.log("Cloudinary response:", responseData);
-          revalidatePath("/");
-          revalidatePath("/slideshow");
-          revalidatePath("/collections");
-          revalidatePath("/upload");
+          router.refresh();
           return responseData;
         }),
       );

@@ -3,6 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { db } from "@/db";
 import { schema } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 type CloudinaryResponse = {
   asset_id: string;
@@ -91,6 +92,9 @@ export async function createPost(
   } else {
     collectionId = "Unassigned";
   }
+
+  revalidatePath("/collections");
+  revalidatePath("/upload");
 
   await db.insert(schema.post).values({
     id: assetId,
